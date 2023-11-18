@@ -1,0 +1,51 @@
+.input{
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    
+}
+
+.Login label{
+    font-size: 12px;
+    color: gray;
+}
+
+.Login span{
+    font-size: 12px;
+    padding: 3px;
+    color: red;
+    display: none;
+}
+
+.Login input:invalid[focused="true"] ~ span{
+    display: block;
+
+}
+
+.Login input:invalid[focused="true"]{
+    display: block;
+    border: 1px solid red;
+
+}
+.span{
+    color: rgb(0, 0, 0);
+    display: block;
+    font-size: small;
+    justify-content: center;
+}
+
+.sp{
+    display: block;
+}
+.forminput{
+    padding: 10px;
+    border-radius: 7px;
+    border: 1px solid gray;
+
+}
+.Login form{
+    background-color: aliceblue;
+    padding:15px 60px;
+    border-radius: 10px;
+   
+}

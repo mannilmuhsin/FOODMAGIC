@@ -1,0 +1,110 @@
+/* .Signup , .login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+} */
+
+.forminput{
+    padding: 10px;
+    /* margin: 10px 0px; */
+    border-radius: 7px;
+    border: 1px solid gray;
+
+}
+.Signup form{
+    background-color: aliceblue;
+    padding:15px 60px;
+    border-radius: 10px;
+   
+}
+
+/* .Signup h1{
+    color: rgb(63, 10, 63);
+    text-align: center;
+   
+} */
+
+/* .Signup button{
+    width: 100%;
+    height: 50%;
+    background-color: rgb(59, 6, 55);
+    color: rgb(227, 230, 232);
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
+} */
+
+.input{
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    
+}
+
+.Signup label{
+    font-size: 12px;
+    color: gray;
+}
+
+.Signup span{
+    font-size: 12px;
+    padding: 3px;
+    color: red;
+    display: none;
+}
+
+.Signup input:invalid[focused="true"] ~ span{
+    display: block;
+
+}
+
+.Signup input:invalid[focused="true"]{
+    display: block;
+    border: 1px solid red;
+
+}
+.span{
+    color: rgb(0, 0, 0);
+    display: block;
+    font-size: small;
+    justify-content: center;
+}
+
+.sp{
+    display: block;
+}
+
+/* .div{
+    color: red;
+    height: 100px;
+    width: 100px;
+    flex-direction: column;
+} */
+/* .Signup img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30rem;
+    margin-right: 10rem;
+    height: 35rem;
+    border-radius: 10px;
+} */
+
+/* .logo img{
+    flex-direction: row;
+    height: 10rem;
+    width: 10rem;
+} */
+
+/* Hide the default number input arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+

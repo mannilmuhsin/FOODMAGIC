@@ -1,0 +1,196 @@
+/* Navbar.css */
+.navbar {
+  background-color: #270c0c;
+  color: #fff;
+  display: flex;
+  font-family: sans-serif;
+  font-size: 13px;
+  justify-content: center;
+  align-items: center;
+  height: 60px; /* Set a specific height for the navbar */
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+}
+
+.logo {
+  color: #fff;
+  margin-right: auto; /* Push the logo to the left */
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-link:hover::after {
+  content: '';
+  display: block;
+  height: 2px;
+  width: 100%;
+  background-color: #8b6a6a;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* .menu {
+  background-color: #ff4500;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+} */
+
+.mobile-menu {
+  display: flex;
+  flex-direction: column;
+  background-color: #444;
+  padding: 1rem;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 100%;
+}
+
+.mobile-menu a {
+  color: #fff;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+}
+.signinandsignup{
+  color: #fff;
+  margin-left: auto;
+}
+
+
+.logbutton{
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 11px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: all .5s;
+  margin-top: 5px;
+  letter-spacing: 4px;
+  color: #03e9f4;
+}
+
+.logbutton:hover {
+  background-color: #03e9f4;
+  color: #000000;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #095b5f,
+              0 0 25px #095b5f,
+              0 0 50px #095b5f,
+              0 0 100px #095b5f;
+}
+
+.logbutton span {
+  position: absolute;
+  display: block;
+}
+
+@keyframes btnAnimA {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+.logbutton span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #03e9f4);
+  animation: btnAnimA 1500ms linear infinite;
+  /* animation-delay: 200ms; */
+  animation-fill-mode: backwards;
+  animation-play-state: running;
+}
+
+
+@keyframes btnAnimB {
+  0% {
+    top: -100%
+  }
+  50% {
+    top: 100%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+.logbutton span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #03e9f4);
+  animation: btnAnimB 1500ms linear infinite;
+  animation-delay: 300ms;
+}
+
+
+@keyframes btnAnimC {
+  0% {
+    right: -100%;
+  }
+  50% {
+    right: 100%;
+  }
+  100% {
+    right: 100%;
+  }
+}
+.logbutton span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg, transparent, #03e9f4);
+  animation: btnAnimC 1500ms linear infinite;
+  animation-delay: 600ms;
+}
+
+
+@keyframes btnAnimD {
+  0% {
+    bottom: -100%;
+  }
+  50%,100% {
+    bottom: 100%;
+  }
+}
+.logbutton span:nth-child(4) {
+  left: 0;
+  bottom: -100%;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent, #03e9f4);
+  animation: btnAnimD 1500ms linear infinite;
+  animation-delay: 900ms;
+} 
+
+@media (min-width: 768px) {
+  .mobile-menu {
+    display: none;
+  }
+}
+

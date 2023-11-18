@@ -1,0 +1,41 @@
+import Home from "./pages/Home/Home";
+import GoogleAuthComponent from "./pages/Login/Auth";
+import Login from "./pages/Login/Login";
+import OTP from "./pages/OTP/OTP";
+import Signup from "./pages/Signup/Signup";
+import "tailwindcss/tailwind.css";
+import { Routes, Route } from "react-router-dom";
+import Layouts from "./features/Layouts";
+import Unotherised from "./pages/Unotherised/Unotherised";
+import Chef from "./routers/Chef";
+import Admin from "./routers/admin";
+import User from "./routers/user";
+import "./index.css";
+import RequerRout from "./features/RequerRout";
+import RequerHome from "./features/RequerHome";
+
+function App() {
+  return (
+    <>
+      <Routes>
+        {/* public */}
+        <Route path="/" element={<Layouts />}>
+          <Route path="/user/*" element={<User />} />
+          <Route path="/admin/*" element={<Admin />} />
+          <Route path="/chef/*" element={<Chef />} />
+          {/* <Route element={<RequerRout />}> */}
+            <Route exact path="/signup" element={<Signup />} />
+            <Route exact path="/login" element={<Login />} replace />
+          {/* </Route> */}
+          {/* <Route element={<RequerHome/>}> */}
+          <Route exact path="/" element={<Home />} />
+          {/* </Route> */}
+          <Route exact path="/uno" element={<Unotherised />} />
+          <Route exact path="/*" element={<Unotherised />} />
+        </Route>
+      </Routes>
+    </>
+  );
+}
+
+export default App;
