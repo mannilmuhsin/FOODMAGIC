@@ -25,7 +25,7 @@ const uploadimage = async (onefile) => {
   try {
     const result = await cloudinary.uploader.upload(onefile.tempFilePath, {
       public_id: `${Date.now()}`,
-      resource_type: "auto",
+      resource_type: "image",
       folder: "FOODMAGIC",
       transformation: [
         {
@@ -46,6 +46,35 @@ const uploadimage = async (onefile) => {
     console.log(error.message);
   }
 };
+
+const uploadVideo = async (videoFile) => {
+  try {
+    const result = await cloudinary.uploader.upload(videoFile.tempFilePath, {
+      resource_type: "video",
+      public_id: `${Date.now()}`,
+      folder: "VIDEO_FOLDER_FOODMAGIC",
+      eager: [
+        { width: 300, height: 300, crop: "pad", audio_codec: "none" }, 
+        { width: 160, height: 100, crop: "crop", gravity: "south", audio_codec: "none" }
+      ],
+      eager_async: true,
+      eager_notification_url: "https://mysite.example.com/notify_endpoint",
+      max_file_size: 100000000 // Set to the maximum size you want to allow
+    });
+
+    
+    let video = {
+      url: result.url,
+      public_id: result.public_id,
+    };
+
+    return video;
+  } catch (error) {
+    console.log(error.message);
+    throw error; // Rethrow the error to handle it in the calling function
+  }
+};
+
 
 const deleteFromCloud=async (publicId)=>{
   try {
@@ -116,5 +145,6 @@ module.exports = {
   genarateOTP,
   verifyOTP,
   uploadimage,
-  deleteFromCloud
+  deleteFromCloud,
+  uploadVideo
 };

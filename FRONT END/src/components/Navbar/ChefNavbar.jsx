@@ -25,7 +25,7 @@ function ChefNavbar() {
       setMobileMenuOpen(!isMobileMenuOpen);
     };
   return (
-    <nav className="navbar">
+    <nav className="navbar h-24">
     <div className="container mx-auto flex justify-between items-center py-4">
       {/* <div className="logo  w-16 md:w-20 ">
         <img src="src/assets/logo.png" alt="" />

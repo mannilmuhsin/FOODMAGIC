@@ -3,6 +3,7 @@ const publicrouter = require("./routes/public_routs");
 const verifyJWT = require("./middlewear/verifyJWT");
 const admin_rout = require("./routes/admin_routs");
 const user_rout = require("./routes/user_routs");
+const chef_rout = require('./routes/chef_routs')
 const corsOptions = require("./config/corsOptions");
 const credentials = require("./middlewear/credentions");
 const fileupload = require("express-fileupload");
@@ -36,7 +37,7 @@ app.use(
   fileupload({
     useTempFiles: true,
     tempFileDir: "/tmp/",
-    limits: { fileSize: 2 * 1024 * 1024 },
+    limits: { fileSize: 100 * 1024 * 1024 },
   })
 );
 
@@ -46,6 +47,7 @@ app.use("/refresh", require("./routes/refreshRouter"));
 app.use(verifyJWT);
 app.use("/admin", admin_rout);
 app.use("/user", user_rout);
+app.use("/chef",chef_rout)
 
 app.listen(4000, () => {
   console.log("renning on 4000");

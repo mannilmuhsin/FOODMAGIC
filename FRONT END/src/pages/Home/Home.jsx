@@ -25,7 +25,7 @@ function Home() {
   return (
     <div className="min-h-screen  bg-gray-100">
       <Navbar />
-      <div className="container mx-auto flex flex-wrap py-8">
+      <div className="container mx-auto flex flex-wrap pt-8">
         <div className="w-full md:w-1/2 flex flex-col items-center mt-0">
           <form
             action=""
@@ -67,7 +67,7 @@ function Home() {
       </p>
     </div>
         </div>
-        <div className="w-full h-full md:w-1/2 flex  justify-center items-center">
+        <div className="w-auto h-auto md:w-1/2 flex  justify-center items-center">
         <Homelottile />
         </div>
       </div>
