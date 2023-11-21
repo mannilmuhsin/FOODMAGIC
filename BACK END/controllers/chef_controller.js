@@ -1,17 +1,46 @@
-const public_controler = require('../controllers/public_controllers')
+const { json } = require('express');
+const public_controller = require('../controllers/public_controllers');
+const course_schema = require('../schemas/course_schema');
 
 
-const addcourse = async(req,res)=>{
+const addcourse = async (req, res) => {
     try {
-        console.log(req.files);
-       const uploadResult= await public_controler.uploadVideo(req.files.demoVideo)
-       
-        // console.log(req.body);
-        console.log(uploadResult);
+      const {
+        title,
+        category,
+        description,
+        price,
+        aboutChef,
+      } = JSON.parse(req.body.formdata);
+    const {user} = JSON.parse(req.body.user);
+  
+      const uploadVideoResult = await public_controller.uploadVideo(
+        req.files.demoVideo
+      );
+      const uploadImageResult = await public_controller.uploadimage(
+          req.files.coverImage
+          );
+  
+      const newCourse = new course_schema({
+        title,
+        category,
+        description,
+        coverImage: uploadImageResult,
+        demoVideo: uploadVideoResult,
+        price,
+        aboutChef,
+        chef:user,
+        chapters: [],
+      });
+  
+      const savedCourse = await newCourse.save();
+  
+      res.status(201).json({message:'Course uploaded successfully !'})
     } catch (error) {
-        console.log(error.message);
+      console.error(error.message);
+      res.status(500).send("Internal Server Error");
     }
-}
+  };
 
 
 

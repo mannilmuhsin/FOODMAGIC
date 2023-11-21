@@ -1,4 +1,3 @@
-const chef_schema = require("../schemas/chef_schema");
 const user_schema = require("../schemas/user_schema");
 const public_controlls = require("../controllers/public_controllers");
 const jwt = require("jsonwebtoken");

@@ -116,7 +116,7 @@ function ChefHome() {
         </div>
 
         {/* Video Cards */}
-        <div className="flex justify-center sm:justify-start gap-7 sm:ms-2   flex-wrap mt-8">
+        <div className="flex justify-center sm:justify-start gap-7 sm:ms-16   flex-wrap mt-8">
           {videos.map((video, index) => (
             <div
               key={video.id}
