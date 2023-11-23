@@ -16,12 +16,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body:{...Credentials}
             })
         }),
-        // getUsers:bulder.mutation({
-        //     query:()=>({
-        //         url:'/admin/users',
-        //         method:'get',
-        //     })
-        // })
+    
     })
 })
 

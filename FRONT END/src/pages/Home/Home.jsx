@@ -7,6 +7,7 @@ import { auth } from "../../context/authReducer";
 import { useSelector } from "react-redux";
 import Homelottile from "../../components/Lottie/Homelottile";
 import 'animate.css';
+import HomeSpComponent from "../../components/Lottie/HomeSpComponent/HomeSpComponent";
 
 function Home() {
   const user = useSelector(auth)
@@ -87,6 +88,7 @@ function Home() {
           return <Card key={i} img={img} />;
         })}
       </div>
+      <HomeSpComponent/>
     </div>
   );
 }

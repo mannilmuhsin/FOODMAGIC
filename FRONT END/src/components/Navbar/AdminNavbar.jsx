@@ -37,10 +37,10 @@ function AdminNavbar() {
         <a href="/admin/userlist" className="nav-link">
           STUDENTS
         </a>
-        <a href="#" className="nav-link">
+        <a href="/admin/cheflist" className="nav-link">
           CHEFS
         </a>
-        <a href="#" className="nav-link">
+        <a href="/admin/allcourses" className="nav-link">
         ALL COURSES
         </a>
       </div>

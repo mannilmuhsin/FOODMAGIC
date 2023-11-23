@@ -29,13 +29,30 @@ const course_schema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  chef: {
+  blurb: {
     type: String,
+    required: true,
+  },
+  chef: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'users',
     required: true,
   },
   chapters:{
     type:Array,
     default:[]
+  },
+  isShow:{
+    type:Boolean,
+    default:false
+  },
+  createdAt:{
+    type:Date,
+    default:Date.now()
+  },
+  rivew:{
+    type:Array,
+
   }
 });
 

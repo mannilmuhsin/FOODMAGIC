@@ -37,7 +37,7 @@ function ChefNavbar() {
         <a href="#" className="nav-link">
           STUDENTS
         </a>
-        <a href="#" className="nav-link">
+        <a href="/chef/mycourses" className="nav-link">
           MY CLASS
         </a>
         <a href="#" className="nav-link">

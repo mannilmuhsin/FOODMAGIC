@@ -120,7 +120,8 @@ const Login = () => {
             <img
               src="src/assets/logo.png"
               alt="Your Logo"
-              className="w-28 h-28 mt-4"
+              className="w-28 h-28 mt-4 cursor-pointer"
+              onClick={()=>usenavigate('/')}
             />
             <p className="text-sm mt-4 text-[#002D74] dark:text-blue-400">
               If you are already a member, easily log in

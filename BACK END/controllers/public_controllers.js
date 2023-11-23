@@ -5,6 +5,7 @@ const { exec } = require("child_process");
 const util = require("util");
 const execPromise = util.promisify(exec);
 const fs = require("fs");
+const course_schema = require("../schemas/course_schema");
 
 const ffmpegPath = "C:\\ProgramData\\chocolatey\\bin\\ffmpeg.exe";
 
@@ -49,7 +50,7 @@ const uploadVideo = async (videoFile) => {
       fs.mkdirSync(outputDirectory, { recursive: true });
     }
 
-    const ffmpegCommand = `"${ffmpegPath}" -i "${videoFile.tempFilePath}" -c:v libx264 -preset medium -crf 28 -c:a aac -strict -2 "${compressedVideoPath}"`;
+    const ffmpegCommand = `"${ffmpegPath}" -i "${videoFile.tempFilePath}" -c:v libx265 -preset medium -crf 32 -c:a aac -strict -2 "${compressedVideoPath}"`;
     await execPromise(ffmpegCommand);
 
     const result = await cloudinary.uploader.upload(compressedVideoPath, {
@@ -147,6 +148,17 @@ const sendemailotp = async (email, otp) => {
   }
 };
 
+const getFullCourses = async (req, res) => {
+  try {
+    const courses = await course_schema.find({ isShow: true });
+    if (courses) {
+      res.status(201).json({ courses });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 module.exports = {
   sendemailotp,
   genarateOTP,
@@ -154,4 +166,5 @@ module.exports = {
   uploadimage,
   deleteFromCloud,
   uploadVideo,
+  getFullCourses,
 };
