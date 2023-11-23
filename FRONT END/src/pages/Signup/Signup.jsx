@@ -108,7 +108,9 @@ const Signup = () => {
           <img
             src="src/assets/logo.png"
             alt="Your Logo"
-            className="w-28 h-28 mt-4"
+            className="w-28 h-28 mt-4 cursor-pointer"
+            onClick={()=>usenavigate('/')}
+
           />
           <form
             className="w-full max-w-md flex flex-col gap-4"

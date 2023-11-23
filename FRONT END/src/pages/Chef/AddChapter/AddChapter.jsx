@@ -2,44 +2,37 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import toast, { Toaster } from "react-hot-toast";
-import { useAddcourseMutation } from '../../../api/chefApiSlice';
+import { useAddchapterMutation } from '../../../api/chefApiSlice';
 import { auth } from '../../../context/authReducer';
 import { useSelector } from 'react-redux';
 import Vedio from '../../vedio';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import UploadLottie from '../../../components/Lottie/UploadLottie';
 import ChefNavbar from '../../../components/Navbar/ChefNavbar';
 import ProgressBar from 'react-progress-bar-plus';
-import 'react-progress-bar-plus/lib/progress-bar.css';
 
-function Addcourses() {
-
-  const [openlottie,setOpenlottie]=useState(false)
-  const [addcourse] = useAddcourseMutation()
+function AddChapter() {
+    const [openlottie,setOpenlottie]=useState(false)
+  const [addchapter] = useAddchapterMutation()
   const [prevToastId, setPrevToastId] = useState(null);
   const user = useSelector(auth)
   const usenavigate=useNavigate()
 
+  const location=useLocation()
+  const course_id=location.state?.id
+
     const formik = useFormik({
         initialValues: {
-          aboutChef: '',
-          blurb: '',
           title: '',
           description: '',
           coverImage: null,
-          price: '',
           demoVideo: null,
-          category: '',
         },
         validationSchema: Yup.object({
-          aboutChef: Yup.string().required('About Chef is required'),
-          blurb: Yup.string().required('Blurb is required'),
           title: Yup.string().required('Title is required').max(20, 'Title must be at most 20 words'),
           description: Yup.string().required('Description is required'),
           coverImage: Yup.mixed().required('Cover Image is required'),
-          price: Yup.number().required('Price is required').positive('Price must be positive'),
           demoVideo: Yup.mixed().required('Demo Video is required'),
-          category: Yup.string().required('Category is required'),
         }),
         onSubmit: (values) => {
           handleaddcourseSubmit(values)
@@ -66,8 +59,7 @@ function Addcourses() {
 
       const handleaddcourseSubmit = async (values) => {
         // e.preventDefault();
-        console.log('hello');
-        console.log('hello',values);
+        console.log(values);
 
     
         try {
@@ -76,14 +68,13 @@ function Addcourses() {
           formData.append("formdata", JSON.stringify(values));
           formData.append("coverImage", values.coverImage);
           formData.append("demoVideo", values.demoVideo);
-          formData.append("user", JSON.stringify(user));
+          formData.append("id", course_id);
 
           console.log("DemoVideo size:", values.demoVideo.size);
     
-          await addcourse(formData).then((response) => {
+          await addchapter(formData).then((response) => {
             toast.success(response.data.message);
-            setOpenlottie(true)
-            usenavigate('/chef/mycourses')
+            usenavigate(-1)
           });
     
           // Reset the form if needed
@@ -114,7 +105,7 @@ function Addcourses() {
     encType="multipart/form-data" 
     className="max-w-lg mx-auto mt-8 p-8 bg-gray-100 rounded-lg shadow-md"
   >
-    <h2 className="text-2xl flex justify-center font-bold mb-4">Add Course</h2>
+    <h2 className="text-2xl flex justify-center font-bold mb-4">Add Chapter</h2>
 
     <div className="mb-4">
       <label htmlFor="title" className="block text-sm font-medium text-gray-600">
@@ -134,33 +125,9 @@ function Addcourses() {
       ) : null}
     </div>
 
-
-    <div className="mb-4">
-        <label htmlFor="category" className="block text-sm font-medium text-gray-600">
-          Category
-        </label>
-        <select
-          id="category"
-          name="category"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.category}
-          className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-        >
-          <option value="" label="Select a category" />
-          <option value="cooking" label="Cooking" />
-          <option value="baking" label="Baking" />
-          {/* Add more options as needed */}
-        </select>
-        {formik.touched.category && formik.errors.category ? (
-          <div className="text-red-500 text-sm">{formik.errors.category}</div>
-        ) : null}
-      </div>
-
-
     <div className="mb-4">
       <label htmlFor="description" className="block text-sm font-medium text-gray-600">
-      Descriptionf
+      Description
       </label>
       <textarea
         id="description"
@@ -198,7 +165,7 @@ function Addcourses() {
 
       <div className="mb-4">
         <label htmlFor="demoVideo" className="block text-sm font-medium text-gray-600">
-          Demo Video
+          Video
         </label>
         <input
           id="demoVideo"
@@ -215,60 +182,7 @@ function Addcourses() {
       </div>
 
 
-      <div className="mb-4">
-  <label htmlFor="price" className="block text-sm font-medium text-gray-600">
-    Price
-  </label>
-  <input
-    id="price"
-    name="price"
-    type="number"  // Set the type to "number"
-    className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-    onChange={formik.handleChange}
-    onBlur={formik.handleBlur}
-    value={formik.values.price}
-  />
-  {formik.touched.price && formik.errors.price ? (
-    <div className="text-red-500 text-sm">{formik.errors.price}</div>
-  ) : null}
-</div>
-
-
-    <div className="mb-4">
-      <label htmlFor="aboutChef" className="block text-sm font-medium text-gray-600">
-        About Chef
-      </label>
-      <textarea
-        id="aboutChef"
-        name="aboutChef"
-        rows="2"
-        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.aboutChef}
-      />
-      {formik.touched.aboutChef && formik.errors.aboutChef ? (
-        <div className="text-red-500 text-sm">{formik.errors.aboutChef}</div>
-      ) : null}
-    </div>
-
-    <div className="mb-4">
-      <label htmlFor="blurb" className="block text-sm font-medium text-gray-600">
-        Blurb
-      </label>
-      <textarea
-        id="blurb"
-        name="blurb"
-        rows="2"
-        className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.blurb}
-      />
-      {formik.touched.blurb && formik.errors.blurb ? (
-        <div className="text-red-500 text-sm">{formik.errors.blurb}</div>
-      ) : null}
-    </div>
+     
 
     {/* ... Repeat similar structure for other fields ... */}
 
@@ -276,13 +190,12 @@ function Addcourses() {
       type="submit"
       className="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200"
     >
-      Add Course
+      Add Chapter
     </button>
   </form>
   }
   </>
-
   )
 }
 
-export default Addcourses
+export default AddChapter

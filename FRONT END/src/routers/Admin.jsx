@@ -4,6 +4,8 @@ import RequerAuth from "../features/RequerAuth";
 import AdminHome from "../pages/Admin/Home/AdminHome";
 import AdimnProfile from "../pages/Admin/Profile/AdimnProfile";
 import Userlist from "../pages/Admin/Uesrlist/Userlist";
+import AdminAllCourses from "../pages/Admin/AdminAllCourses/AdminAllCourses";
+import ChefList from "../pages/Admin/ChefList/ChefList";
 const Role=1000
 
 function Admin() {
@@ -13,6 +15,8 @@ function Admin() {
         <Route exact path="/" element={<AdminHome />} />
         <Route path="/profile" element={<AdimnProfile/>} />
         <Route path="/userlist" element={<Userlist/>}/>
+        <Route path="/allcourses" element={<AdminAllCourses/>}/>
+        <Route path="/cheflist" element={<ChefList/>}/>
       </Route>
     </Routes>
   );

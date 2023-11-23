@@ -9,9 +9,9 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 body:{...Credentials}
             })
         }),
-        getstudents:bulder.mutation({
+        getusers:bulder.mutation({
             query:Credentials =>({
-                url:'/admin/getstudents',
+                url:`/admin/getusers?role=${Credentials}`,
                 method:'get',
             })
         }),
@@ -28,6 +28,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
 
 export const {
    useAdminprofileMutation,
-   useGetstudentsMutation,
-   useHandleaccessMutation
+   useHandleaccessMutation,
+   useGetusersMutation
 } = userApiSlice

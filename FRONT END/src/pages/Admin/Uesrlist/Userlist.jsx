@@ -8,7 +8,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import * as React from "react";
 import {
-  useGetstudentsMutation,
+  useGetusersMutation,
   useHandleaccessMutation,
 } from "../../../api/adminApiSlice";
 import AdminNavbar from "../../../components/Navbar/AdminNavbar";
@@ -22,14 +22,15 @@ function Userlist() {
   const [userdata, setuserData] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [getstudent] = useGetstudentsMutation();
+  const [getstudent] = useGetusersMutation();
   const [accesshandle] = useHandleaccessMutation();
 
   const handleaccess = async (name) => {
     try {
-      await accesshandle({ name });
+      const changedResponse=await accesshandle({ name });
+      toast.success(changedResponse.data.message)
   
-      const response = await getstudent();
+      const response = await getstudent(2000);
       setuserData(response.data.studens);
     } catch (error) {
       console.log(error.message);
@@ -97,7 +98,7 @@ function Userlist() {
     const fetchUser = async () => {
       try {
         console.log('on effect');
-        const response = await getstudent();
+        const response = await getstudent(2000);
         setuserData(response.data.studens);
       } catch (error) {
         console.error("Error fetching students:", error);
