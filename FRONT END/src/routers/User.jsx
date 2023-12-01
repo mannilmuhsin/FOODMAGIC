@@ -9,6 +9,7 @@ function User() {
     <Routes>
       <Route element={<RequerAuth allows={[Role]} />}>
         <Route exact path="/profile" element={<Profile />} />
+        
       </Route>
     </Routes>
   );

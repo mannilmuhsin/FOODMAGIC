@@ -40,6 +40,13 @@ export const chefApiSlice = apiSlice.injectEndpoints({
                 method:'delete',
             })
         }),
+        deleteChapter:bulder.mutation({
+            query:Credentials =>({
+                url:'/chef/deletechapter',
+                method:'put',
+                body:{...Credentials}
+            })
+        }),
         handleShowCourse:bulder.mutation({
             query:Credentials =>({
                 url:'/chef/handleshowcourse',
@@ -58,5 +65,6 @@ export const {
    useGetCoursMutation,
    useHandleShowCourseMutation,
    useDeleteCoursMutation,
-   useAddchapterMutation
+   useAddchapterMutation,
+   useDeleteChapterMutation
 } = chefApiSlice

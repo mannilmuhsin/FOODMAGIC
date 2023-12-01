@@ -23,6 +23,7 @@ function AddChapter() {
 
     const formik = useFormik({
         initialValues: {
+          chapterNo:'',
           title: '',
           description: '',
           coverImage: null,
@@ -33,6 +34,7 @@ function AddChapter() {
           description: Yup.string().required('Description is required'),
           coverImage: Yup.mixed().required('Cover Image is required'),
           demoVideo: Yup.mixed().required('Demo Video is required'),
+          chapterNo: Yup.number().required('chapterNo is required').positive('chapterNo must be positive').max(100,'maximum 100 chapters'),
         }),
         onSubmit: (values) => {
           handleaddcourseSubmit(values)
@@ -69,23 +71,33 @@ function AddChapter() {
           formData.append("coverImage", values.coverImage);
           formData.append("demoVideo", values.demoVideo);
           formData.append("id", course_id);
-
+          
           console.log("DemoVideo size:", values.demoVideo.size);
-    
+          
           await addchapter(formData).then((response) => {
-            toast.success(response.data.message);
-            usenavigate(-1)
-          });
-    
+            if(response.error){
+              // console.log(response.error.data.message);
+              setOpenlottie(false)
+              showToast(response.error.data.message);
+            }else{
+              toast.success(response.data.message);
+              usenavigate(-1)
+            }
+          })
+          
           // Reset the form if needed
           // e.target.reset();
         } catch (error) {
+          console.log(error);
           if (error.response) {
-            showToast(error.response.data.message);
+            console.log(error.response);
+            // showToast(error.response.data.message);
           } else if (error.request) {
-            showToast(error.message);
+            console.log(error.resqust);
+            // showToast(error.message);
           } else {
-            showToast(error);
+            console.log(error.message);
+            // showToast(error.message);
           }
         }
       };
@@ -94,6 +106,7 @@ function AddChapter() {
   return (
     <>
     <ChefNavbar/>
+    <Toaster/>
     {openlottie ? 
     <>
       <UploadLottie/>
@@ -180,6 +193,24 @@ function AddChapter() {
           <div className="text-red-500 text-sm">{formik.errors.demoVideo}</div>
         ) : null}
       </div>
+
+      <div className="mb-4">
+  <label htmlFor="chapterNo" className="block text-sm font-medium text-gray-600">
+  ChapterNo
+  </label>
+  <input
+    id="chapterNo"
+    name="chapterNo"
+    type="number"  // Set the type to "number"
+    className="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+    onChange={formik.handleChange}
+    onBlur={formik.handleBlur}
+    value={formik.values.chapterNo}
+  />
+  {formik.touched.chapterNo && formik.errors.chapterNo ? (
+    <div className="text-red-500 text-sm">{formik.errors.chapterNo}</div>
+  ) : null}
+</div>
 
 
      

@@ -13,6 +13,8 @@ import User from "./routers/user";
 import "./index.css";
 import RequerRout from "./features/RequerRout";
 import RequerHome from "./features/RequerHome";
+import AllCourses from "./pages/User/AllCourses/AllCourses";
+import CourseDetails from "./pages/User/CourseDetails/CourseDetails";
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
           {/* </Route> */}
           {/* <Route element={<RequerHome/>}> */}
           <Route exact path="/" element={<Home />} />
+          <Route path="/allcourses" element={<AllCourses/>} />
+          <Route path="/coursedetails" element={<CourseDetails/>} />
           {/* </Route> */}
           <Route exact path="/uno" element={<Unotherised />} />
           <Route exact path="/*" element={<Unotherised />} />

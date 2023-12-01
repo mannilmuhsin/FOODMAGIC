@@ -11,17 +11,18 @@ import HomeSpComponent from "../../components/Lottie/HomeSpComponent/HomeSpCompo
 
 function Home() {
   const user = useSelector(auth)
+  // const list=[1,2]
 
 
-  const images = [
+  const list = [
     "src/assets/tacos.png",
-    "src/assets/dinner.png",
-    "src/assets/salad.png",
+    // "src/assets/dinner.png",
+    // "src/assets/salad.png",
     "src/assets/pasta.png",
     "src/assets/pasta.png",
     "src/assets/tacos.png",
-    "src/assets/dinner.png",
-    "src/assets/salad.png",
+    // "src/assets/dinner.png",
+    // "src/assets/salad.png",
   ];
   return (
     <div className="min-h-screen  bg-gray-100">
@@ -72,21 +73,47 @@ function Home() {
         <Homelottile />
         </div>
       </div>
-      <div className="flex max-lg justify-center items-center font-bold text-lg border-t-2 my-4 pt-7 border-t-slate-400">
+      <div className="flex max-lg justify-center items-center font-bold text-2xl border-t-2 my-4 pt-7 border-t-slate-300 border-dotted">
         <h1>CHOOSE YOUR FAVOURITE COURSE</h1>
       </div>
-      <div className="container mx-auto flex flex-wrap justify-center">
-        {images.map((img, i) => {
-          return <Card key={i} img={img} />;
-        })}
+      <div className="container mx-auto gap-5 flex flex-wrap justify-center">
+      {list.map((video, index) => (
+            <div
+              key={index}
+              className="video-card w-72  mx-2 rounded-b-md border-b-2 my-4 overflow-hidden hover:bg-slate-400 transition duration-300 ease-in-out transform hover:scale-105 "
+            >
+              <img
+                src={video}
+                // alt={video.title}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-1 flex justify-center">
+                <h3 className="text-lg font-semibold mb-2">hello</h3>
+                
+              </div>
+            </div>
+          ))}
       </div>
-      <div className="flex max-lg justify-center items-center font-bold text-lg border-t-2 my-4 pt-7 border-t-slate-400">
+      <div className="flex max-lg justify-center items-center font-bold text-2xl border-t-2 border-slate-300 my-4 pt-7 border-dotted ">
         <h1>CHOOSE YOUR FAVOURITE CHEF</h1>
       </div>
-      <div className="container mx-auto flex flex-wrap justify-center">
-        {images.map((img, i) => {
-          return <Card key={i} img={img} />;
-        })}
+      <div className="container mx-auto flex gap-5 flex-wrap justify-center">
+      {list.map((video, index) => (
+            <div
+              key={index}
+              className="video-card w-72 border-b-2  mx-2 rounded-b-md my-4 overflow-hidden hover:bg-slate-400 transition duration-300 ease-in-out transform hover:scale-105 "
+            >
+              <img
+                src={video}
+                // alt={video.title}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-1 flex justify-center">
+                <h3 className="text-lg font-semibold mb-2">hello</h3>
+                
+              </div>
+            </div>
+          ))}
       </div>
       <HomeSpComponent/>
     </div>

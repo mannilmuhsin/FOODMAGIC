@@ -18,7 +18,7 @@ export default function Homelottile() {
     if (screenWidth <= breakpoints.large) {
       return { width: 390, height: 400 };
     } else {
-      return { width: 700, height: 700 };
+      return { width: 650, height: 600 };
     }
   };
   const size = getSize();
