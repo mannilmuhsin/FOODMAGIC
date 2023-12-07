@@ -40,7 +40,7 @@ function ChefNavbar() {
         <a href="/chef/mycourses" className="nav-link">
           MY CLASS
         </a>
-        <a href="#" className="nav-link">
+        <a href="/chef/payments" className="nav-link">
         PAYMENT
         </a>
       </div>

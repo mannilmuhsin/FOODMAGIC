@@ -1,18 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useSpring, animated } from "react-spring";
-import Navbar from "../../../components/Navbar/Navbar";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useGetCoursMutation } from "../../../api/chefApiSlice";
-import { useLocation } from "react-router-dom";
-import {loadStripe} from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { animated, useSpring } from "react-spring";
+import { useGetCourseByIdMutation } from "../../../api/publicApiSlice";
+import { useMakePaymentMutation } from "../../../api/userApiSlice";
+import Navbar from "../../../components/Navbar/Navbar";
+import { auth } from "../../../context/authReducer";
 
 const CourseDetails = () => {
 
-  const [getcourse]=useGetCoursMutation()
+  const [getcourse]=useGetCourseByIdMutation()
   const location = useLocation();
   const course_id = location.state?.id;
   const [video, setVodeo] = useState([]);
+  const [makePaymentApi]= useMakePaymentMutation()
+  const navigate=useNavigate()
+  const user=useSelector(auth)
 
   const fadeIn = useSpring({
     opacity: 1,
@@ -33,7 +39,8 @@ const CourseDetails = () => {
   };
 
   useEffect(() => {
-    const fetchChefCourse = async () => {
+    
+    const fetchCourse = async () => {
       try {
         const response = await getcourse(course_id);
         setVodeo(response.data.course);
@@ -41,12 +48,29 @@ const CourseDetails = () => {
         console.error("Error ", error);
       }
     };
-
-    fetchChefCourse();
+    
+    fetchCourse();
   }, []);
 
   const makePayment = async()=>{
     const stripe = await loadStripe('pk_test_51OISQWSBQLVhDmRfAhLKSBBKcyKeeIUvfUe1urrofu6ZeWJqqY5N6pVwJ7ItTIVpPSm1kAAWuuR5WJmQMfFUCn6800Wi7hSBjG');
+
+    const response = await makePaymentApi({ video,user });
+console.log(response);
+
+const result = stripe.redirectToCheckout({
+  sessionId: response.data.id,
+});
+
+  if (result.error) {
+    console.error(result.error);
+    // Handle the error, e.g., show an error message to the user
+  } else {
+    // The redirection was successful
+    console.log('Redirection successful');
+  }
+
+
   }
 
   return (
@@ -88,7 +112,7 @@ const CourseDetails = () => {
             {/* <p>Life Long Validity</p> */}
             <div className="flex items-center px-8  mt-8 justify-between">
               <p>{`Price: ${video.price}`}</p>
-              <button className="btn me-8 hvr-shutter-in-horizontal justify-center border-y rounded-md border-black text-black  px-4 py-2 hover:bg-indigo-800 transition duration-300 ease-in-out">
+              <button onClick={makePayment} className="btn me-8 hvr-shutter-in-horizontal justify-center border-y rounded-md border-black text-black  px-4 py-2 hover:bg-indigo-800 transition duration-300 ease-in-out">
                 BUY NOW
                 <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
               </button>

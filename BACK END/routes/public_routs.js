@@ -13,7 +13,10 @@ publicrouter.get('/',(req,res)=>{
     }
 })
 
+publicrouter.get('/getcourseById',pulict_controller.getCourseById)
 publicrouter.get('/courses',pulict_controller.getFullCourses)
+publicrouter.get('/successpayment',usercontroller.handleSuccessPayment)
+
 
 publicrouter.post('/user/verifyotp',usercontroller.userVerifyOTP)
 publicrouter.post('/user/signup',usercontroller.usersignup)

@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import toast, { Toaster } from 'react-hot-toast'
 import * as React from "react";
 import {
   useGetusersMutation,
@@ -97,7 +98,6 @@ function Userlist() {
   React.useEffect(() => {
     const fetchUser = async () => {
       try {
-        console.log('on effect');
         const response = await getstudent(2000);
         setuserData(response.data.studens);
       } catch (error) {
@@ -110,6 +110,7 @@ function Userlist() {
   return (
     <>
       <AdminNavbar />
+      <Toaster/>
       <p className="mt-9 ms-10 text-xl font-bold">STUDENTS</p>
       <Paper
         sx={{

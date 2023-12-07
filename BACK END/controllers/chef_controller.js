@@ -3,6 +3,7 @@ const public_controller = require("../controllers/public_controllers");
 const course_schema = require("../schemas/course_schema");
 const user_schema = require("../schemas/user_schema");
 const { v4: uuidv4 } = require("uuid");
+const payment_shema = require("../schemas/payment_shema");
 
 const addcourse = async (req, res) => {
   try {
@@ -175,6 +176,21 @@ const addchapter = async (req, res) => {
   }
 };
 
+const getChefPayments = async (req,res)=>{
+  try {
+    const {chef_id} = req.query
+    const chef = await user_schema.findOne({username:chef_id})
+    const payments = await payment_shema.find({chef_id:chef._id , isDivided:true})
+    .populate('user_id') 
+    .populate('chef_id')  
+    .populate('course_id'); 
+
+  res.json({ payments });
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 module.exports = {
   addcourse,
   getChefCourses,
@@ -183,4 +199,5 @@ module.exports = {
   deleteCourses,
   addchapter,
   deleteChapter,
+  getChefPayments
 };

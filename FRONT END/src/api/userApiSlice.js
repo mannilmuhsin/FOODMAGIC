@@ -18,6 +18,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 body:{...Credentials}
             })
         }),
+        makePayment:bulder.mutation({
+            query:Credentials =>({
+                url:'/user/makepayment',
+                method:'post',
+                body:{...Credentials}
+            })
+        }),
         changePassword:bulder.mutation({
             query:Credentials =>({
                 url:'/user/changepassword',
@@ -30,6 +37,12 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 url:'/user/updateProfile',
                 method:'put',
                 body:{...Credentials}
+            })
+        }),
+        myLearnings:bulder.mutation({
+            query:Credentials =>({
+                url:`/user/mylearnings?username=${Credentials}`,
+                method:'get',
             })
         }),
         updateProimage: bulder.mutation({
@@ -52,5 +65,8 @@ export const {
    useVerifyPasswordMutation,
    useChangePasswordMutation,
    useUpdateProfileMutation,
-   useUpdateProimageMutation
+   useUpdateProimageMutation,
+   useMakePaymentMutation,
+   useSuccessPaymentMutation,
+   useMyLearningsMutation
 } = userApiSlice

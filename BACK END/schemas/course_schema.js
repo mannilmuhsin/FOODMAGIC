@@ -53,6 +53,9 @@ const course_schema = new mongoose.Schema({
   rivew:{
     type:Array,
 
+  },
+  users:{
+    type:Array
   }
 });
 

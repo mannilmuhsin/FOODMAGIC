@@ -227,8 +227,8 @@ function ChefVideos() {
         {/* <div className="w-full md:w-1/3 p-4 md:ml-4 mt-4 md:mt-0"> */}
         {/* <div className="sticky top-0"> */}
         {/* <div className="max-w-screen-xl mx-auto bg-white rounded-md shadow-lg"> */}
-        <div className="w-full md:w-1/3 p-4 mb-4 md:mb-0 sticky top-0 overflow-hidden ">
-          <div className="max-w-screen-xl mt-2 mx-auto bg-white rounded-md  overflow-y-auto h-screen ">
+        <div className="w-full md:w-1/3 p-4 mb-4 md:mb-0 sticky top-0 overflow-hidden  ">
+          <div className="max-w-screen-xl mt-2 mx-auto bg-white rounded-md  overflow-y-auto h-screen " >
             <div className="text-center   pt-4 mb-4">
               <h2 className="text-lg font-bold text-black-600">CHAPTERS</h2>
             </div>

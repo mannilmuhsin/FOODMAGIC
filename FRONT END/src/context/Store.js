@@ -1,33 +1,31 @@
-import {configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
-import { apiSlice } from '../api/apiSlice'
-import authReducer from './authReducer'
-import storage from 'redux-persist/lib/storage'
-import {persistReducer, persistStore} from 'redux-persist'
-import {combineReducers} from '@reduxjs/toolkit'
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { apiSlice } from '../api/apiSlice';
+import authReducer from './authReducer';
+import { persistReducer } from 'redux-persist';
+import storageSession from 'redux-persist/lib/storage/session';
+import { combineReducers } from '@reduxjs/toolkit';
 
-const persistconfig={
-    key:'auth',
-    storage
-}
+const persistConfig = {
+    key: 'auth',
+    storage: storageSession, // Use sessionStorage instead of localStorage
+};
 
-const reducer=combineReducers({
-    [apiSlice.reducerPath]:apiSlice.reducer,
-    auth:authReducer
-})
+const reducer = combineReducers({
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    auth: authReducer,
+});
 
-const persistedreducerauth=persistReducer(persistconfig,reducer)
+const persistedReducerAuth = persistReducer(persistConfig, reducer);
 
-export const Store = configureStore({
-    reducer:persistedreducerauth
-    // {
-        // [apiSlice.reducerPath]:apiSlice.reducer,
-        // auth:authReducer
-        // auth:persistedreducerauth
-    // }
-    ,
-    middleware:getDefaultMiddleware =>
-    getDefaultMiddleware().concat(apiSlice.middleware),
-    devTools:true
-})
+ const store = configureStore({
+    reducer: persistedReducerAuth,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: ['persist/PERSIST'],
+            },
+        }).concat(apiSlice.middleware),
+    devTools: true,
+});
 
-// export const persistor = persistStore(Store)
+export default store;

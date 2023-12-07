@@ -8,6 +8,7 @@ import Mycoureses from "../pages/Chef/Mycourses/Mycoureses";
 import ChefVideos from "../pages/Chef/ChefVideos/ChefVideos";
 import VideoDetailes from "../pages/VideoDetailes/VideoDetailes";
 import AddChapter from "../pages/Chef/AddChapter/AddChapter";
+import ChefPayments from "../pages/Chef/ChefPayments/ChefPayments";
 const Role=3000
 
 function Chef() {
@@ -21,6 +22,7 @@ function Chef() {
         <Route path="/mycourses" element={<Mycoureses/>}/>
         <Route path="/videos" element={<ChefVideos/>}/>
         <Route path="/videodetailes" element={<VideoDetailes/>}/>
+        <Route path="/payments" element={<ChefPayments/>} />
       </Route>
     </Routes>
   );

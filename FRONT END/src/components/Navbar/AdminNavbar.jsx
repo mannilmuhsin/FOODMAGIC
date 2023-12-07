@@ -43,6 +43,9 @@ function AdminNavbar() {
         <a href="/admin/allcourses" className="nav-link">
         ALL COURSES
         </a>
+        <a href="/admin/payments" className="nav-link">
+        PAYMENTS
+        </a>
       </div>
       <div className="md:hidden" onClick={toggleMobileMenu}>
         <Hamburger />

@@ -40,6 +40,9 @@ const Navbar = () => {
           <a href="/allcourses" className="nav-link">
             COURSE
           </a>
+          {user?.user&&<a href="/user/mylearnigs" className="nav-link">
+            MY LEARNIGS
+          </a>}
           <a href="#" className="nav-link">
             COMMUNITY
           </a>

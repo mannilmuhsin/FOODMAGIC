@@ -6,9 +6,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import toast, { Toaster } from "react-hot-toast";
+
 import * as React from "react";
 import {
-    useGetusersMutation,
+  useGetusersMutation,
   useHandleaccessMutation,
 } from "../../../api/adminApiSlice";
 import AdminNavbar from "../../../components/Navbar/AdminNavbar";
@@ -19,17 +21,17 @@ function createData(name, email, phone, date, isAccess) {
 }
 
 function ChefList() {
-    const [userdata, setuserData] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [userdata, setuserData] = React.useState([]);
   const [getchefs] = useGetusersMutation();
   const [accesshandle] = useHandleaccessMutation();
 
   const handleaccess = async (name) => {
     try {
-        const changedResponse=await accesshandle({ name });
-        toast.success(changedResponse.data.message)
-  
+      const changedResponse = await accesshandle({ name });
+      toast.success(changedResponse.data.message);
+
       const response = await getchefs(3000);
       setuserData(response.data.studens);
     } catch (error) {
@@ -97,7 +99,6 @@ function ChefList() {
   React.useEffect(() => {
     const fetchUser = async () => {
       try {
-        console.log('on effect');
         const response = await getchefs(3000);
         setuserData(response.data.studens);
       } catch (error) {
@@ -109,86 +110,87 @@ function ChefList() {
 
   return (
     <>
-    <AdminNavbar />
-    <p className="mt-9 ms-10 text-xl font-bold">CHEFS</p>
-    <Paper
-      sx={{
-        width: "auto",
-        overflow: "hidden",
-        marginTop: "1rem",
-        margin: "1rem",
-        marginBottom: "0",
-      }}
-    >
-      <TableContainer sx={{ maxHeight: 535 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, i) => {
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    className="bg-blue-100"
-                    tabIndex={-1}
-                    key={i}
+      <AdminNavbar />
+      <Toaster />
+      <p className="mt-9 ms-10 text-xl font-bold">CHEFS</p>
+      <Paper
+        sx={{
+          width: "auto",
+          overflow: "hidden",
+          marginTop: "1rem",
+          margin: "1rem",
+          marginBottom: "0",
+        }}
+      >
+        <TableContainer sx={{ maxHeight: 535 }}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
                   >
-                    {columns.map((column, i) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format ? (
-                            column.format(value)
-                          ) : (
-                            <button
-                              onClick={() => handleaccess(row.name)}
-                              className={`${
-                                value === "true"
-                                  ? "bg-blue-500 hover:bg-blue-700"
-                                  : "bg-red-500 hover:bg-red-700"
-                              } text-white px-6 py-3 rounded-md focus:outline-none transform transition-transform animate__animated animate__bounce`}
-                              id="myButton"
-                            >
-                              {value}
-                            </button>
-                          )}
-                          {/* {column.format && column.format(value)} */}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
-  </>
-  )
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, i) => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      className="bg-blue-100"
+                      tabIndex={-1}
+                      key={i}
+                    >
+                      {columns.map((column, i) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.format ? (
+                              column.format(value)
+                            ) : (
+                              <button
+                                onClick={() => handleaccess(row.name)}
+                                className={`${
+                                  value === "true"
+                                    ? "bg-blue-500 hover:bg-blue-700"
+                                    : "bg-red-500 hover:bg-red-700"
+                                } text-white px-6 py-3 rounded-md focus:outline-none transform transition-transform animate__animated animate__bounce`}
+                                id="myButton"
+                              >
+                                {value}
+                              </button>
+                            )}
+                            {/* {column.format && column.format(value)} */}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </>
+  );
 }
 
-export default ChefList
+export default ChefList;

@@ -15,9 +15,22 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 method:'get',
             })
         }),
+        getAllPayments:bulder.mutation({
+            query:Credentials =>({
+                url:'/admin/getpayments',
+                method:'get',
+            })
+        }),
         handleaccess:bulder.mutation({
             query:Credentials =>({
                 url:'/admin/handleaccess',
+                method:'put',
+                body:{...Credentials}
+            })
+        }),
+        handlePaymentOfChef:bulder.mutation({
+            query:Credentials =>({
+                url:'/admin/handlePaymentOfChef',
                 method:'put',
                 body:{...Credentials}
             })
@@ -29,5 +42,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
 export const {
    useAdminprofileMutation,
    useHandleaccessMutation,
-   useGetusersMutation
+   useGetusersMutation,
+   useGetAllPaymentsMutation,
+   useHandlePaymentOfChefMutation
 } = userApiSlice

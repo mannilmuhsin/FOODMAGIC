@@ -15,25 +15,45 @@ import "hover.css/css/hover-min.css";
 import "./Chef.css";
 import { useNavigate } from "react-router-dom";
 import { useChefsCoursMutation } from "../../../api/chefApiSlice";
+import { useGetAllPaymentsMutation } from "../../../api/adminApiSlice";
 
 function ChefHome() {
   const usenavigate = useNavigate();
 
-  // Placeholder data
-  const totalStudents = 150;
   const [totalCourses,setToatalCourses] = useState(0);
-  const totalRevenue = "$50,000";
+  const [getAllPayments] = useGetAllPaymentsMutation();
+  const [totalStudents, setToatalStudents] = useState(0);
+  const [totalRevenue, setTotalRevenue] = useState(0);
 
   const [chefCourses]=useChefsCoursMutation()
   const user = useSelector(auth);
 
-  // Placeholder videos data
   const [videos,setVodeos]=useState([])
+
+  useEffect(() => {
+    const allPayments = async () => {
+      const students = new Set();
+      const response = await getAllPayments();
+      console.log(response?.data?.payments);
+      const Revenue = response?.data?.payments.reduce(
+        (a, b) => b.amount + a,
+        0
+      );
+      response?.data?.payments.forEach((payment) =>{
+      if(payment?.chef_id?.username==user?.user){
+        students.add(payment.user_id.username)
+      }
+    });
+      setTotalRevenue((Revenue * 90) / 100);
+      setToatalStudents(students.size);
+    };
+    allPayments();
+  }, []);
+
   useEffect(() => {
     const fetchChefCourses = async () => {
       try {
         const response = await chefCourses(user.user)
-        // console.log(response.data.courses);
         setVodeos(response.data.courses.slice(0,4))
         setToatalCourses(response.data.courses.length)
       } catch (error) {
@@ -83,12 +103,12 @@ function ChefHome() {
           </div>
 
           {/* Total Revenue Card */}
-          <div className="hover:bg-green-700  transition duration-300 ease-in-out transform hover:scale-110 text-center bg-green-600 text-white p-6 rounded-md shadow-lg hover:shadow-red-500 ">
+          <div onClick={()=>usenavigate('/chef/payments')} className="hover:bg-green-700  transition duration-300 ease-in-out transform hover:scale-110 text-center bg-green-600 text-white p-6 rounded-md shadow-lg hover:shadow-red-500 ">
             <FontAwesomeIcon icon={faIndianRupee} size="3x" className="mt-4" />
             <h2 className="text-xl md:text-3xl font-bold mb-2">
               Total Revenue
             </h2>
-            <p className="text-lg md:text-xl">{totalRevenue}</p>
+            <p className="text-lg md:text-xl"><FontAwesomeIcon icon={faIndianRupee}  /> {totalRevenue}</p>
           </div>
         </div>
 

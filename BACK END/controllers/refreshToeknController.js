@@ -19,7 +19,7 @@ const handlerefreshtoken = async (req, res) => {
     const accesstoken = jwt.sign(
       { username: decod.username },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "10s" }
+      { expiresIn: "1d" }
     );
     res.json({ accesstoken,
       role:user.role,

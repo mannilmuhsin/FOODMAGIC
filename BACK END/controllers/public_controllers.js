@@ -158,6 +158,19 @@ const getFullCourses = async (req, res) => {
     console.log(error.message);
   }
 };
+const getCourseById = async (req, res) => {
+  try {
+    const { id } = req.query;
+    const course = await course_schema.findOne({ _id: id });
+    if (course) {
+      res.status(201).json({ course });
+    } else {
+      res.status(400).json({ message: "Courses is empty 😥" });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 module.exports = {
   sendemailotp,
@@ -167,4 +180,5 @@ module.exports = {
   deleteFromCloud,
   uploadVideo,
   getFullCourses,
+  getCourseById
 };

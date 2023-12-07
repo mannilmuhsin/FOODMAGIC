@@ -160,7 +160,7 @@ function Addcourses() {
 
     <div className="mb-4">
       <label htmlFor="description" className="block text-sm font-medium text-gray-600">
-      Descriptionf
+      Description
       </label>
       <textarea
         id="description"

@@ -1,6 +1,11 @@
 const user_schema = require("../schemas/user_schema");
 const public_controlls = require("../controllers/public_controllers");
+const stripe = require("stripe")(
+  "sk_test_51OISQWSBQLVhDmRfvicXDGw4m7LT3mOeF3DvnEufBcDN6v0z1STvNhlj4IkBgPHE8lDyByVzsPsv6Y8LAjVub57C00d6Xd8CEy"
+);
 const jwt = require("jsonwebtoken");
+const course_schema = require("../schemas/course_schema");
+const payment_shema = require("../schemas/payment_shema");
 
 const usersignup = async (req, res) => {
   try {
@@ -25,7 +30,7 @@ const usersignup = async (req, res) => {
         public_controlls.sendemailotp(email, otp);
         res.status(201).json({ message: "enter your otp" });
       } else {
-        res.status(400).json({ message: "Confirmpassword not matching.!." });
+        res.status(400).json({ message: "Confirmpassword not matching.!. 😥" });
       }
     }
   } catch (error) {
@@ -39,17 +44,22 @@ const userlogin = async (req, res) => {
     // console.log("on login");
     const user = await user_schema.findOne({ username: username });
     if (user) {
+      console.log(1);
       if (password === user.password) {
+        console.log(2);
         if (user.isVerify == true) {
+          console.log(3);
+          if(user.isAccess==true){
+            console.log(4);
           const accesstoken = jwt.sign(
             { username: user.username },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: "10s" }
+            { expiresIn: "1d" }
           );
           const refreshtoken = jwt.sign(
             { username: user.username },
             process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: "1d" }
+            { expiresIn: "2d" }
           );
           await user_schema.updateOne(
             { _id: user._id },
@@ -57,7 +67,7 @@ const userlogin = async (req, res) => {
           );
           res.cookie("jwt", refreshtoken, {
             httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000,
+            maxAge: 48 * 60 * 60 * 1000,
           });
           // console.log(req.cookies);
           res.status(201).json({
@@ -65,7 +75,12 @@ const userlogin = async (req, res) => {
             accesstoken,
             role: user.role,
             user: user.username,
+            id:user._id
           });
+        }else{
+
+          res.status(400).json({ message: "You are Blocked 🙄" });
+        }
         } else {
           res.status(400).json({ message: "You are not verifyed" });
         }
@@ -105,7 +120,7 @@ const userVerifyOTP = async (req, res) => {
     const secret = user.OTP;
     const isValid = public_controlls.verifyOTP(secret, OTP);
     if (isValid == true) {
-      console.log(isValid);
+      // console.log(isValid);
       const role = user.role;
 
       await user_schema.updateOne({ _id: id }, { $set: { isVerify: true } });
@@ -114,7 +129,7 @@ const userVerifyOTP = async (req, res) => {
 
       res.status(200).json({ message: role });
     } else {
-      console.log("not valid");
+      // console.log("not valid");
       res.status(400).json({ message: "OTP not valid." });
     }
   } catch (error) {
@@ -205,30 +220,112 @@ const updateprofile = async (req, res) => {
   }
 };
 
-const updateimage=async (req,res)=>{
+const updateimage = async (req, res) => {
   try {
     if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).json({ error: 'No files were uploaded.' });
+      return res.status(400).json({ error: "No files were uploaded." });
     }
 
-    const proimage = req.files.proimage; 
+    const proimage = req.files.proimage;
     const user = JSON.parse(req.body.user);
 
-    const userdata=await user_schema.findOne({username:user.user})
+    const userdata = await user_schema.findOne({ username: user.user });
 
-    await public_controlls.deleteFromCloud(userdata.pic.public_id)
-    const uploadResult= await public_controlls.uploadimage(proimage)
-    if(uploadResult){
-      await user_schema.updateOne({username:user.user},{$set:{pic:uploadResult}})
-      console.log(uploadResult);
-      res.status(200).json({ message: 'Image updated successfully' });
+    await public_controlls.deleteFromCloud(userdata.pic.public_id);
+    const uploadResult = await public_controlls.uploadimage(proimage);
+    if (uploadResult) {
+      await user_schema.updateOne(
+        { username: user.user },
+        { $set: { pic: uploadResult } }
+      );
+      // console.log(uploadResult);
+      res.status(200).json({ message: "Image updated successfully" });
     }
-    
-    
   } catch (error) {
     console.error(error.message);
   }
-}   
+};
+
+const handlePayment = async (req, res) => {
+  try {
+    const { user, video } = req.body;
+    const course = await course_schema.findOne({ _id: video._id });
+    
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price_data: {
+            currency: "inr",
+            product_data: {
+              name: course.title,
+              images: [course.coverImage.url],
+            },
+            unit_amount: course.price * 100,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      success_url: `http://localhost:4000/successpayment?session_id={CHECKOUT_SESSION_ID}&course_id=${video._id}&user_name=${user.user}`,
+      cancel_url: "http://localhost:5173/allcourses",
+    });
+
+    res.json({ id: session.id });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const handleSuccessPayment = async (req, res) => {
+  try {
+    const { session_id,user_name,course_id } = req.query;
+
+    const userdata = await user_schema.findOne({ username: user_name });
+    const course = await course_schema.findOne({ _id: course_id });
+    await course_schema.findByIdAndUpdate(course_id, {
+      $addToSet: { users: userdata._id },
+    });
+    
+
+    const payment = new payment_shema({
+      strip_id: session_id,
+      course_id: course._id,
+      chef_id: course.chef,
+      amount: course.price,
+      user_id: userdata._id,
+    });
+
+    await payment.save();
+    res.redirect('http://localhost:5173/user/mylearnigs');
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const getmylearnings = async (req, res) => {
+  try {
+    const { username } = req.query;
+
+    const user = await user_schema.findOne({ username: username });
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    const user_id = user._id;
+    
+    const courses = await course_schema.find({ users: { $in: [user_id] } });
+    // console.log(courses);
+
+    return res.json({ courses: courses });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 module.exports = {
   usersignup,
@@ -238,5 +335,8 @@ module.exports = {
   verifypassword,
   changePassword,
   updateprofile,
-  updateimage
+  updateimage,
+  handlePayment,
+  handleSuccessPayment,
+  getmylearnings
 };

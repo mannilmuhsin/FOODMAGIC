@@ -15,7 +15,7 @@ const Login = () => {
   const navigat = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  // const from = location.state?.from.pathname || '/'
+  const from = location.state?.from.pathname 
 
   // const { loginWithRedirect } = useAuth0();
   const usenavigate = useNavigate();
@@ -32,26 +32,28 @@ const Login = () => {
   const handlesubmit = (e) => {
     setloading(true);
     e.preventDefault();
-    // console.log(values);
     login(values)
       .then((response) => {
-        // Handle successful login here
-        console.log(response.data.role);
-        // setauth()
-        dispatch(
-          setCredentials({
-            user: response.data.user,
-            role: response.data.role,
-            token: response.data.accesstoken,
-          })
-        );
-        setloading(false);
-        if (response.data.role === 2000) {
-          navigat("/", { replace: true });
-        } else if (response.data.role === 1000) {
-          navigat("/admin", { replace: true });
-        } else if (response.data.role === 3000) {
-          navigat("/chef", { replace: true });
+        if (response.error) {
+          showToast(response.error.data.message);
+          setloading(false);
+        } else {
+          dispatch(
+            setCredentials({
+              user: response.data.user,
+              role: response.data.role,
+              token: response.data.accesstoken,
+              id: response.data.id,
+            })
+          );
+          setloading(false);
+          if (response.data.role === 2000) {
+            navigat(from || "/", { replace: true });
+          } else if (response.data.role === 1000) {
+            navigat(from ||  "/admin", { replace: true });
+          } else if (response.data.role === 3000) {
+            navigat(from ||  "/chef", { replace: true });
+          }
         }
       })
       .catch((error) => {
@@ -94,13 +96,13 @@ const Login = () => {
     <section className="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center">
       {loading && (
         <Dna
-        visible={true}
-        height="80"
-        width="80"
-        ariaLabel="dna-loading"
-        wrapperStyle={{}}
-        wrapperClass="dna-wrapper"
-      />
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="dna-loading"
+          wrapperStyle={{}}
+          wrapperClass="dna-wrapper"
+        />
       )}
       <Toaster />
       {!loading && (
@@ -121,7 +123,7 @@ const Login = () => {
               src="src/assets/logo.png"
               alt="Your Logo"
               className="w-28 h-28 mt-4 cursor-pointer"
-              onClick={()=>usenavigate('/')}
+              onClick={() => usenavigate("/")}
             />
             <p className="text-sm mt-4 text-[#002D74] dark:text-blue-400">
               If you are already a member, easily log in

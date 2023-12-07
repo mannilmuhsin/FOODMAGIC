@@ -8,11 +8,18 @@ export const publicApiSlice = apiSlice.injectEndpoints({
                 method:'get',
             })
         }),
+        getCourseById:bulder.mutation({
+            query:Credentials =>({
+                url:`/getcourseById?id=${Credentials}`,
+                method:'get',
+            })
+        }),
     
     
     })
 })
 
 export const {
-   useGetFullCoursesMutation
+   useGetFullCoursesMutation,
+   useGetCourseByIdMutation
 } = publicApiSlice

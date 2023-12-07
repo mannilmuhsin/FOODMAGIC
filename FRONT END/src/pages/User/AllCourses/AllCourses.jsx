@@ -8,6 +8,8 @@ import Select from "react-select";
 import { useGetFullCoursesMutation } from "../../../api/publicApiSlice";
 import Navbar from "../../../components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCurrentId } from "../../../context/authReducer";
 
 const categories = [
   null,
@@ -17,7 +19,7 @@ const categories = [
   "Gourmet Desserts",
   "Healthy Meal Planning",
 ];
-const chefs = [null, "Chef 1", "Chef 2", "Chef 3", "Chef 4"];
+const chefs = [null, "usman", "Chef 2", "Chef 3", "Chef 4"];
 const dropdownStyles = {
   control: (provided, state) => ({
     ...provided,
@@ -41,6 +43,8 @@ function AllCourses() {
   const [courses, setCourses] = useState([]);
 
   const [getFullCourses] = useGetFullCoursesMutation();
+
+  const id = useSelector(selectCurrentId);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,7 +70,7 @@ function AllCourses() {
   const itemsPerPage = 12;
   const [currentPage, setCurrentPage] = useState(1);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const usenavigate=useNavigate()
+  const usenavigate = useNavigate();
 
   const handleFilterChange = (filterName, value) => {
     setFilter((prevFilter) => ({
@@ -284,15 +288,30 @@ function AllCourses() {
                   <p className="text-lg font-bold text-orange-600">
                     ${course.price}
                   </p>
-                  <button
-                    onClick={() =>
-                      usenavigate("/coursedetails", { state: { id: course._id } })
-                    }
-                    className="btn hvr-shutter-in-horizontal justify-center border-y rounded-md border-black text-black  px-4 py-2 hover:bg-indigo-800 transition duration-300 ease-in-out"
-                  >
-                    Enroll now
-                    <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
-                  </button>
+                  {!course.users.includes(id) ? (
+                    <button
+                      onClick={() =>
+                        usenavigate("/coursedetails", {
+                          state: { id: course._id },
+                        })
+                      }
+                      className="btn hvr-shutter-in-horizontal justify-center border-y rounded-md border-black text-black  px-4 py-2 hover:bg-indigo-800 transition duration-300 ease-in-out"
+                    >
+                      Enroll now
+                      <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() =>
+                        usenavigate("/user/mylearnigs", {
+                        })
+                      }
+                      className="btn hvr-shutter-in-horizontal justify-center border-y rounded-md border-black text-black  px-4 py-2 hover:bg-indigo-800 transition duration-300 ease-in-out"
+                    >
+                      Watch now
+                      <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
