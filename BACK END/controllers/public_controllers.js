@@ -6,6 +6,7 @@ const util = require("util");
 const execPromise = util.promisify(exec);
 const fs = require("fs");
 const course_schema = require("../schemas/course_schema");
+const community_schema = require("../schemas/community_schema");
 
 const ffmpegPath = "C:\\ProgramData\\chocolatey\\bin\\ffmpeg.exe";
 
@@ -158,6 +159,20 @@ const getFullCourses = async (req, res) => {
     console.log(error.message);
   }
 };
+
+
+const getFullCommunitys = async (req, res) => {
+  try {
+    const communitys = await community_schema.find();
+    if (communitys) {
+      res.status(201).json({ communitys });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+
 const getCourseById = async (req, res) => {
   try {
     const { id } = req.query;
@@ -172,6 +187,24 @@ const getCourseById = async (req, res) => {
   }
 };
 
+const getCommunityById = async(req,res)=>{
+  try {
+    const {id} = req.params
+
+    const community = await community_schema.findById(id)
+    // console.log(community);
+    // console.log('hello');
+    if (community) {
+      res.status(201).json({ community });
+    } else {
+      res.status(400).json({ message: "community is empty 😥" });
+    }
+
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 module.exports = {
   sendemailotp,
   genarateOTP,
@@ -180,5 +213,7 @@ module.exports = {
   deleteFromCloud,
   uploadVideo,
   getFullCourses,
-  getCourseById
+  getCourseById,
+  getFullCommunitys,
+  getCommunityById
 };

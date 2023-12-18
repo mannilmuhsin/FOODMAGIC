@@ -5,9 +5,12 @@ import { persistReducer } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session';
 import { combineReducers } from '@reduxjs/toolkit';
 
+const tabId = window.location.href;
+
 const persistConfig = {
-    key: 'auth',
+    key: `auth-${tabId}`,
     storage: storageSession, // Use sessionStorage instead of localStorage
+    whitelist: ['auth'], // Only persist the 'auth' slice of the state
 };
 
 const reducer = combineReducers({

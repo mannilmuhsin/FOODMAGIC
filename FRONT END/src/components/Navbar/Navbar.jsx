@@ -43,10 +43,10 @@ const Navbar = () => {
           {user?.user&&<a href="/user/mylearnigs" className="nav-link">
             MY LEARNIGS
           </a>}
-          <a href="#" className="nav-link">
+          <a href="/chat" className="nav-link">
             COMMUNITY
           </a>
-          <a href="#" className="nav-link">
+          <a href="/blog" className="nav-link">
             BLOG
           </a>
         </div>

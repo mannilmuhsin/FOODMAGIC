@@ -14,7 +14,9 @@ publicrouter.get('/',(req,res)=>{
 })
 
 publicrouter.get('/getcourseById',pulict_controller.getCourseById)
+publicrouter.get('/getcommunityById/:id',pulict_controller.getCommunityById)
 publicrouter.get('/courses',pulict_controller.getFullCourses)
+publicrouter.get('/communitys',pulict_controller.getFullCommunitys)
 publicrouter.get('/successpayment',usercontroller.handleSuccessPayment)
 
 

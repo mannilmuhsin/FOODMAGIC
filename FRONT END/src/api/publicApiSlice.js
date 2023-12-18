@@ -8,9 +8,21 @@ export const publicApiSlice = apiSlice.injectEndpoints({
                 method:'get',
             })
         }),
+        getFullCommunitys:bulder.mutation({
+            query:Credentials =>({
+                url:'/communitys',
+                method:'get',
+            })
+        }),
         getCourseById:bulder.mutation({
             query:Credentials =>({
                 url:`/getcourseById?id=${Credentials}`,
+                method:'get',
+            })
+        }),
+        getCommunityById:bulder.mutation({
+            query:Credentials =>({
+                url:`/getcommunityById/${Credentials}`,
                 method:'get',
             })
         }),
@@ -21,5 +33,7 @@ export const publicApiSlice = apiSlice.injectEndpoints({
 
 export const {
    useGetFullCoursesMutation,
-   useGetCourseByIdMutation
+   useGetCourseByIdMutation,
+   useGetFullCommunitysMutation,
+   useGetCommunityByIdMutation
 } = publicApiSlice

@@ -4,6 +4,8 @@ const course_schema = require("../schemas/course_schema");
 const user_schema = require("../schemas/user_schema");
 const { v4: uuidv4 } = require("uuid");
 const payment_shema = require("../schemas/payment_shema");
+const community_schema = require("../schemas/community_schema");
+// const { ZIMKitManager } = require('@zegocloud/zimkit-react');
 
 const addcourse = async (req, res) => {
   try {
@@ -34,6 +36,14 @@ const addcourse = async (req, res) => {
     });
 
     const savedCourse = await newCourse.save();
+
+    const newGroup = new community_schema({
+      title:title,
+      proImage:uploadImageResult.url,
+      users:[userdata._id]
+    })
+
+    await newGroup.save()
 
     res.status(201).json({ message: "Course uploaded successfully !" });
   } catch (error) {
