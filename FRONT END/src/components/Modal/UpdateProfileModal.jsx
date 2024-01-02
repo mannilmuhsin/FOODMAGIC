@@ -48,7 +48,7 @@ function UpdateProfileModal({ setupdateModal, preusername, prephone }) {
     console.log(user);
     updatProfile({ values, user })
       .then((res) => {
-        if (res.data.error ==false) {
+        if (res.data.error == false) {
           Swal.fire({
             title: res.data.message,
             showConfirmButton: false,
@@ -60,8 +60,9 @@ function UpdateProfileModal({ setupdateModal, preusername, prephone }) {
             setCredentials({
               user: res.data.user,
               token: res.data.token,
-            }))
-            console.log(user);
+            })
+          );
+          console.log(user);
           setupdateModal(false);
         } else {
           showToast(res.data.message);

@@ -15,10 +15,11 @@ const Login = () => {
   const navigat = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const from = location.state?.from.pathname 
+  const from = location.state?.from?.pathname;
 
   // const { loginWithRedirect } = useAuth0();
   const usenavigate = useNavigate();
+  // console.log(from);
   const [values, setvalues] = useState({
     username: "",
     password: "",
@@ -50,9 +51,9 @@ const Login = () => {
           if (response.data.role === 2000) {
             navigat(from || "/", { replace: true });
           } else if (response.data.role === 1000) {
-            navigat(from ||  "/admin", { replace: true });
+            navigat(from || "/admin", { replace: true });
           } else if (response.data.role === 3000) {
-            navigat(from ||  "/chef", { replace: true });
+            navigat(from || "/chef", { replace: true });
           }
         }
       })

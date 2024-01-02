@@ -21,6 +21,7 @@ import NewChat from "./components/Chat/NewChat";
 import ErrorBoundary from "./features/ErrorBoundary ";
 import Blogs from "./pages/Blogs/Blogs";
 import BlogForm from "./pages/AddBlog/AddBlog";
+import Profile from "./pages/User/Profile/Profile";
 
 function App() {
   return (
@@ -34,8 +35,8 @@ function App() {
           {/* <Route element={<RequerRout />}> */}
           <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/login" element={<Login />} replace />
-          <Route path="/blog" element={<Blogs/>} />
-          <Route path="/addblog" element={<BlogForm/>} />
+          <Route path="/blog" element={<Blogs />} />
+          <Route path="/addblog" element={<BlogForm />} />
           <Route
             path="/chat"
             element={
@@ -49,6 +50,7 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/allcourses" element={<AllCourses />} />
           <Route path="/coursedetails" element={<CourseDetails />} />
+          <Route exact path="/profile" element={<Profile />} />
           {/* </Route> */}
           <Route exact path="/uno" element={<Unotherised />} />
           <Route exact path="/*" element={<Unotherised />} />

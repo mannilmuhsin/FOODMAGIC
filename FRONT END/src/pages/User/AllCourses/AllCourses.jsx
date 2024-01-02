@@ -5,21 +5,25 @@ import { Spin as Hamburger } from "hamburger-react";
 import React, { useEffect, useState } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import Select from "react-select";
-import { useGetFullCoursesMutation } from "../../../api/publicApiSlice";
+import {
+  useGetAllCategorysMutation,
+  useGetFullCoursesMutation,
+  useGetusersMutation,
+} from "../../../api/publicApiSlice";
 import Navbar from "../../../components/Navbar/Navbar";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectCurrentId } from "../../../context/authReducer";
 
-const categories = [
-  null,
-  "cooking",
-  "Italian",
-  "Asian Fusion",
-  "Gourmet Desserts",
-  "Healthy Meal Planning",
-];
-const chefs = [null, "usman", "Chef 2", "Chef 3", "Chef 4"];
+// const categories = [
+//   null,
+//   "cooking",
+//   "Italian",
+//   "Asian Fusion",
+//   "Gourmet Desserts",
+//   "Healthy Meal Planning",
+// ];
+// const chefs = [null, "usman", "Chef 2", "Chef 3", "Chef 4"];
 const dropdownStyles = {
   control: (provided, state) => ({
     ...provided,
@@ -40,11 +44,44 @@ const dropdownStyles = {
 };
 
 function AllCourses() {
+  const [categories, setCategories] = useState([]);
+  const [chefs, setChefs] = useState([]);
   const [courses, setCourses] = useState([]);
+  const location = useLocation();
 
   const [getFullCourses] = useGetFullCoursesMutation();
+  const [getCatogerys] = useGetAllCategorysMutation();
+  const [getAllChefs] = useGetusersMutation();
 
   const id = useSelector(selectCurrentId);
+
+  useEffect(() => {
+    const fetchChefs = async () => {
+      try {
+        const response = await getAllChefs(3000);
+        setChefs([{ username: "ALL", _id: null }, ...response?.data?.studens]);
+        console.log(response?.data?.studens);
+      } catch (error) {
+        // Handle errors, if necessary
+      }
+    };
+
+    fetchChefs();
+  }, []);
+
+  useEffect(() => {
+    const fetchCatogery = async () => {
+      try {
+        const response = await getCatogerys();
+        setCategories([{ title: "ALL" }, ...response?.data?.categories]);
+        console.log(response?.data?.categories);
+      } catch (error) {
+        // Handle errors, if necessary
+      }
+    };
+
+    fetchCatogery();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,13 +97,15 @@ function AllCourses() {
   }, []);
 
   const [filter, setFilter] = useState({
-    chef: "",
-    category: "",
+    chef: location.state?.chef ? location.state.chef?._id : "",
+    category: location.state?.category ? location.state.category : "",
     maxPrice: Infinity,
     minPrice: null,
   });
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(
+    location.state?.searchTerm ? location.state.searchTerm : ""
+  );
   const itemsPerPage = 12;
   const [currentPage, setCurrentPage] = useState(1);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -85,9 +124,12 @@ function AllCourses() {
 
   const filteredCourses = courses.filter((course) => {
     const matchesChef = filter.chef ? course.chef === filter.chef : true;
-    const matchesCategory = filter.category
-      ? course.category === filter.category
-      : true;
+    const matchesCategory =
+      filter.category !== "ALL"
+        ? filter.category
+          ? course.category.toUpperCase() === filter.category
+          : true
+        : true;
     const matchesMinPrice = course.price >= filter.minPrice;
     const matchesMaxPrice = course.price <= filter.maxPrice;
     return matchesChef && matchesCategory && matchesMaxPrice && matchesMinPrice;
@@ -96,6 +138,27 @@ function AllCourses() {
   const searchedCourses = filteredCourses.filter((course) =>
     course.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  // let sortedCourses
+  // const handleSortChange = (e) => {
+  //   const sortDirection = e.target.value;
+
+  //   // Sort courses based on user's choice
+  //   if (sortDirection === "desc") {
+  //     const sortedCourses = [...courses].sort((a, b) => {
+  //       const avgRatingA = calculateAverageRating(a.reviews);
+  //       const avgRatingB = calculateAverageRating(b.reviews);
+  //       return avgRatingB - avgRatingA;
+  //     });
+  //     // Update state or display sortedCourses on the UI
+  //   } else if (sortDirection === "asc") {
+  //     const sortedCourses = [...courses].sort((a, b) => {
+  //       const avgRatingA = calculateAverageRating(a.reviews);
+  //       const avgRatingB = calculateAverageRating(b.reviews);
+  //       return avgRatingA - avgRatingB;
+  //     });
+  //     // Update state or display sortedCourses on the UI
+  //   }
+  // };
 
   const indexOfLastCourse = currentPage * itemsPerPage;
   const indexOfFirstCourse = indexOfLastCourse - itemsPerPage;
@@ -118,27 +181,59 @@ function AllCourses() {
         style={{ boxShadow: "inset 0 0 50px rgba(72, 57, 94, 0.5)" }}
         className="hidden mt-2 bg-gray-100 items-center border-b-2   lg:flex justify-between"
       >
+        {/* <div>
+  <label>Sort By Rating:</label>
+  <select onChange={handleSortChange}>
+    <option value="desc">High to Low</option>
+    <option value="asc">Low to High</option>
+  </select>
+</div> */}
+
         <div>
           <Select
-            options={chefs.map((chef) => ({ value: chef, label: chef }))}
+            options={chefs.map((chef) => ({
+              value: chef._id,
+              label: chef.username,
+            }))}
             onChange={(e) => handleFilterChange("chef", e.value)}
             placeholder="Select a chef"
             isSearchable={false}
             styles={dropdownStyles}
             className="p-4"
+            defaultValue={
+              filter.chef
+                ? { value: filter.chef, label: location?.state?.chef?.username }
+                : ""
+            }
           />
         </div>
         <div>
           <Select
-            options={categories.map((category) => ({
-              value: category,
-              label: category,
+            options={categories?.map((category) => ({
+              value: category.title,
+              label: category.title,
             }))}
             onChange={(e) => handleFilterChange("category", e.value)}
             placeholder="Select a category"
-            className="  p-4"
+            className="p-4"
             isSearchable={false}
             styles={dropdownStyles}
+            defaultValue={
+              filter.category
+                ? { value: filter.category, label: filter.category }
+                : ""
+            } // Set the default value here
+          />
+        </div>
+
+        <div className="input p-4">
+          <TextField
+            className="w-44 bg-gray-100"
+            id="outlined-basic"
+            label="Min price..."
+            variant="outlined"
+            type="number"
+            onChange={(e) => handleFilterChange("minPrice", e.target.value)}
           />
         </div>
         <div className="input  p-4">
@@ -154,16 +249,6 @@ function AllCourses() {
                 e.target.value ? e.target.value : Infinity
               )
             }
-          />
-        </div>
-        <div className="input p-4">
-          <TextField
-            className="w-44 bg-gray-100"
-            id="outlined-basic"
-            label="Min price..."
-            variant="outlined"
-            type="number"
-            onChange={(e) => handleFilterChange("minPrice", e.target.value)}
           />
         </div>
 
@@ -266,7 +351,7 @@ function AllCourses() {
           {currentCourses.map((course, i) => (
             <div
               key={i}
-              className="w-full sm:w-1/2 md:w-1/3 lg:w-80  bg-gray-200 mx-2 rounded-md my-4 overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105"
+              className="w-full sm:w-1/2 md:w-1/3 lg:w-72  bg-gray-200 mx-2 rounded-md my-4 overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105"
             >
               <div className="flex justify-center pt-2">
                 <p className="text-lg font-semibold text-gray-800 mb-2">
@@ -295,18 +380,15 @@ function AllCourses() {
                           state: { id: course._id },
                         })
                       }
-                      className="btn hvr-shutter-in-horizontal justify-center border-y rounded-md border-black text-black  px-4 py-2 hover:bg-indigo-800 transition duration-300 ease-in-out"
+                      className="btn hvr-shutter-in-horizontal justify-center !border-y rounded-md !border-black !text-black  px-4 py-2 hover:bg-indigo-800 transition duration-300 ease-in-out"
                     >
                       Enroll now
                       <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
                     </button>
                   ) : (
                     <button
-                      onClick={() =>
-                        usenavigate("/user/mylearnigs", {
-                        })
-                      }
-                      className="btn hvr-shutter-in-horizontal justify-center border-y rounded-md border-black text-black  px-4 py-2 hover:bg-indigo-800 transition duration-300 ease-in-out"
+                      onClick={() => usenavigate("/user/mylearnigs", {})}
+                      className="btn  justify-center !border-y rounded-md !border-black !text-black  px-4 py-2 hover:bg-indigo-800 transition duration-300 ease-in-out hvr-shutter-in-horizontal"
                     >
                       Watch now
                       <FontAwesomeIcon icon={faArrowRight} className="ml-2" />

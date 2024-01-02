@@ -6,36 +6,35 @@ import ChefNavbar from "../../../components/Navbar/ChefNavbar";
 import { useProfileMutation } from "../../../api/userApiSlice";
 
 function ChefProfile() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [userPro,setuserPro]=useState({})
-    const [profile] = useProfileMutation();
-    const user=useSelector(auth)
-  
-    const openModal = () => {
-      setIsModalOpen(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userPro, setuserPro] = useState({});
+  const [profile] = useProfileMutation();
+  const user = useSelector(auth);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await profile(user);
+        setuserPro(response.data.userdetailes);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
     };
-  
-    const closeModal = () => {
-      setIsModalOpen(false);
-    };
-  
-    useEffect(() => {
-      const fetchUserProfile = async () => {
-        try {
-          const response = await profile(user);
-          setuserPro(response.data.userdetailes
-            );
-          console.log(response.data);
-        } catch (error) {
-          console.error("Error fetching user profile:", error);
-        }
-      };
-  
-      fetchUserProfile();
-    }, [user]);
+
+    fetchUserProfile();
+  }, [user]);
   return (
     <>
-    <ChefNavbar/>
+      <ChefNavbar />
       <div className="font-sans antialiased text-gray-900 leading-normal tracking-wider bg-cover">
         <div className="max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
           <div
@@ -55,7 +54,9 @@ function ChefProfile() {
                 </div>
               </div>
 
-              <h1 className="text-3xl font-bold pt-8 lg:pt-0">{userPro.username}</h1>
+              <h1 className="text-3xl font-bold pt-8 lg:pt-0">
+                {userPro.username}
+              </h1>
 
               <div className="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"></div>
               <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">
@@ -69,7 +70,6 @@ function ChefProfile() {
                 {userPro.email}
               </p>
 
-             
               <p className="pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start">
                 <svg
                   className="h-4 fill-current text-green-700 pr-4"
@@ -111,7 +111,7 @@ function ChefProfile() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default ChefProfile
+export default ChefProfile;

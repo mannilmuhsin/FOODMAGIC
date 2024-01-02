@@ -6,13 +6,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import toast, { Toaster } from 'react-hot-toast'
+import toast, { Toaster } from "react-hot-toast";
 import * as React from "react";
 import {
-  useGetusersMutation,
   useHandleaccessMutation,
 } from "../../../api/adminApiSlice";
 import AdminNavbar from "../../../components/Navbar/AdminNavbar";
+import { useGetusersMutation } from "../../../api/publicApiSlice";
 
 function createData(name, email, phone, date, isAccess) {
   isAccess = isAccess.toString();
@@ -28,9 +28,9 @@ function Userlist() {
 
   const handleaccess = async (name) => {
     try {
-      const changedResponse=await accesshandle({ name });
-      toast.success(changedResponse.data.message)
-  
+      const changedResponse = await accesshandle({ name });
+      toast.success(changedResponse.data.message);
+
       const response = await getstudent(2000);
       setuserData(response.data.studens);
     } catch (error) {
@@ -110,7 +110,7 @@ function Userlist() {
   return (
     <>
       <AdminNavbar />
-      <Toaster/>
+      <Toaster />
       <p className="mt-9 ms-10 text-xl font-bold">STUDENTS</p>
       <Paper
         sx={{

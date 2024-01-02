@@ -31,12 +31,11 @@ const baseQueryWithReath = async (args, api, extraOption) => {
     } else {
       api.dispatch(logOut());
     }
-  }else if(result?.error?.originalStatus === 400){
+  } else if (result?.error?.originalStatus === 400) {
     api.dispatch(logOut());
   }
   return result;
 };
-
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReath,

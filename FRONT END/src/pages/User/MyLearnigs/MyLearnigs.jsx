@@ -5,16 +5,22 @@ import { useMyLearningsMutation } from "../../../api/userApiSlice";
 import Navbar from "../../../components/Navbar/Navbar";
 import { useSelector } from "react-redux";
 import { auth } from "../../../context/authReducer";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function MyLearnigs() {
     const user = useSelector(auth)
     const usenavigate=useNavigate()
+    const location = useLocation()
   const [courses, setCourses] = useState([]);
 
   const [getmylearnings] = useMyLearningsMutation()
 
   useEffect(() => {
+
+    if(!user.user){
+      navigate('/login',{state:{from:location}})
+    }
+
     const fetchData = async () => {
       try {
         const response = await getmylearnings(user.user);
@@ -56,7 +62,7 @@ function MyLearnigs() {
           {currentCourses.map((course, i) => (
             <div
               key={i}
-              className="w-full sm:w-1/2 md:w-1/3 lg:w-80  bg-gray-200 mx-2 rounded-md my-4 overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105"
+              className="w-full sm:w-1/2 md:w-1/3 lg:w-72  bg-gray-200 mx-2 rounded-md my-4 overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105"
             >
               <div className="flex justify-center pt-2">
                 <p className="text-lg font-semibold text-gray-800 mb-2">
@@ -81,7 +87,7 @@ function MyLearnigs() {
                         state: { course_id: course._id },
                       })
                     }
-                    className="btn hvr-shutter-in-horizontal justify-center border-y rounded-md border-black text-black  px-4 py-2 hover:bg-indigo-800 transition duration-300 ease-in-out"
+                    className="btn hvr-shutter-in-horizontal justify-center !border-y rounded-md !border-black !text-black  px-4 py-2 hover:bg-indigo-800 transition duration-300 ease-in-out"
                   >
                     Watch now
                     <FontAwesomeIcon icon={faArrowRight} className="ml-2" />

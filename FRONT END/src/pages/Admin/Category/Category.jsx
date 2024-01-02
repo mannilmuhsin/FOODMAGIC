@@ -1,3 +1,4 @@
+import AdminNavbar from "../../../components/Navbar/AdminNavbar";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,17 +11,17 @@ import toast, { Toaster } from "react-hot-toast";
 
 import * as React from "react";
 import {
+  useGetusersMutation,
   useHandleaccessMutation,
 } from "../../../api/adminApiSlice";
-import AdminNavbar from "../../../components/Navbar/AdminNavbar";
-import { useGetusersMutation } from "../../../api/publicApiSlice";
+import { Link } from "react-router-dom";
 
 function createData(name, email, phone, date, isAccess) {
   isAccess = isAccess.toString();
   return { name, email, phone, date, isAccess };
 }
 
-function ChefList() {
+function Category() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [userdata, setuserData] = React.useState([]);
@@ -107,12 +108,21 @@ function ChefList() {
     };
     fetchUser();
   }, []);
-
   return (
-    <>
+    <div>
       <AdminNavbar />
       <Toaster />
-      <p className="mt-9 ms-10 text-xl font-bold">CHEFS</p>
+      <div className="flex justify-between">
+      <p className="mt-9 ms-10 text-xl font-bold">CATEGORYS</p>
+      <div className="mb-8 flex justify-center sm:justify-end">
+            <Link
+              to="/addcategory"
+              className="bg-blue-500 text-white py-2 px-4 rounded-md mt-9 me-10"
+            >
+              Add Category
+            </Link>
+          </div>
+          </div>
       <Paper
         sx={{
           width: "auto",
@@ -189,8 +199,8 @@ function ChefList() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-    </>
-  );
+    </div>
+  )
 }
 
-export default ChefList;
+export default Category;

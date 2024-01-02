@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../context/authReducer";
+import { auth, selectCurrentId, selectCurrentToken, selectCurrentUser } from "../../context/authReducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { socket } from "../../features/Socket";
 import { ReactMic } from "react-mic";
@@ -16,6 +16,8 @@ import {
   useGetCommunityByIdMutation,
   useGetFullCommunitysMutation,
 } from "../../api/publicApiSlice";
+import { useLocation, useNavigate } from "react-router-dom";
+import ChefNavbar from "../Navbar/ChefNavbar";
 
 const Chat = () => {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -24,6 +26,10 @@ const Chat = () => {
   const [currentCommunity, setCurruntCommunity] = useState({});
   const [groups, setGroups] = useState([]);
   const user = useSelector(selectCurrentUser);
+  const id = useSelector(selectCurrentId)
+  const {role} = useSelector(auth)
+  const location = useLocation();
+  const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState({});
   const [isRecording, setIsRecording] = useState(false);
@@ -31,7 +37,7 @@ const Chat = () => {
   const [filePreview, setFilePreview] = useState(null);
 
   const inputRef = useRef(null);
-  
+
   const handleInputMessage = (e) => {
     const inputValue = e.target.value;
 
@@ -45,6 +51,11 @@ const Chat = () => {
   };
 
   useEffect(() => {
+    console.log(role);
+    if (!user) {
+      navigate("/login", { state: { from: location } });
+    }
+
     if (!socket) {
       return;
     }
@@ -63,7 +74,9 @@ const Chat = () => {
     const fetchCommunity = async () => {
       try {
         const res = await getCommunitys();
-        const groups = res.data.communitys.map((community) => ({
+        const filterdGroups = res.data.communitys.filter((community)=>community.users.includes(id))
+        console.log(filterdGroups);
+        const groups = filterdGroups?.map((community) => ({
           id: community?._id,
           title: community?.title,
           lastMessage: `Welcome to ${community?.title} community`,
@@ -202,9 +215,16 @@ const Chat = () => {
   };
 
   return (
-    <div className="flex h-screen">
+    <>
+    <div className="h-screen">
+      {role[0] === 3000 ?
+      <ChefNavbar className="navbar fixed w-screen z-50"/>
+      :
+      <Navbar className="navbar fixed w-screen z-50"/>
+      }
+      <div className="flex h-full w-full">
       {/* Sidebar (fixed for md and lg screens) */}
-      <div className="hidden md:block lg:block w-1/4 p-4 bg-gray-200">
+      <div className="hidden md:block lg:block w-1/4 p-4 mt-2 bg-gray-200">
         <h2 className="text-xl font-bold mb-4">Groups</h2>
         {groups.map((group) => (
           <div
@@ -228,24 +248,31 @@ const Chat = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        <Navbar />
+      <div className="flex-1 flex flex-col pt-12">
 
+        <button
+          className="p-2 bg-gray-300 md:hidden lg:hidden"
+          onClick={() => setShowSidebar(!showSidebar)}
+        >
+          {showSidebar ? "Hide" : "Show"} Sidebar
+        </button>
         <div className="md:hidden lg:hidden">
           {/* Toggle Button (visible on smaller screens) */}
-          <button
-            className="p-2 bg-gray-300"
-            onClick={() => setShowSidebar(!showSidebar)}
-          >
-            {showSidebar ? "Hide" : "Show"} Sidebar
-          </button>
 
           {/* Toggleable Sidebar (visible on smaller screens) */}
           <div className={showSidebar ? "block" : "hidden"}>
             <div className="w-full p-4 bg-gray-200">
               <h2 className="text-xl font-bold mb-4">Groups</h2>
               {groups.map((group) => (
-                <div key={group.id} className="flex items-center mb-3">
+                <div
+                  key={group.id}
+                  onClick={() => setCurruntCommunity(group)}
+                  className={`flex cursor-pointer ${
+                    group.id == currentCommunity.id
+                      ? "bg-blue-400"
+                      : "bg-gray-300"
+                  } rounded-md p-2 items-center mb-3`}
+                >
                   <img
                     src={group.profilePicture}
                     alt="Group Profile"
@@ -278,7 +305,7 @@ const Chat = () => {
                   ? message?.type === "video"
                     ? {
                         videoURL: message?.data,
-                        width: 400,
+                        width: 300,
                         height: 300,
                         status: {
                           click: true,
@@ -289,7 +316,7 @@ const Chat = () => {
                     : message?.type === "photo"
                     ? {
                         uri: message?.data,
-                        width: 400,
+                        width: 300,
                         height: 300,
                       }
                     : {
@@ -430,7 +457,9 @@ const Chat = () => {
           </div>
         )}
       </div>
+      </div>
     </div>
+    </>
   );
 };
 

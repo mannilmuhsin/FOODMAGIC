@@ -10,12 +10,12 @@ const verifyJWT =(req, res, next) => {
     if (err) return res.sendStatus(403);
     // console.log('mannil');
     req.user = decode.username;
-    const userdata =await user_schema.findOne({ username: req.user, isAccess: true })
+    // const userdata =await user_schema.findOne({ username: req.user, isAccess: true })
 
-      if (!userdata) {
-        // console.log('woooooooooooooooooooooooooooooooooooooooooooooooooooooooo');
-        return res.sendStatus(400)
-      }
+    //   if (!userdata) {
+    //     // console.log('woooooooooooooooooooooooooooooooooooooooooooooooooooooooo');
+    //     return res.sendStatus(400)
+    //   }
     next();
   });
 };

@@ -1,7 +1,7 @@
 import {
   faArrowRight,
   faEye,
-  faEyeSlash
+  faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ import {
 } from "../../../api/chefApiSlice";
 import ChefNavbar from "../../../components/Navbar/ChefNavbar";
 import { auth } from "../../../context/authReducer";
+import { BiSearchAlt } from "react-icons/bi";
 
 function Mycoureses() {
   const usenavigate = useNavigate();
@@ -25,6 +26,29 @@ function Mycoureses() {
 
   const [videos, setVodeos] = useState([]);
   const [list, setList] = useState([]);
+
+  const itemsPerPage = 12;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  const searchedCourses = list.filter((course) =>
+  course.title.toLowerCase().includes(searchTerm.toLowerCase())
+);
+const indexOfLastCourse = currentPage * itemsPerPage;
+const indexOfFirstCourse = indexOfLastCourse - itemsPerPage;
+const currentCourses = searchedCourses.slice(
+  indexOfFirstCourse,
+  indexOfLastCourse
+);
+
+const pageNumbers = [];
+for (let i = 1; i <= Math.ceil(searchedCourses.length / itemsPerPage); i++) {
+  pageNumbers.push(i);
+}
+
+const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleshowcourses = async (id) => {
     try {
@@ -70,7 +94,7 @@ function Mycoureses() {
     setUnlistAllClicked(false);
     const trueCourses = videos.filter((course) => course.isShow === true);
     setList(trueCourses);
-
+    setCurrentPage(1)
   };
 
   const handleUnlistAll = async () => {
@@ -78,19 +102,20 @@ function Mycoureses() {
     setListAllClicked(false);
     const falseCourses = videos.filter((course) => course.isShow === false);
     setList(falseCourses);
+    setCurrentPage(1)
   };
 
   return (
     <div>
       <ChefNavbar />
       <Toaster />
-      <div className="flex justify-start ms-20 gap-4 mt-4">
+      <div className="flex h-12 justify-start ms-20 gap-4 mt-4">
         <button
           onClick={handleListAll}
           className={`btn ${
             listAllClicked
-              ? "bg-red-700 text-white shadow-lg shadow-red-950 scale-110 "
-              : "bg-slate-600 border-black border"
+              ? "!bg-red-700 text-white shadow-lg shadow-red-950 scale-110 "
+              : "!bg-slate-600 border-black border"
           } text-black  px-4 py-2 transition duration-300 ease-in-out`}
         >
           Listed
@@ -99,18 +124,29 @@ function Mycoureses() {
           onClick={handleUnlistAll}
           className={`btn ${
             unlistAllClicked
-              ? "bg-red-700 text-white shadow-lg shadow-red-950 scale-110"
-              : "bg-slate-600 border-black border "
+              ? "!bg-red-700 text-white shadow-lg shadow-red-950 scale-110"
+              : "!bg-slate-600 border-black border "
           } text-black  px-4 py-2 transition duration-300 ease-in-out`}
         >
           Unlisted
         </button>
+        <div className="bg-[#e4f7f1] border h-14 me-8 w-full md:p-4 p-2 mb-2  shadow-lg rounded-lg flex justify-between sm:me-10 m-0">
+            <input
+              className="bg-[#e4f7f1] placeholder-gray-400 w-full text-sm outline-none focus:outline-none"
+              type="text"
+              placeholder="Search by title..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+              style={{ color: "black" }}
+            />
+            <BiSearchAlt size={30} />
+          </div>
       </div>
       <div className="text-center mt-8 mb-8 hvr-wobble-bottom w-full">
         <h2 className="text-3xl font-bold text-black-600">MY COURSES</h2>
       </div>
-      <div className="flex justify-center sm:justify-start gap-7 sm:ms-16   flex-wrap mt-8">
-        {list.map((video, index) => (
+      <div className="flex justify-center  gap-7    flex-wrap mt-8">
+        {currentCourses.map((video, index) => (
           <div
             key={video.id}
             className="video-card w-72 bg-gray-200 mx-2 rounded-md my-4 overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105 "
@@ -127,7 +163,7 @@ function Mycoureses() {
                   onClick={() =>
                     usenavigate("/chef/videos", { state: { id: video._id } })
                   }
-                  className="btn hvr-shutter-in-horizontal justify-center border-y rounded-md border-black text-black bg-indigo-500 px-4 py-2 hover:bg-indigo-700 transition duration-300 ease-in-out"
+                  className={`btn hvr-shutter-in-horizontal justify-center border-y rounded-md border-black !text-black hover:!text-white  bg-indigo-500 px-4 py-2 hover:bg-indigo-700 transition duration-300 ease-in-out`}
                 >
                   Continue
                   <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
@@ -136,7 +172,7 @@ function Mycoureses() {
                   onClick={() => handleshowcourses(video._id)}
                   className={`${
                     video.isShow
-                      ? "text-yellow-500 hover:text-yellow-700"
+                      ? "text-red-600 hover:text-white"
                       : "text-green-500 hover:text-green-700"
                   }btn hvr-shutter-in-horizontal justify-center border-y rounded-md border-black text-black bg-indigo-500 px-7 py-2 hover:bg-indigo-700 transition duration-300 ease-in-out`}
                 >
@@ -155,6 +191,19 @@ function Mycoureses() {
               </div>
             </div>
           </div>
+        ))}
+      </div>
+      <div className="mt-4 flex justify-center">
+        {pageNumbers.map((number) => (
+          <button
+            key={number}
+            onClick={() => paginate(number)}
+            className={`mx-2 px-3 py-1 rounded-md ${
+              number === currentPage ? "bg-blue-500 text-white" : "bg-gray-300"
+            }`}
+          >
+            {number}
+          </button>
         ))}
       </div>
     </div>

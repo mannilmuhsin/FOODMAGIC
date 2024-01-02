@@ -107,14 +107,11 @@ function AddChapter() {
     }
   };
 
-
-
   const handleFileSelect = (file) => {
     if (file != null) {
-     console.log(file);
+      console.log(file);
     }
   };
-
 
   return (
     <>
@@ -229,13 +226,13 @@ function AddChapter() {
             ) : null}
           </div>
 
-          <FileUpload
+          {/* <FileUpload
             inputId="in" 
             inputName="in"
             accept={".jpeg,.png,."}
             acceptTypes={"JPG, JPEG, PNG (MAX. 1MB)"}
             handleFileSelect={handleFileSelect}
-          />
+          /> */}
 
           <div className="mb-4">
             <label

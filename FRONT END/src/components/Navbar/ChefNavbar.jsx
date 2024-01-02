@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import "./Navbar.css";
 import { auth, logOut } from "../../context/authReducer";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,102 +7,116 @@ import { Spin as Hamburger } from "hamburger-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-function ChefNavbar() {
-    const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const user = useSelector(auth);
-    const usenavigate = useNavigate();
-    const dispatch=useDispatch()
-  
-    const HandlelogOut=(e)=>{
-      e.preventDefault();
-      dispatch(logOut())
-    }
-  
-    const handlelogin = () => {
-      usenavigate("/login");
-    };
-    const toggleMobileMenu = () => {
-      setMobileMenuOpen(!isMobileMenuOpen);
-    };
+function ChefNavbar({className}) {
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const user = useSelector(auth);
+  const usenavigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const HandlelogOut = (e) => {
+    e.preventDefault();
+    dispatch(logOut());
+  };
+
+  const handlelogin = () => {
+    usenavigate("/login");
+  };
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!isMobileMenuOpen);
+  };
   return (
-    <nav className="navbar ">
-    <div className="container mx-auto flex justify-between items-center py-4">
-      {/* <div className="logo  w-16 md:w-20 ">
+    <nav className={className ? className : "navbar w-screen"}>
+      <div className="container mx-auto flex justify-between items-center py-4">
+        {/* <div className="logo  w-16 md:w-20 ">
         <img src="src/assets/logo.png" alt="" />
       </div> */}
-      <div className="hidden md:flex space-x-4">
-        <a href="/chef" className="nav-link">
-          DASHBORD
-        </a>
-        <a href="#" className="nav-link">
-          STUDENTS
-        </a>
-        <a href="/chef/mycourses" className="nav-link">
-          MY CLASS
-        </a>
-        <a href="/chef/payments" className="nav-link">
-        PAYMENT
-        </a>
-      </div>
-      <div className="md:hidden" onClick={toggleMobileMenu}>
-        <Hamburger />
-      </div>
-      {isMobileMenuOpen && (
-        <div className="mobile-menu md:hidden">
-          <a href="#" className="nav-link">
-            Home
+        <div className="hidden md:flex space-x-4">
+          <a href="/chef" className="nav-link">
+            DASHBORD
           </a>
           <a href="#" className="nav-link">
-            Course
+            STUDENTS
           </a>
-          <a href="#" className="nav-link">
-            Community
+          <a href="/chef/mycourses" className="nav-link">
+            MY CLASS
           </a>
-          <a href="#" className="nav-link">
-            Blog
+          <a href="/chef/payments" className="nav-link">
+            PAYMENT
           </a>
-          {!user?.user ? (
+          <a href="/chat" className="nav-link">
+            COMMUNITY
+          </a>
+          <a href="/blog" className="nav-link">
+            BLOG
+          </a>
+        </div>
+        <div className="md:hidden" onClick={toggleMobileMenu}>
+          <Hamburger />
+        </div>
+        {isMobileMenuOpen && (
+          <div className="mobile-menu md:hidden">
             <a href="#" className="nav-link">
-              Login
+              Home
             </a>
-          ) : (
             <a href="#" className="nav-link">
-              Profile
+              Course
             </a>
-          )}
-        </div>
-      )}
-      {!user?.user ? (
-        <div
-          className="hidden signinandsignup md:flex space-x-4"
-          onClick={handlelogin}
-        >
-          <a href="#" className="logbutton">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            LOGIN
-          </a>
-        </div>
-      ) : (
-        <>
-        <div className="hidden cursor-pointer signinandsignup md:flex items-end" onClick={()=>{
-          usenavigate('/chef/profile')
-        }}>
-          {user?.pro ? (
-            user.pro
-          ) : (
-            <FontAwesomeIcon className="me-3" icon={faUser} size="2x"  />
-          )}{" "}
-          {user?.user}
-        </div>
-        <button className="ms-3 mt-2 border rounded p-1" onClick={HandlelogOut}>logout</button>
-        </>
-      )}
-    </div>
-  </nav>
-  )
+            <a href="#" className="nav-link">
+              Community
+            </a>
+            <a href="#" className="nav-link">
+              Blog
+            </a>
+            {!user?.user ? (
+              <a href="#" className="nav-link">
+                Login
+              </a>
+            ) : (
+              <a href="#" className="nav-link">
+                Profile
+              </a>
+            )}
+          </div>
+        )}
+        {!user?.user ? (
+          <div
+            className="hidden signinandsignup md:flex space-x-4"
+            onClick={handlelogin}
+          >
+            <a href="#" className="logbutton">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              LOGIN
+            </a>
+          </div>
+        ) : (
+          <>
+            <div
+              className="hidden cursor-pointer signinandsignup md:flex items-end"
+              onClick={() => {
+                usenavigate("/profile");
+              }}
+            >
+              {user?.pro ? (
+                user.pro
+              ) : (
+                <FontAwesomeIcon className="me-3" icon={faUser} size="2x" />
+              )}{" "}
+              {user?.user}
+            </div>
+            <button
+              className="ms-3 mt-2 border rounded p-1"
+              onClick={HandlelogOut}
+            >
+              logout
+            </button>
+          </>
+        )}
+      </div>
+    </nav>
+  );
 }
 
-export default ChefNavbar
+export default ChefNavbar;

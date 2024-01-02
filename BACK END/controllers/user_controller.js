@@ -6,6 +6,8 @@ const stripe = require("stripe")(
 const jwt = require("jsonwebtoken");
 const course_schema = require("../schemas/course_schema");
 const payment_shema = require("../schemas/payment_shema");
+const blog_schema = require("../schemas/blog_schema");
+const community_schema = require("../schemas/community_schema");
 
 const usersignup = async (req, res) => {
   try {
@@ -49,38 +51,37 @@ const userlogin = async (req, res) => {
         console.log(2);
         if (user.isVerify == true) {
           console.log(3);
-          if(user.isAccess==true){
+          if (user.isAccess == true) {
             console.log(4);
-          const accesstoken = jwt.sign(
-            { username: user.username },
-            process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: "1d" }
-          );
-          const refreshtoken = jwt.sign(
-            { username: user.username },
-            process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: "2d" }
-          );
-          await user_schema.updateOne(
-            { _id: user._id },
-            { $set: { JWT: refreshtoken } }
-          );
-          res.cookie("jwt", refreshtoken, {
-            httpOnly: true,
-            maxAge: 48 * 60 * 60 * 1000,
-          });
-          // console.log(req.cookies);
-          res.status(201).json({
-            message: "success",
-            accesstoken,
-            role: user.role,
-            user: user.username,
-            id:user._id
-          });
-        }else{
-
-          res.status(400).json({ message: "You are Blocked 🙄" });
-        }
+            const accesstoken = jwt.sign(
+              { username: user.username },
+              process.env.ACCESS_TOKEN_SECRET,
+              { expiresIn: "1d" }
+            );
+            const refreshtoken = jwt.sign(
+              { username: user.username },
+              process.env.REFRESH_TOKEN_SECRET,
+              { expiresIn: "2d" }
+            );
+            await user_schema.updateOne(
+              { _id: user._id },
+              { $set: { JWT: refreshtoken } }
+            );
+            res.cookie("jwt", refreshtoken, {
+              httpOnly: true,
+              maxAge: 48 * 60 * 60 * 1000,
+            });
+            // console.log(req.cookies);
+            res.status(201).json({
+              message: "success",
+              accesstoken,
+              role: user.role,
+              user: user.username,
+              id: user._id,
+            });
+          } else {
+            res.status(400).json({ message: "You are Blocked 🙄" });
+          }
         } else {
           res.status(400).json({ message: "You are not verifyed" });
         }
@@ -228,10 +229,13 @@ const updateimage = async (req, res) => {
 
     const proimage = req.files.proimage;
     const user = JSON.parse(req.body.user);
-
+    
     const userdata = await user_schema.findOne({ username: user.user });
+    // console.log("user",userdata);
 
-    await public_controlls.deleteFromCloud(userdata.pic.public_id);
+    if(userdata.pic){
+      await public_controlls.deleteFromCloud(userdata.pic.public_id);
+    }
     const uploadResult = await public_controlls.uploadimage(proimage);
     if (uploadResult) {
       await user_schema.updateOne(
@@ -249,8 +253,8 @@ const updateimage = async (req, res) => {
 const handlePayment = async (req, res) => {
   try {
     const { user, video } = req.body;
+    // console.log(video);
     const course = await course_schema.findOne({ _id: video._id });
-    
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -281,14 +285,20 @@ const handlePayment = async (req, res) => {
 
 const handleSuccessPayment = async (req, res) => {
   try {
-    const { session_id,user_name,course_id } = req.query;
+    const { session_id, user_name, course_id } = req.query;
+
+    console.log("dksajfl",session_id);
 
     const userdata = await user_schema.findOne({ username: user_name });
     const course = await course_schema.findOne({ _id: course_id });
     await course_schema.findByIdAndUpdate(course_id, {
       $addToSet: { users: userdata._id },
     });
-    
+
+    await community_schema.updateOne(
+      { course_id: course_id },
+      { $addToSet: { users: userdata._id } }
+    );
 
     const payment = new payment_shema({
       strip_id: session_id,
@@ -299,7 +309,7 @@ const handleSuccessPayment = async (req, res) => {
     });
 
     await payment.save();
-    res.redirect('http://localhost:5173/user/mylearnigs');
+    res.redirect("http://localhost:5173/user/mylearnigs");
   } catch (error) {
     console.log(error.message);
   }
@@ -310,22 +320,51 @@ const getmylearnings = async (req, res) => {
     const { username } = req.query;
 
     const user = await user_schema.findOne({ username: username });
-    
+
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
-    
+
     const user_id = user._id;
-    
+
     const courses = await course_schema.find({ users: { $in: [user_id] } });
     // console.log(courses);
 
     return res.json({ courses: courses });
   } catch (error) {
     console.error(error.message);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+const getAllBlogs = async (req, res) => {
+  try {
+    // console.log('hello');
+    const blogs = await blog_schema.find();
+    res.json({ blogs });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const addReview = async(req,res)=>{
+  try {
+    const {rating, review, user, course_id} = req.body
+    const savedChapter = await course_schema.updateOne(
+        { _id: course_id },
+        { $push: { reviews: {
+          rating,
+          review,
+          user,
+          date:new Date()
+        } } }
+      );
+    // console.log(req.body);
+    res.status(200).json({message:'review added successfully'})
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
 module.exports = {
   usersignup,
@@ -338,5 +377,7 @@ module.exports = {
   updateimage,
   handlePayment,
   handleSuccessPayment,
-  getmylearnings
+  getmylearnings,
+  getAllBlogs,
+  addReview
 };

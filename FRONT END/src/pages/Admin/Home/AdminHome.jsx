@@ -10,9 +10,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {
   useGetAllPaymentsMutation,
-  useGetusersMutation,
 } from "../../../api/adminApiSlice";
-import { useGetFullCoursesMutation } from "../../../api/publicApiSlice";
+import { useGetFullCoursesMutation, useGetusersMutation } from "../../../api/publicApiSlice";
 import { useNavigate } from "react-router-dom";
 
 function AdminHome() {
@@ -31,7 +30,7 @@ function AdminHome() {
     const allPayments = async () => {
       const students = new Set();
       const response = await getAllPayments();
-      setRecentPayments(response.data.payments.slice(0,10));
+      setRecentPayments(response.data.payments.slice(0, 10));
       console.log(response.data.payments);
       const Revenue = response?.data?.payments.reduce(
         (a, b) => b.amount + a,
@@ -144,30 +143,46 @@ function AdminHome() {
         <div className="mt-1">
           {/* <h2 className="text-3xl font-bold mb-4">Recent Payments</h2> */}
           <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-300">
-            <thead>
-              <tr>
-                <th className="border border-gray-300 py-2 px-4">#</th>
-                <th className="border border-gray-300 py-2 px-4">Date</th>
-                <th className="border border-gray-300 py-2 px-4">Transaction ID</th>
-                <th className="border border-gray-300 py-2 px-4">Student</th>
-                <th className="border border-gray-300 py-2 px-4">Chef</th>
-                <th className="border border-gray-300 py-2 px-4">Course</th>
-                <th className="border border-gray-300 py-2 px-4">Amount</th>
-                {/* <th className="border border-gray-300 py-2 px-4">Status</th> */}
-              </tr>
-            </thead>
-            <tbody>
-              {recentPayments.map((payment, index) => (
-                <tr key={index}>
-                  <td className="border border-gray-300 py-2 px-4">{index + 1}</td>
-                  <td className="border border-gray-300 py-2 px-4">{payment.date}</td>
-                  <td className="border border-gray-300 py-2 px-4">{payment._id}</td>
-                  <td className="border border-gray-300 py-2 px-4">{payment.user_id?.username}</td>
-                  <td className="border border-gray-300 py-2 px-4">{payment.chef_id?.username}</td>
-                  <td className="border border-gray-300 py-2 px-4">{payment.course_id?.title}</td>
-                  <td className="border border-gray-300 py-2 px-4">{payment.amount}</td>
-                  {/* <td className="border border-gray-300 py-2 px-4">
+            <table className="min-w-full bg-white border border-gray-300">
+              <thead>
+                <tr>
+                  <th className="border border-gray-300 py-2 px-4">#</th>
+                  {/* <th className="border border-gray-300 py-2 px-4">
+                    Transaction ID
+                  </th> */}
+                  <th className="border border-gray-300 py-2 px-4">Student</th>
+                  <th className="border border-gray-300 py-2 px-4">Chef</th>
+                  <th className="border border-gray-300 py-2 px-4">Date</th>
+                  <th className="border border-gray-300 py-2 px-4">Course</th>
+                  <th className="border border-gray-300 py-2 px-4">Amount</th>
+                  {/* <th className="border border-gray-300 py-2 px-4">Status</th> */}
+                </tr>
+              </thead>
+              <tbody>
+                {recentPayments.map((payment, index) => (
+                  <tr key={index}>
+                    <td className="border border-gray-300 py-2 px-4">
+                      {index + 1}
+                    </td>
+                    {/* <td className="border border-gray-300 py-2 px-4">
+                      {payment._id}
+                    </td> */}
+                    <td className="border border-gray-300 py-2 px-4">
+                      {payment.user_id?.username}
+                    </td>
+                    <td className="border border-gray-300 py-2 px-4">
+                      {payment.chef_id?.username}
+                    </td>
+                    <td className="border border-gray-300 py-2 px-4">
+                      {payment.date.slice(0,10)}
+                    </td>
+                    <td className="border border-gray-300 py-2 px-4">
+                      {payment.course_id?.title}
+                    </td>
+                    <td className="border border-gray-300 py-2 px-4">
+                      {payment.amount}
+                    </td>
+                    {/* <td className="border border-gray-300 py-2 px-4">
                     {!payment.isDivided ? (
                       <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         Pay
@@ -176,11 +191,11 @@ function AdminHome() {
                       'PAID'
                     )}
                   </td> */}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

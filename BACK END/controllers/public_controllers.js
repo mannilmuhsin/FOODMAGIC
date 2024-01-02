@@ -44,17 +44,17 @@ const uploadimage = async (onefile) => {
 
 const uploadVideo = async (videoFile) => {
   try {
-    const outputDirectory = "./compressed_videos";
-    const compressedVideoPath = `${outputDirectory}/${Date.now()}_compressed.mp4`;
+    // const outputDirectory = "./compressed_videos";
+    // const compressedVideoPath = `${outputDirectory}/${Date.now()}_compressed.mp4`;
 
-    if (!fs.existsSync(outputDirectory)) {
-      fs.mkdirSync(outputDirectory, { recursive: true });
-    }
+    // if (!fs.existsSync(outputDirectory)) {
+    //   fs.mkdirSync(outputDirectory, { recursive: true });
+    // }
 
-    const ffmpegCommand = `"${ffmpegPath}" -i "${videoFile.tempFilePath}" -c:v libx265 -preset medium -crf 32 -c:a aac -strict -2 "${compressedVideoPath}"`;
-    await execPromise(ffmpegCommand);
+    // const ffmpegCommand = `"${ffmpegPath}" -i "${videoFile.tempFilePath}" -c:v libx265 -preset medium -crf 32 -c:a aac -strict -2 "${compressedVideoPath}"`;
+    // await execPromise(ffmpegCommand);
 
-    const result = await cloudinary.uploader.upload(compressedVideoPath, {
+    const result = await cloudinary.uploader.upload(videoFile.tempFilePath, {
       resource_type: "video",
       public_id: `${Date.now()}`,
       folder: "VIDEO_FOLDER_FOODMAGIC",
@@ -73,7 +73,7 @@ const uploadVideo = async (videoFile) => {
       max_file_size: 100000000,
     });
 
-    fs.unlinkSync(compressedVideoPath);
+    // fs.unlinkSync(compressedVideoPath);
 
     let video = {
       url: result.url,
@@ -176,7 +176,7 @@ const getFullCommunitys = async (req, res) => {
 const getCourseById = async (req, res) => {
   try {
     const { id } = req.query;
-    const course = await course_schema.findOne({ _id: id });
+    const course = await course_schema.findOne({ _id: id }).populate("chef");
     if (course) {
       res.status(201).json({ course });
     } else {

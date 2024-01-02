@@ -9,6 +9,10 @@ const community_schema = new mongoose.Schema({
     type: Array,
     default:[]
   },
+  course_id:{
+    type: String,
+    required:true
+  },
   proImage:{
     type: String,
   },

@@ -6,7 +6,7 @@ import { selectCurrentUser } from "../../context/authReducer";
 
 function CommunityChat() {
   const id = Math.floor(Math.random() * 1000);
-  const user = useSelector(selectCurrentUser)
+  const user = useSelector(selectCurrentUser);
 
   const [state, setstate] = useState({
     appConfig: {
@@ -40,14 +40,10 @@ function CommunityChat() {
     init();
   }, []);
 
-  
-
   return (
     <div>
-      
       hello{state.userInfo.userID}
-      <Common>
-      </Common>
+      <Common></Common>
     </div>
   );
 }

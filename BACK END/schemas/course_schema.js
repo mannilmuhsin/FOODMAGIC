@@ -42,6 +42,14 @@ const course_schema = new mongoose.Schema({
     type:Array,
     default:[]
   },
+  reviews:{
+    type:Array,
+    default:[]
+  },
+  // ratings:{
+  //   type:Array,
+  //   default:[]
+  // },
   isShow:{
     type:Boolean,
     default:false
@@ -50,10 +58,10 @@ const course_schema = new mongoose.Schema({
     type:Date,
     default:Date.now()
   },
-  rivew:{
-    type:Array,
+  // rivew:{
+  //   type:Array,
 
-  },
+  // },
   users:{
     type:Array
   }

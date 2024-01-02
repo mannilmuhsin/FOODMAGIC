@@ -10,6 +10,8 @@ import {
 } from "../../../api/userApiSlice";
 import ChangePasswordModal from "../../../components/Modal/ChangePasswordModal";
 import UpdateProfileModal from "../../../components/Modal/UpdateProfileModal";
+import ChefNavbar from "../../../components/Navbar/ChefNavbar";
+import AdminNavbar from "../../../components/Navbar/AdminNavbar";
 
 function Profile() {
   const [openModal, setOpenModal] = useState(false);
@@ -94,7 +96,14 @@ function Profile() {
           prephone={userPro.phone}
         />
       ) : null}
+      {user.role == 2000 ?
       <Navbar />
+      :
+      user.role == 3000?
+      <ChefNavbar/>
+      :
+      <AdminNavbar/>
+      }
       <Toaster />
 
       <div className="font-sans antialiased text-gray-900 leading-normal tracking-wider bg-cover">
@@ -133,14 +142,14 @@ function Profile() {
                   </label>
                 </form>
               </div>
-              <div className="flex justify-between -mt-10 mb-8">
+              {/* <div className="flex justify-between -mt-10 mb-8">
                 <p className="font-semibold underline capitalize cursor-pointer">
                   My-Courses
                 </p>
                 <span className="font-semibold underline capitalize cursor-pointer">
                   My-Blogs
                 </span>
-              </div>
+              </div> */}
 
               <h1 className="text-3xl font-bold pt-8 lg:pt-0">
                 {userPro.username}

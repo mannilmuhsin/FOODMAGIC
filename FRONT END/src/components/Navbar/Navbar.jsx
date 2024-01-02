@@ -2,21 +2,21 @@ import React, { useState } from "react";
 import "./Navbar.css";
 import { auth, logOut } from "../../context/authReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Spin as Hamburger } from "hamburger-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-const Navbar = () => {
+const Navbar = ({ className }) => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const user = useSelector(auth);
   const usenavigate = useNavigate();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
-  const HandlelogOut=(e)=>{
+  const HandlelogOut = (e) => {
     e.preventDefault();
-    dispatch(logOut())
-  }
+    dispatch(logOut());
+  };
 
   const handlelogin = () => {
     usenavigate("/login");
@@ -25,10 +25,8 @@ const Navbar = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
 
-
-
   return (
-    <nav className="navbar">
+    <nav className={className ? className : "navbar w-screen"}>
       <div className="container mx-auto flex justify-between items-center py-4">
         <div className="logo  w-16 md:w-20 ">
           <img src="src/assets/logo.png" alt="" />
@@ -40,9 +38,9 @@ const Navbar = () => {
           <a href="/allcourses" className="nav-link">
             COURSE
           </a>
-          {user?.user&&<a href="/user/mylearnigs" className="nav-link">
+          <a href="/user/mylearnigs" className="nav-link">
             MY LEARNIGS
-          </a>}
+          </a>
           <a href="/chat" className="nav-link">
             COMMUNITY
           </a>
@@ -67,15 +65,12 @@ const Navbar = () => {
             <a href="#" className="nav-link">
               Blog
             </a>
-            {!user?.user ? (
-              <a href="#" className="nav-link">
-                Login
-              </a>
-            ) : (
-              <a href="#" className="nav-link">
-                Profile
-              </a>
-            )}
+            <a href="#" className="nav-link">
+              Login
+            </a>
+            <a href="#" className="nav-link">
+              Profile
+            </a>
           </div>
         )}
         {!user?.user ? (
@@ -93,17 +88,25 @@ const Navbar = () => {
           </div>
         ) : (
           <>
-          <div className="hidden cursor-pointer signinandsignup md:flex items-end" onClick={()=>{
-            usenavigate('/user/profile')
-          }}>
-            {user?.pro ? (
-              user.pro
-            ) : (
-              <FontAwesomeIcon className="me-3" icon={faUser} size="2x"  />
-            )}{" "}
-            {user?.user}
-          </div>
-          <button className="ms-3 mt-2 border rounded p-1" onClick={HandlelogOut}>logout</button>
+            <div
+              className="hidden cursor-pointer signinandsignup md:flex items-end"
+              onClick={() => {
+                usenavigate("/profile");
+              }}
+            >
+              {user?.pro ? (
+                user.pro
+              ) : (
+                <FontAwesomeIcon className="me-3" icon={faUser} size="2x" />
+              )}{" "}
+              {user?.user}
+            </div>
+            <button
+              className="ms-3 mt-2 border rounded p-1"
+              onClick={HandlelogOut}
+            >
+              logout
+            </button>
           </>
         )}
       </div>

@@ -20,30 +20,33 @@ import { useGetAllPaymentsMutation } from "../../../api/adminApiSlice";
 function ChefHome() {
   const usenavigate = useNavigate();
 
-  const [totalCourses,setToatalCourses] = useState(0);
+  const [totalCourses, setToatalCourses] = useState(0);
   const [getAllPayments] = useGetAllPaymentsMutation();
   const [totalStudents, setToatalStudents] = useState(0);
   const [totalRevenue, setTotalRevenue] = useState(0);
 
-  const [chefCourses]=useChefsCoursMutation()
+  const [chefCourses] = useChefsCoursMutation();
   const user = useSelector(auth);
 
-  const [videos,setVodeos]=useState([])
+  const [videos, setVodeos] = useState([]);
 
   useEffect(() => {
     const allPayments = async () => {
       const students = new Set();
       const response = await getAllPayments();
-      console.log(response?.data?.payments);
-      const Revenue = response?.data?.payments.reduce(
+      // console.log(response?.data?.payments);
+      const userRevenue = response?.data?.payments.filter((payment)=>payment.chef_id._id==user.id)
+      // console.log( userRevenue);
+      // console.log(user.id);
+      const Revenue = userRevenue.reduce(
         (a, b) => b.amount + a,
         0
       );
-      response?.data?.payments.forEach((payment) =>{
-      if(payment?.chef_id?.username==user?.user){
-        students.add(payment.user_id.username)
-      }
-    });
+      response?.data?.payments.forEach((payment) => {
+        if (payment?.chef_id?.username == user?.user) {
+          students.add(payment.user_id.username);
+        }
+      });
       setTotalRevenue((Revenue * 90) / 100);
       setToatalStudents(students.size);
     };
@@ -53,9 +56,9 @@ function ChefHome() {
   useEffect(() => {
     const fetchChefCourses = async () => {
       try {
-        const response = await chefCourses(user.user)
-        setVodeos(response.data.courses.slice(0,4))
-        setToatalCourses(response.data.courses.length)
+        const response = await chefCourses(user.user);
+        setVodeos(response.data.courses.slice(0, 4));
+        setToatalCourses(response.data.courses.length);
       } catch (error) {
         console.error("Error fetching Unsplash images", error);
       }
@@ -68,7 +71,7 @@ function ChefHome() {
     <div>
       <ChefNavbar />
 
-      <div className=" p-8">
+      <div className=" p-8 bg-gray-100">
         {/* Top Level Welcome */}
         <div className="text-center rounded bg-gradient-to-r from-blue-950 to-gray-950 text-white p-8">
           <h1 className="sm:text-5xl text-4xl font-bold mb-4 text-yellow-500">
@@ -94,7 +97,10 @@ function ChefHome() {
           </div>
 
           {/* Total Courses Card */}
-          <div onClick={()=>usenavigate('/chef/mycourses')} className="hover:bg-purple-700 transition duration-300 ease-in-out transform hover:scale-110 text-center bg-purple-600 text-white p-6 rounded-md shadow-lg mb-4 md:mb-0 hover:shadow-red-500">
+          <div
+            onClick={() => usenavigate("/chef/mycourses")}
+            className="hover:bg-purple-700 transition duration-300 ease-in-out transform hover:scale-110 text-center bg-purple-600 text-white p-6 rounded-md shadow-lg mb-4 md:mb-0 hover:shadow-red-500"
+          >
             <FontAwesomeIcon icon={faBook} size="3x" className="mt-4" />
             <h2 className="text-xl md:text-3xl font-bold mb-2">
               Total Courses
@@ -103,12 +109,17 @@ function ChefHome() {
           </div>
 
           {/* Total Revenue Card */}
-          <div onClick={()=>usenavigate('/chef/payments')} className="hover:bg-green-700  transition duration-300 ease-in-out transform hover:scale-110 text-center bg-green-600 text-white p-6 rounded-md shadow-lg hover:shadow-red-500 ">
+          <div
+            onClick={() => usenavigate("/chef/payments")}
+            className="hover:bg-green-700  transition duration-300 ease-in-out transform hover:scale-110 text-center bg-green-600 text-white p-6 rounded-md shadow-lg hover:shadow-red-500 "
+          >
             <FontAwesomeIcon icon={faIndianRupee} size="3x" className="mt-4" />
             <h2 className="text-xl md:text-3xl font-bold mb-2">
               Total Revenue
             </h2>
-            <p className="text-lg md:text-xl"><FontAwesomeIcon icon={faIndianRupee}  /> {totalRevenue}</p>
+            <p className="text-lg md:text-xl">
+              <FontAwesomeIcon icon={faIndianRupee} /> {totalRevenue}
+            </p>
           </div>
         </div>
 
@@ -118,11 +129,11 @@ function ChefHome() {
         </div>
 
         {/* Video Cards */}
-        <div className="flex justify-center sm:justify-start gap-7   flex-wrap mt-8">
+        <div className="flex justify-center     flex-wrap mt-8">
           {videos.map((video, index) => (
             <div
               key={video._id}
-              className="video-card w-72 bg-gray-200 mx-2 rounded-md my-4 overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105 "
+              className="video-card w-72 shadow-md bg-gray-200 mx-3 rounded-md my-4 overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105 "
             >
               <img
                 src={video.coverImage?.url}
@@ -131,7 +142,12 @@ function ChefHome() {
               />
               <div className="p-4">
                 <h3 className="text-xl font-bold mb-2">{video.title}</h3>
-                <button onClick={()=>usenavigate('/chef/videos',{state:{id:video._id}})} className="btn hvr-shutter-in-horizontal justify-center border-y rounded-md border-black text-black bg-indigo-500 px-4 py-2 hover:bg-indigo-700 transition duration-300 ease-in-out">
+                <button
+                  onClick={() =>
+                    usenavigate("/chef/videos", { state: { id: video._id } })
+                  }
+                  className="btn hvr-shutter-in-horizontal justify-center border-y rounded-md border-black text-black bg-indigo-500 px-4 py-2 hover:bg-indigo-700 transition duration-300 ease-in-out"
+                >
                   Continue
                   <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
                 </button>

@@ -1,8 +1,10 @@
 require("dotenv").config();
 const publicrouter = require("./routes/public_routs");
 const verifyJWT = require("./middlewear/verifyJWT");
+const accessControl = require("./middlewear/accessControl")
 const admin_rout = require("./routes/admin_routs");
 const user_rout = require("./routes/user_routs");
+const privet_router = require("./routes/privet_routs")
 const chef_rout = require("./routes/chef_routs");
 const corsOptions = require("./config/corsOptions");
 const credentials = require("./middlewear/credentions");
@@ -22,7 +24,7 @@ const io = new socketIo.Server(server, {
   path: "/socket.io",
   transports: ["websocket", "polling"],
   cors: {
-    origins: ["http://localhost:4000", "http://localhost:5173"], // Replace with your React app's URL
+    origins: ["http://localhost:4000", "http://localhost:5173"], 
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -68,10 +70,7 @@ io.on("connection", (socket) => {
 });
 
 mongoose
-  .connect(process.env.DATABASE_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.DATABASE_URL)
   .then(() => {
     console.log("connected to MongoDB");
   })
@@ -97,9 +96,11 @@ app.use("/", publicrouter);
 app.use("/refresh", require("./routes/refreshRouter"));
 
 app.use(verifyJWT);
-app.use("/admin", admin_rout);
-app.use("/user", user_rout);
-app.use("/chef", chef_rout);
+// app.use(accessControl);
+app.use("/admin",accessControl.adminAccess, admin_rout);
+app.use("/user",accessControl.userAccess, user_rout);
+app.use("/chef",accessControl.chefAccess, chef_rout);
+app.use("/privet",privet_router)
 
 // io.on("connection", (socket) => {
 //   console.log("new ws connection.. ");
