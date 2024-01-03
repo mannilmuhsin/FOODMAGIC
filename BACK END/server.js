@@ -24,7 +24,7 @@ const io = new socketIo.Server(server, {
   path: "/socket.io",
   transports: ["websocket", "polling"],
   cors: {
-    origins: ["http://localhost:4000", "http://localhost:5173"], 
+    origins: ["http://localhost:4000", "http://localhost:5173","foodmagic.vercel.app"], 
     methods: ["GET", "POST"],
     credentials: true,
   },
