@@ -8,7 +8,7 @@ import { Routes, Route } from "react-router-dom";
 import Layouts from "./features/Layouts";
 import Unotherised from "./pages/Unotherised/Unotherised";
 import Chef from "./routers/Chef";
-import Admin from "./routers/admin";
+import Admin from "./routers/Admin";
 import User from "./routers/user";
 import "./index.css";
 import RequerRout from "./features/RequerRout";
