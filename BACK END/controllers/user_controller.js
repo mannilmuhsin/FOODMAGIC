@@ -272,8 +272,8 @@ const handlePayment = async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: `http://localhost:4000/successpayment?session_id={CHECKOUT_SESSION_ID}&course_id=${video._id}&user_name=${user.user}`,
-      cancel_url: "http://localhost:5173/allcourses",
+      success_url: `https://foodmagic.mannilmuhsin.shop/successpayment?session_id={CHECKOUT_SESSION_ID}&course_id=${video._id}&user_name=${user.user}`,
+      cancel_url: "https://foodmagic.vercel.app/allcourses",
     });
 
     res.json({ id: session.id });
