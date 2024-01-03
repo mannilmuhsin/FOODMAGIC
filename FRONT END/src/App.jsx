@@ -1,5 +1,5 @@
 import Home from "./pages/Home/Home";
-import GoogleAuthComponent from "./pages/Login/Auth";
+// import GoogleAuthComponent from "./pages/Login/Auth";
 import Login from "./pages/Login/Login";
 import OTP from "./pages/OTP/OTP";
 import Signup from "./pages/Signup/Signup";

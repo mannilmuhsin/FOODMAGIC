@@ -1,43 +1,22 @@
-import React from 'react'
-import Lottie from 'react-lottie';
-import animationData from '../../Lotti/homelotti.json'
+import React from 'react';
+import Lottie from 'lottie-react';
+import animationData from '../../Lotti/homelotti.json';
 
-export default function Homelottile() {
-
-
-  const breakpoints = {
-    small: 480,   // Adjust as needed
-    medium: 768,  // Adjust as needed
-    large: 1024,  // Adjust as needed
-  };
-
-  // Determine the size based on the screen width
-  const getSize = () => {
-    const screenWidth = window.innerWidth;
-
-    if (screenWidth <= breakpoints.large) {
-      return { width: 390, height: 400 };
-    } else {
-      return { width: 650, height: 600 };
-    }
-  };
-  const size = getSize();
-
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: animationData,
-        rendererSettings: {
-          preserveAspectRatio: "xMidYMid slice"
-        }
-      };
+const Homelottile = () => {
   return (
     <div>
       <Lottie 
-	    options={defaultOptions}
-      width={size.width}
-      height={size.height}
+        animationData={animationData}
+        loop={true}
+        autoplay={true}
+        rendererSettings={{
+          preserveAspectRatio: "xMidYMid slice"
+        }}
+        width={window.innerWidth <= 1024 ? 390 : 650}
+        height={window.innerWidth <= 1024 ? 400 : 600}
       />
     </div>
-  )
-}
+  );
+};
+
+export default Homelottile;

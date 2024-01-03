@@ -7,7 +7,7 @@ import { auth } from "../../../context/authReducer";
 import { useSelector } from "react-redux";
 import Vedio from "../../vedio";
 import { useLocation, useNavigate } from "react-router-dom";
-import UploadLottie from "../../../components/Lottie/UploadLottie";
+// import UploadLottie from "../../../components/Lottie/UploadLottie";
 import ChefNavbar from "../../../components/Navbar/ChefNavbar";
 import ProgressBar from "react-progress-bar-plus";
 import FileUpload from "../../../components/File/FileUpload";
@@ -119,7 +119,7 @@ function AddChapter() {
       <Toaster />
       {openlottie ? (
         <>
-          <UploadLottie />
+          {/* <UploadLottie /> */}
           <ProgressBar percent={0} autoIncrement />
         </>
       ) : (

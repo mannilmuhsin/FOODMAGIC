@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Card from "../../components/Card/HomeImageCard";
+// import Card from "../../components/Card/HomeImageCard";
 import Navbar from "../../components/Navbar/Navbar";
-import SearchBar from "../../components/SearchBar/SearchBar";
+// import SearchBar from "../../components/SearchBar/SearchBar";
 import { BiSearchAlt } from "react-icons/bi";
 import { auth } from "../../context/authReducer";
 import { useSelector } from "react-redux";
