@@ -25,13 +25,7 @@ const io = new socketIo.Server(server, {
   // path: "/socket.io",
   // transports: ["websocket", "polling"],
   cors: {
-    origin: (origin, callback) => {
-      if (allowdOrgins.indexOf(origin) !== -1 || !origin) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: ['https://foodmagic.vercel.app', 'https://foodmagic.mannilmuhsin.shop'],
     methods: ["GET", "POST"],
     credentials: true,
   },
