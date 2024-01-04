@@ -7,7 +7,7 @@ const credentials = (req, res, next) => {
         console.log('on credention includes')
         res.header('Access-Control-Allow-Credentials', true);
     }
-    console.log(req.headers);
+    // console.log(req.headers);
 
     next();
 }
