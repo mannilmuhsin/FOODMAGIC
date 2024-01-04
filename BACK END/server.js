@@ -25,8 +25,13 @@ const io = new socketIo.Server(server, {
   // path: "/socket.io",
   // transports: ["websocket", "polling"],
   cors: {
-    origins: ["http://localhost:4000", "http://localhost:5173","https://foodmagic.mannilmuhsin.shop","https://foodmagic.vercel.app","wss://foodmagic.mannilmuhsin.shop"], 
-    // origins: allowdOrgins, 
+    origin: (origin, callback) => {
+      if (allowdOrgins.indexOf(origin) !== -1 || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -80,7 +85,7 @@ mongoose
     console.error("Error connection to MongoDB: ", err);
   });
 
-  app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.use(credentials); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -107,6 +112,11 @@ app.use("/privet",privet_router)
 // io.on("connection", (socket) => {
 //   console.log("new ws connection.. ");
 // });
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
 
 server.listen(4000, () => {
   console.log("renning on 4000");
