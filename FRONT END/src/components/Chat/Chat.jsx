@@ -59,7 +59,12 @@ const Chat = () => {
     if (!socket) {
       return;
     }
-    socket.connect();
+    // socket.connect();
+
+    socket.on("connect", () => {
+      console.log("Socket connected successfully");
+    });
+
     const handleDisconnect = () => {
       console.log("Socket disconnected");
     };
