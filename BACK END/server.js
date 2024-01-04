@@ -38,8 +38,13 @@ io.on("connection", (socket) => {
   console.log("A user connected");
 
   socket.on("setup", async function ({ room }) {
-    await socket.join(room);
-    console.log(`User joined room ${room}`);
+    try {
+      await socket.join(room);
+      console.log(`User joined room ${room}`);
+    } catch (error) {
+      console.error("Error joining room:", error);
+    }
+
     
     socket.on("chat", async function (data) {
       console.log('shkkkkkoooooooooooooooooooooooooooo');
