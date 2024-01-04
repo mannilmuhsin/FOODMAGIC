@@ -6,7 +6,7 @@ const admin_rout = require("./routes/admin_routs");
 const user_rout = require("./routes/user_routs");
 const privet_router = require("./routes/privet_routs")
 const chef_rout = require("./routes/chef_routs");
-// const corsOptions = require("./config/corsOptions");
+const corsOptions = require("./config/corsOptions");
 const credentials = require("./middlewear/credentions");
 const fileupload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
@@ -80,18 +80,8 @@ mongoose
     console.error("Error connection to MongoDB: ", err);
   });
 
-
-  const corsOptions = {
-    // origin: ["http://localhost:4000", "http://localhost:5173","https://foodmagic.mannilmuhsin.shop","https://foodmagic.vercel.app"],
-    origin: ["*"],
-    credentials: true,
-    origin: true,
-  }
-  
-  app.use(cors())
-
-  // app.use(cors(corsOptions));
-// app.use(credentials); 
+  app.use(cors(corsOptions));
+app.use(credentials); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
