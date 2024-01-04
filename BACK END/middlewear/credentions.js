@@ -7,7 +7,7 @@ const credentials = (req, res, next) => {
         console.log('on credention includes importsnt')
         req.header('Access-Control-Allow-Credentials', true);
     }
-    console.log(req.header);
+    console.log(req.headers);
 
     next();
 }
