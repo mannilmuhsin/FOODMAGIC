@@ -83,7 +83,7 @@ mongoose
     origin: ['https://foodmagic.vercel.app', 'https://foodmagic.mannilmuhsin.shop'],
     credentials: true  // if you need to send cookies or other credentials
   }));
-app.use(credentials); 
+// app.use(credentials); 
 app.use(express.json({ limit: '100mb' }));  // Adjusted to 50 megabytes
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
 
