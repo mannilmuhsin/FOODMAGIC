@@ -80,7 +80,7 @@ mongoose
     console.error("Error connection to MongoDB: ", err);
   });
 
-app.use(credentials);
+// app.use(credentials);
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
