@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: `../.env` });
 const { Worker } = require("bullmq");
 const mongoose = require("mongoose");
 const user_schema = require("../schemas/user_schema");
