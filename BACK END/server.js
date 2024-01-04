@@ -82,7 +82,8 @@ mongoose
 
 
   const corsOptions = {
-    origin: ["http://localhost:4000", "http://localhost:5173","https://foodmagic.mannilmuhsin.shop","https://foodmagic.vercel.app"],
+    // origin: ["http://localhost:4000", "http://localhost:5173","https://foodmagic.mannilmuhsin.shop","https://foodmagic.vercel.app"],
+    origin: ["*"],
     credentials: true,
     origin: true,
   }
