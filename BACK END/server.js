@@ -16,6 +16,7 @@ const cors = require("cors");
 const socketIo = require("socket.io");
 const http = require("http");
 const community_schema = require("./schemas/community_schema");
+const allowdOrgins = require("./config/allowdOrgins")
 
 const app = express();
 const server = http.createServer(app);
@@ -24,7 +25,8 @@ const io = new socketIo.Server(server, {
   path: "/socket.io",
   transports: ["websocket", "polling"],
   cors: {
-    origins: ["http://localhost:4000", "http://localhost:5173","https://foodmagic.vercel.app"], 
+    // origins: ["http://localhost:4000", "http://localhost:5173","https://foodmagic.vercel.app"], 
+    origins: allowdOrgins, 
     methods: ["GET", "POST"],
     credentials: true,
   },

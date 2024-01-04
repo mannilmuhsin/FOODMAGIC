@@ -5,7 +5,7 @@ const public_controller = require("../controllers/public_controllers");
 
 const getUsers = async (req, res) => {
   try {
-    console.log('helllllllllllllllllll');
+    // console.log('helllllllllllllllllll');
     const studens = await user_schema.find({ role: req.query.role });
     res.json({ studens });
   } catch (error) {
@@ -55,7 +55,7 @@ const handlePaymentOfChef = async(req,res)=>{
 
 const getCategorys = async (req,res) =>{
   try {
-    console.log('helooooooooooooooooooooooooooooo');
+    // console.log('helooooooooooooooooooooooooooooo');
     const categories = await category_schema.find()
     res.json({categories})
   } catch (error) {
