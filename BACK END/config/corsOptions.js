@@ -9,6 +9,7 @@ const corsOptions = {
             callback(null, true)
         } else {
             console.log('not allowed ');
+            console.log(req.headers);
             callback(new Error('Not allowed by CORS'));
         }
     },
