@@ -59,11 +59,17 @@ const Chat = () => {
     if (!socket) {
       return;
     }
-    socket.connect();
+    // socket.connect();
 
-    // socket.on("connect", () => {
-    //   console.log("Socket connected successfully");
-    // });
+    socket.on("connect", () => {
+      console.log("Socket connected successfully");
+    });
+
+    socket.on("connect_error", (error) => {
+      console.error(`Connection error: ${error.message}`);
+      // Display error messages, notifications, or implement error handling logic as needed
+    });
+    
 
     const handleDisconnect = () => {
       console.log("Socket disconnected");
