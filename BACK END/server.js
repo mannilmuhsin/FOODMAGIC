@@ -80,8 +80,17 @@ mongoose
     console.error("Error connection to MongoDB: ", err);
   });
 
-app.use(credentials); 
-app.use(cors(corsOptions));
+
+  const corsOptions = {
+    origin: ["http://localhost:4000", "http://localhost:5173","https://foodmagic.mannilmuhsin.shop","https://foodmagic.vercel.app"],
+    credentials: true,
+    origin: true,
+  }
+  
+  app.use(cors(corsOptions))
+
+  // app.use(cors(corsOptions));
+// app.use(credentials); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
