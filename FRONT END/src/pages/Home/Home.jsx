@@ -13,6 +13,7 @@ import { useGetAllCategorysMutation, useGetusersMutation } from "../../api/publi
 import ChefNavbar from "../../components/Navbar/ChefNavbar";
 import AdminNavbar from "../../components/Navbar/AdminNavbar";
 import Footer from "../../components/Footer/Footer";
+import { motion } from "framer-motion";
 
 function Home() {
   const user = useSelector(auth);
@@ -133,7 +134,7 @@ function Home() {
       <div className="flex max-lg justify-center items-center font-bold text-2xl border-t-2 my-4 pt-7 border-t-slate-300 border-dotted">
         <h1>CHOOSE YOUR FAVOURITE COURSE</h1>
       </div>
-      <div className="container mx-auto gap-5 flex flex-wrap justify-center">
+      {/* <div className="container mx-auto gap-5 flex flex-wrap justify-center">
         {categories.map((category, index) => (
           <div
           onClick={()=>navigate('/allcourses', { state: { category: category.title } })}
@@ -150,7 +151,25 @@ function Home() {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
+      <div className="grid  grid-cols-3 md:grid-cols-4 gap-6 z-10 relative">
+  {categories.map((category, index) => (
+    <motion.div
+      key={index}
+      whileHover={{ scale: 1.05 }}
+      className="feature text-center p-6 bg-gray-100 rounded-lg"
+      onClick={() => navigate('/allcourses', { state: { category: category.title } })}
+    >
+      <img
+        src={category.image.url}
+        className="w-full h-48 object-cover mb-4"
+      />
+      <h3 className="text-xl font-semibold mb-2">{category.title}</h3>
+      {/* You can add more content here if needed */}
+    </motion.div>
+  ))}
+</div>
+
       <div className="flex max-lg justify-center items-center font-bold text-2xl border-t-2 border-slate-300 my-4 pt-7 border-dotted ">
         <h1>CHOOSE YOUR FAVOURITE CHEF</h1>
       </div>
