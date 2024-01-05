@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useGetAllCategorysMutation, useGetusersMutation } from "../../api/publicApiSlice";
 import ChefNavbar from "../../components/Navbar/ChefNavbar";
 import AdminNavbar from "../../components/Navbar/AdminNavbar";
+import Footer from "../../components/Footer/Footer";
 
 function Home() {
   const user = useSelector(auth);
@@ -172,6 +173,7 @@ function Home() {
         ))}
       </div>
       <HomeSpComponent />
+      <Footer/>
     </div>
   );
 }

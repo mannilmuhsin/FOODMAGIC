@@ -124,12 +124,8 @@ const Chat = () => {
         return;
       }
       socket.connect();
-      console.log(currentCommunity.title)
-      console.log(socket)
       socket.emit("setup", { room: currentCommunity.title });
-      console.log("22222222222222222")
       const handleChat = (data) => {
-        console.log("3333333333333333")
         setMessages((prevMessages) => [...prevMessages, data]);
       };
 
