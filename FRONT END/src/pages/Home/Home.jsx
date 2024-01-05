@@ -157,12 +157,12 @@ function Home() {
     <motion.div
       key={index}
       whileHover={{ scale: 1.05 }}
-      className="feature text-center p-6 bg-gray-100 rounded-lg"
+      className="feature text-center p-6 bg-gray-100 rounded-lg border-b"
       onClick={() => navigate('/allcourses', { state: { category: category.title } })}
     >
       <img
         src={category.image.url}
-        className="w-full h-48 object-cover mb-4"
+        className="w-full h-56 sm:h-48 object-cover mb-4"
       />
       <h3 className="text-xl font-semibold mb-2">{category.title}</h3>
       {/* You can add more content here if needed */}
