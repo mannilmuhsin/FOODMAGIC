@@ -152,7 +152,7 @@ function Home() {
           </div>
         ))}
       </div> */}
-      <div className="grid  grid-cols-3 md:grid-cols-4 gap-6 z-10 relative">
+      <div className="grid  grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-6 z-10 relative">
   {categories.map((category, index) => (
     <motion.div
       key={index}
