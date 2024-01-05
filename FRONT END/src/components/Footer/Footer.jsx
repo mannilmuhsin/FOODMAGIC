@@ -1,11 +1,11 @@
-import Logo from "../HelperComponents/Logo";
+// import Logo from "../HelperComponents/Logo";
 
 const Footer = () => {
   return (
     <div className="sm:max-w-xl md:max-w-full lg:p-6 border-t-2 border-gray-100">
       <div className="grid gap-10 row-gap-6 mb-8 sm:grid-cols-2 lg:grid-cols-4">
         <div className="sm:col-span-2 pt-3">
-          <Logo />
+          {/* <Logo /> */}
           <div className="mt-6 lg:max-w-sm">
             <p className="text-sm text-gray-800">
               Sed ut perspiciatis unde omnis iste natus error sit voluptatem
