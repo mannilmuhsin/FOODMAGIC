@@ -50,33 +50,33 @@ const Chat = () => {
     });
   };
 
-  useEffect(() => {
-    console.log(role);
-    if (!user) {
-      navigate("/login", { state: { from: location } });
-    }
+  // useEffect(() => {
+  //   console.log(role);
+  //   if (!user) {
+  //     navigate("/login", { state: { from: location } });
+  //   }
 
-    if (!socket) {
-      return;
-    }
-    // socket.connect();
+  //   if (!socket) {
+  //     return;
+  //   }
+  //   socket.connect();
 
-    socket.on("connect", () => {
-      console.log("Socket connected successfully");
-      console.log(socket);
-    });
+  //   socket.on("connect", () => {
+  //     console.log("Socket connected successfully");
+  //     console.log(socket);
+  //   });
 
    
 
-    // const handleDisconnect = () => {
-    //   console.log("Socket disconnected");
-    // };
-    // socket.on("disconnect", handleDisconnect);
-    return () => {
-      // socket.off("disconnect", handleDisconnect);
-      socket.disconnect();
-    };
-  }, [socket, currentCommunity]);
+  //   // const handleDisconnect = () => {
+  //   //   console.log("Socket disconnected");
+  //   // };
+  //   // socket.on("disconnect", handleDisconnect);
+  //   return () => {
+  //     // socket.off("disconnect", handleDisconnect);
+  //     socket.disconnect();
+  //   };
+  // }, [socket, currentCommunity]);
 
   useEffect(() => {
     const fetchCommunity = async () => {
@@ -116,6 +116,14 @@ const Chat = () => {
 
   useEffect(() => {
     if (Object.keys(currentCommunity).length !== 0) {
+      if (!user) {
+        navigate("/login", { state: { from: location } });
+      }
+  
+      if (!socket) {
+        return;
+      }
+      socket.connect();
       console.log(currentCommunity.title)
       console.log(socket)
       socket.emit("setup", { room: currentCommunity.title });
@@ -128,6 +136,7 @@ const Chat = () => {
       socket.on("chat", handleChat);
       return () => {
         socket.off("chat", handleChat);
+        socket.disconnect();
       };
     }
   }, [currentCommunity]);
