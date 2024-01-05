@@ -63,20 +63,17 @@ const Chat = () => {
 
     socket.on("connect", () => {
       console.log("Socket connected successfully");
+      console.log(socket);
     });
 
-    socket.on("connect_error", (error) => {
-      console.error(`Connection error: ${error.message}`);
-      // Display error messages, notifications, or implement error handling logic as needed
-    });
-    
+   
 
-    const handleDisconnect = () => {
-      console.log("Socket disconnected");
-    };
-    socket.on("disconnect", handleDisconnect);
+    // const handleDisconnect = () => {
+    //   console.log("Socket disconnected");
+    // };
+    // socket.on("disconnect", handleDisconnect);
     return () => {
-      socket.off("disconnect", handleDisconnect);
+      // socket.off("disconnect", handleDisconnect);
       socket.disconnect();
     };
   }, [socket, currentCommunity]);

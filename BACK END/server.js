@@ -66,12 +66,12 @@ io.on("connection", (socket) => {
       }
     });
 
-    socket.on("disconnect", async () => {
-     await socket.leaveAll();
-      console.log("User disconnected");
+    // socket.on("disconnect", async () => {
+    //  await socket.leaveAll();
+    //   console.log("User disconnected");
       
-      // Perform cleanup or remove the user from rooms
-    });
+    //   // Perform cleanup or remove the user from rooms
+    // });
     
   });
 });
