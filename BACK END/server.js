@@ -22,8 +22,8 @@ const app = express();
 const server = http.createServer(app);
 const io = new socketIo.Server(server, {
   maxHttpBufferSize: 1e8 ,
-  // path: "/socket.io",
-  // transports: ["websocket", "polling"],
+  path: "/socket.io",
+  transports: ["websocket", "polling"],
   cors: {
     origin: ['https://foodmagic.vercel.app', 'https://foodmagic.mannilmuhsin.shop'],
     methods: ["GET", "POST"],

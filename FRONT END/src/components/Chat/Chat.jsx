@@ -119,7 +119,7 @@ const Chat = () => {
 
   useEffect(() => {
     if (Object.keys(currentCommunity).length !== 0) {
-      console.log("111111111111111111111")
+      console.log(currentCommunity.title)
       socket.emit("setup", { room: currentCommunity.title });
       console.log("22222222222222222")
       const handleChat = (data) => {
