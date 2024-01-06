@@ -28,7 +28,7 @@ const uploadimage = async (onefile) => {
           height: 420,
           // crop: "fill_pad",
           gravity: "auto",
-          crop: "pad", 
+          crop: "auto_pad", 
           // gravity: "face",
           quality: 100,
         },
