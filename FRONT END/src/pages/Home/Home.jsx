@@ -123,7 +123,7 @@ function Home() {
           >
             <img
               src={category.image.url}
-              className="w-full h-56 sm:h-48 object-cover mb-4"
+              className="w-full h-60  object-cover mb-4"
             />
             <h3 className="text-xl font-semibold mb-2">{category.title}</h3>
           </motion.div>
@@ -144,7 +144,7 @@ function Home() {
           >
             <img
               src={chef?.pic?.url}
-              className="w-full h-56 sm:h-48 object-cover mb-4"
+              className="w-full h-60  object-fill mb-4"
             />
             <h3 className="text-xl font-semibold mb-2">{chef.username}</h3>
           </motion.div>
