@@ -30,7 +30,8 @@ const usersignup = async (req, res) => {
         await newuser.save();
         res.cookie("id", newuser._id, { maxAge: 500000, httpOnly: true });
         public_controlls.sendemailotp(email, otp);
-        res.status(201).json({ message: "enter your otp" });
+        // res.status(201).json({ message: "enter your otp" });
+        res.status(201).json({ message: "Welcome" });
       } else {
         res.status(400).json({ message: "Confirmpassword not matching.!. 😥" });
       }
@@ -48,11 +49,8 @@ const userlogin = async (req, res) => {
     if (user) {
       console.log(1);
       if (password === user.password) {
-        console.log(2);
-        if (user.isVerify == true) {
-          console.log(3);
+        // if (user.isVerify == true) {
           if (user.isAccess == true) {
-            console.log(4);
             const accesstoken = jwt.sign(
               { username: user.username },
               process.env.ACCESS_TOKEN_SECRET,
@@ -82,9 +80,9 @@ const userlogin = async (req, res) => {
           } else {
             res.status(400).json({ message: "You are Blocked 🙄" });
           }
-        } else {
-          res.status(400).json({ message: "You are not verifyed" });
-        }
+        // } else {
+        //   res.status(400).json({ message: "You are not verifyed" });
+        // }
       } else {
         res.status(400).json({ message: "Wrong password" });
       }

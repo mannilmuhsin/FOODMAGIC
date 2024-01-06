@@ -38,7 +38,8 @@ const Signup = () => {
         // console.log('hello dat'+response.data.message)
         if (response.status == 201) {
           toast.success(response.data.message);
-          setotpon(!otpon);
+          // setotpon(!otpon);
+          usenavigate("/login");
         }
       })
       .catch((error) => {
