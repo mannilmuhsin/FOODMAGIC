@@ -24,6 +24,7 @@ publicrouter.get('/getcategorys',adminController.getCategorys)
 
 
 
+
 publicrouter.post('/user/verifyotp',usercontroller.userVerifyOTP)
 publicrouter.post('/user/signup',usercontroller.usersignup)
 publicrouter.post('/user/login',usercontroller.userlogin)

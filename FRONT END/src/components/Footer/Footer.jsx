@@ -2,7 +2,7 @@
 
 const Footer = () => {
   return (
-    <div className="sm:max-w-xl md:max-w-full lg:p-6 border-t-2 border-gray-100">
+    <div className="sm:max-w-xl md:max-w-full p-4 lg:p-6 border-t-2 border-gray-100">
       <div className="grid gap-10 row-gap-6 mb-8 sm:grid-cols-2 lg:grid-cols-4">
         <div className="sm:col-span-2 pt-3">
           {/* <Logo /> */}

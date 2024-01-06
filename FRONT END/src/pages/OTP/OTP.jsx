@@ -36,6 +36,8 @@ function OTP() {
   const handleSubmit = (e) => {
     let OTP = otp.join("");
     console.log(OTP);
+    console.log('loooooooooooooooooooo');
+
     e.preventDefault();
     axios
       .post(
@@ -47,6 +49,7 @@ function OTP() {
         }
       )
       .then((response) => {
+        console.log('koooooooooooo');
         usenavigate("/login");
         // console.log(response.data.message);
         // console.log(response.status);

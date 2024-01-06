@@ -116,12 +116,12 @@ const userVerifyOTP = async (req, res) => {
   try {
     const { OTP } = req.body;
     const id = req.cookies.id;
-    // console.log(id)
+    console.log(id)
     let user = await user_schema.findOne({ _id: id });
     const secret = user.OTP;
     const isValid = public_controlls.verifyOTP(secret, OTP);
     if (isValid == true) {
-      // console.log(isValid);
+      console.log(isValid);
       const role = user.role;
 
       await user_schema.updateOne({ _id: id }, { $set: { isVerify: true } });

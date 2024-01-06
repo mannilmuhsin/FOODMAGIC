@@ -9,9 +9,11 @@ import {
   faVideo,
   faPlusCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 
 function HomeSpComponent() {
+  const navigate= useNavigate()
   return (
     <motion.div
     initial={{ opacity: 0, y: -50 }}
@@ -64,7 +66,7 @@ function HomeSpComponent() {
     </p>
 
     <div className="cta-button z-10 relative">
-      <button className="bg-orange-500 text-white py-2 px-4 rounded-full">
+      <button onClick={()=>navigate("/allcourses")} className="bg-orange-500 text-white py-2 px-4 rounded-full">
         <FontAwesomeIcon icon={faArrowRight} className="mr-2" /> Enroll Now
       </button>
     </div>
