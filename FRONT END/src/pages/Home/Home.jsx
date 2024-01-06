@@ -139,7 +139,7 @@ function Home() {
           <motion.div
             key={index}
             whileHover={{ scale: 1.05 }}
-            className="feature text-center p-6 bg-gray-200 rounded-lg border-b"
+            className="feature text-center bg-gray-200 rounded-lg border-b"
             onClick={() => navigate("/allcourses", { state: { chef: chef } })}
           >
             <img

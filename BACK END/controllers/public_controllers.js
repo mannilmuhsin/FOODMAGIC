@@ -26,8 +26,10 @@ const uploadimage = async (onefile) => {
         {
           width: 300,
           height: 420,
-          crop: "fill_pad",
-          gravity: "auto",
+          // crop: "fill_pad",
+          // gravity: "auto",
+          crop: "crop", 
+          gravity: "face",
           quality: 100,
         },
       ],
@@ -160,7 +162,6 @@ const getFullCourses = async (req, res) => {
   }
 };
 
-
 const getFullCommunitys = async (req, res) => {
   try {
     const communitys = await community_schema.find();
@@ -171,7 +172,6 @@ const getFullCommunitys = async (req, res) => {
     console.log(error.message);
   }
 };
-
 
 const getCourseById = async (req, res) => {
   try {
@@ -187,11 +187,11 @@ const getCourseById = async (req, res) => {
   }
 };
 
-const getCommunityById = async(req,res)=>{
+const getCommunityById = async (req, res) => {
   try {
-    const {id} = req.params
+    const { id } = req.params;
 
-    const community = await community_schema.findById(id)
+    const community = await community_schema.findById(id);
     // console.log(community);
     // console.log('hello');
     if (community) {
@@ -199,11 +199,10 @@ const getCommunityById = async(req,res)=>{
     } else {
       res.status(400).json({ message: "community is empty 😥" });
     }
-
   } catch (error) {
     console.log(error.message);
   }
-}
+};
 
 module.exports = {
   sendemailotp,
@@ -215,5 +214,5 @@ module.exports = {
   getFullCourses,
   getCourseById,
   getFullCommunitys,
-  getCommunityById
+  getCommunityById,
 };
