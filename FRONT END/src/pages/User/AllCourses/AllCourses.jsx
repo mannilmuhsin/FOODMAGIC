@@ -369,7 +369,7 @@ function AllCourses() {
                   {course.title}
                 </p>
               </div>
-              <div className="h-48 overflow-hidden">
+              <div className="h-56 overflow-hidden">
                 <img
                   className="w-full h-full object-cover "
                   src={course.coverImage.url}
@@ -391,7 +391,7 @@ function AllCourses() {
                           state: { id: course._id },
                         })
                       }
-                      className="btn hvr-shutter-in-horizontal justify-center !border-y rounded-md !border-black !text-black  px-4 py-2 hover:bg-indigo-800 transition duration-300 ease-in-out"
+                      className="btn hvr-shutter-in-horizontal justify-center !border-y rounded-md !border-black !text-black  px-5 py-3 hover:bg-indigo-800 transition duration-300 ease-in-out"
                     >
                       Enroll now
                       <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
@@ -399,7 +399,7 @@ function AllCourses() {
                   ) : (
                     <button
                       onClick={() => usenavigate("/user/mylearnigs", {})}
-                      className="btn  justify-center !border-y rounded-md !border-black !text-black  px-4 py-2 hover:bg-indigo-800 transition duration-300 ease-in-out hvr-shutter-in-horizontal"
+                      className="btn  justify-center !border-y rounded-md !border-black !text-black  px-5 py-3 hover:bg-indigo-800 transition duration-300 ease-in-out hvr-shutter-in-horizontal"
                     >
                       Watch now
                       <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
@@ -412,7 +412,7 @@ function AllCourses() {
         </div>
       </div>
 
-      <div className="mt-4 flex justify-center">
+      <div className="my-4 flex justify-center">
         {pageNumbers.map((number) => (
           <button
             key={number}

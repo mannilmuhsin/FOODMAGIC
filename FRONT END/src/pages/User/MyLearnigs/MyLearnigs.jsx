@@ -6,6 +6,7 @@ import Navbar from "../../../components/Navbar/Navbar";
 import { useSelector } from "react-redux";
 import { auth } from "../../../context/authReducer";
 import { useLocation, useNavigate } from "react-router-dom";
+import Footer from "../../../components/Footer/Footer";
 
 function MyLearnigs() {
     const user = useSelector(auth)
@@ -58,20 +59,20 @@ function MyLearnigs() {
           <h2 className="text-3xl font-bold text-black-600">MY LEARNINGS</h2>
         </div>
 
-        <div className="flex justify-center  gap-4  flex-wrap mt-8">
+             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
           {currentCourses.map((course, i) => (
             <div
               key={i}
-              className="w-full sm:w-1/2 md:w-1/3 lg:w-72  bg-gray-200 mx-2 rounded-md my-4 overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105"
+              className="bg-gray-200 rounded-md overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105"
             >
               <div className="flex justify-center pt-2">
                 <p className="text-lg font-semibold text-gray-800 mb-2">
                   {course.title}
                 </p>
               </div>
-              <div className="h-48 overflow-hidden">
+              <div className="h-56 overflow-hidden">
                 <img
-                  className="w-full h-full object-cover px-4"
+                  className="w-full h-full object-cover "
                   src={course.coverImage.url}
                   alt={course.title}
                 />
@@ -87,7 +88,7 @@ function MyLearnigs() {
                         state: { course_id: course._id },
                       })
                     }
-                    className="btn hvr-shutter-in-horizontal justify-center !border-y rounded-md !border-black !text-black  px-4 py-2 hover:bg-indigo-800 transition duration-300 ease-in-out"
+                    className="btn hvr-shutter-in-horizontal justify-center !border-y rounded-md !border-black !text-black  px-5 py-3 hover:bg-indigo-800 transition duration-300 ease-in-out"
                   >
                     Watch now
                     <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
@@ -99,7 +100,7 @@ function MyLearnigs() {
         </div>
       </div>
 
-      <div className="mt-4 flex justify-center">
+      <div className="my-4 flex justify-center">
         {pageNumbers.map((number) => (
           <button
             key={number}
@@ -112,6 +113,7 @@ function MyLearnigs() {
           </button>
         ))}
       </div>
+      <Footer/>
     </div>
   );
 }
