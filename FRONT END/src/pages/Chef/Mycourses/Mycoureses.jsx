@@ -109,7 +109,7 @@ const paginate = (pageNumber) => setCurrentPage(pageNumber);
     <div>
       <ChefNavbar />
       <Toaster />
-      <div className="flex h-12 justify-start ms-20 gap-4 mt-4">
+      <div className="flex h-12 justify-start ms-3 sm:ms-20 gap-4 mt-4">
         <button
           onClick={handleListAll}
           className={`btn ${
@@ -145,12 +145,18 @@ const paginate = (pageNumber) => setCurrentPage(pageNumber);
       <div className="text-center mt-8 mb-8 hvr-wobble-bottom w-full">
         <h2 className="text-3xl font-bold text-black-600">MY COURSES</h2>
       </div>
-      <div className="flex justify-center  gap-7    flex-wrap mt-8">
+      {/* <div className="flex justify-center  gap-7    flex-wrap mt-8">
         {currentCourses.map((video, index) => (
           <div
             key={video.id}
             className="video-card w-72 bg-gray-200 mx-2 rounded-md my-4 overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105 "
-          >
+          > */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-3 sm:p-8 ">
+             {videos.map((video, i) => (
+            <div
+              key={i}
+              className="bg-gray-200 rounded-md overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105"
+            >
             <img
               src={video.coverImage?.url}
               alt={video.title}

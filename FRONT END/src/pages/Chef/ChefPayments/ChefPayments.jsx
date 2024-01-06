@@ -31,9 +31,9 @@ function ChefPayments() {
               <tr>
                 <th className="border border-gray-300 py-2 px-4">#</th>
                 <th className="border border-gray-300 py-2 px-4">Date</th>
-                <th className="border border-gray-300 py-2 px-4">
+                {/* <th className="border border-gray-300 py-2 px-4">
                   Transaction ID
-                </th>
+                </th> */}
                 <th className="border border-gray-300 py-2 px-4">Student</th>
                 {/* <th className="border border-gray-300 py-2 px-4">Chef</th> */}
                 <th className="border border-gray-300 py-2 px-4">Course</th>
@@ -51,11 +51,11 @@ function ChefPayments() {
                     {index + 1}
                   </td>
                   <td className="border border-gray-300 py-2 px-4">
-                    {payment.date}
+                    {payment.date.slice(0,10)}
                   </td>
-                  <td className="border border-gray-300 py-2 px-4">
+                  {/* <td className="border border-gray-300 py-2 px-4">
                     {payment._id}
-                  </td>
+                  </td> */}
                   <td className="border border-gray-300 py-2 px-4">
                     {payment.user_id?.username}
                   </td>

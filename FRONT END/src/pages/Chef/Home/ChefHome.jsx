@@ -129,14 +129,8 @@ function ChefHome() {
           <h2 className="text-3xl font-bold text-black-600">RECENT UPLOADS</h2>
         </div>
 
-        {/* Video Cards */}
-        {/* <div className="flex justify-center     flex-wrap mt-8">
-          {videos.map((video, index) => (
-            <div
-              key={video._id}
-              className="video-card w-72 shadow-md bg-gray-200 mx-3 rounded-md my-4 overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105 "
-            > */}
-             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
+   
+             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5 p-3 mt-8">
              {videos.map((video, i) => (
             <div
               key={i}
@@ -145,7 +139,7 @@ function ChefHome() {
               <img
                 src={video.coverImage?.url}
                 alt={video.title}
-                className="w-full h-48 object-cover"
+                className="w-full h-52 object-cover"
               />
               <div className="p-4">
                 <h3 className="text-xl font-bold mb-2">{video.title}</h3>
@@ -153,7 +147,7 @@ function ChefHome() {
                   onClick={() =>
                     usenavigate("/chef/videos", { state: { id: video._id } })
                   }
-                  className="btn hvr-shutter-in-horizontal justify-center border-y rounded-md border-black !text-black bg-indigo-500 px-4 py-2 hover:bg-indigo-700 transition duration-300 ease-in-out"
+                  className="btn hvr-shutter-in-horizontal justify-center border-y rounded-md border-black !text-black bg-indigo-500 px-5 py-3 hover:bg-indigo-700 transition duration-300 ease-in-out"
                 >
                   Continue
                   <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
