@@ -14,6 +14,7 @@ import Navbar from "../../../components/Navbar/Navbar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectCurrentId } from "../../../context/authReducer";
+import Footer from "../../../components/Footer/Footer";
 
 const dropdownStyles = {
   control: (provided, state) => ({
@@ -31,7 +32,6 @@ const dropdownStyles = {
     ...provided,
     backgroundColor: state.isFocused ? "#60A5FA" : "white",
     color: state.isFocused ? "white" : "#4B5563",
-    
   }),
 };
 
@@ -311,41 +311,44 @@ function AllCourses() {
               />
             </div>
             <div className="p-5">
-            <Select
-            options={chefs.map((chef) => ({
-              value: chef._id,
-              label: chef.username,
-            }))}
-            onChange={(e) => handleFilterChange("chef", e.value)}
-            placeholder="Select a chef"
-            isSearchable={false}
-            styles={dropdownStyles}
-            defaultValue={
-              filter.chef
-                ? { value: filter.chef, label: location?.state?.chef?.username }
-                : ""
-            }
-          />
+              <Select
+                options={chefs.map((chef) => ({
+                  value: chef._id,
+                  label: chef.username,
+                }))}
+                onChange={(e) => handleFilterChange("chef", e.value)}
+                placeholder="Select a chef"
+                isSearchable={false}
+                styles={dropdownStyles}
+                defaultValue={
+                  filter.chef
+                    ? {
+                        value: filter.chef,
+                        label: location?.state?.chef?.username,
+                      }
+                    : ""
+                }
+              />
             </div>
-        
+
             <div className="p-5">
-          <Select
-            options={categories?.map((category) => ({
-              value: category.title,
-              label: category.title,
-            }))}
-            onChange={(e) => handleFilterChange("category", e.value)}
-            placeholder="Select a category"
-            // className="relative z-50"
-            isSearchable={false}
-            styles={dropdownStyles}
-            defaultValue={
-              filter.category
-                ? { value: filter.category, label: filter.category }
-                : ""
-            } // Set the default value here
-          />
-        </div>
+              <Select
+                options={categories?.map((category) => ({
+                  value: category.title,
+                  label: category.title,
+                }))}
+                onChange={(e) => handleFilterChange("category", e.value)}
+                placeholder="Select a category"
+                // className="relative z-50"
+                isSearchable={false}
+                styles={dropdownStyles}
+                defaultValue={
+                  filter.category
+                    ? { value: filter.category, label: filter.category }
+                    : ""
+                } // Set the default value here
+              />
+            </div>
           </div>
         </div>
       )}
@@ -355,11 +358,11 @@ function AllCourses() {
           <h2 className="text-3xl font-bold text-black-600">ALL COURSES</h2>
         </div>
 
-        <div className="flex justify-center  gap-4  flex-wrap mt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
           {currentCourses.map((course, i) => (
             <div
               key={i}
-              className="w-full sm:w-1/2 md:w-1/3 lg:w-72  bg-gray-200 mx-2 rounded-md my-4 overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105"
+              className="bg-gray-200 rounded-md overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105"
             >
               <div className="flex justify-center pt-2">
                 <p className="text-lg font-semibold text-gray-800 mb-2">
@@ -368,7 +371,7 @@ function AllCourses() {
               </div>
               <div className="h-48 overflow-hidden">
                 <img
-                  className="w-full h-full object-cover px-4"
+                  className="w-full h-full object-cover "
                   src={course.coverImage.url}
                   alt={course.title}
                 />
@@ -422,6 +425,7 @@ function AllCourses() {
           </button>
         ))}
       </div>
+      <Footer/>
     </div>
   );
 }
