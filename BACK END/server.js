@@ -25,7 +25,8 @@ const io = new socketIo.Server(server, {
   path: "/socket.io",
   transports: ["websocket", "polling"],
   cors: {
-    origin: ['https://foodmagic.vercel.app', 'https://foodmagic.mannilmuhsin.shop'],
+    // origin: ['https://foodmagic.vercel.app', 'https://foodmagic.mannilmuhsin.shop'],
+    origin:allowdOrgins,
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -48,8 +49,8 @@ io.on("connection", (socket) => {
 
     
     socket.on("chat", async function (data) {
-      console.log('shkkkkkoooooooooooooooooooooooooooo');
-      console.log(data);
+      // console.log('shkkkkkoooooooooooooooooooooooooooo');
+      // console.log(data);
 
       try {
         const community = await community_schema.findByIdAndUpdate(
