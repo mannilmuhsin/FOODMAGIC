@@ -15,15 +15,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectCurrentId } from "../../../context/authReducer";
 
-// const categories = [
-//   null,
-//   "cooking",
-//   "Italian",
-//   "Asian Fusion",
-//   "Gourmet Desserts",
-//   "Healthy Meal Planning",
-// ];
-// const chefs = [null, "usman", "Chef 2", "Chef 3", "Chef 4"];
 const dropdownStyles = {
   control: (provided, state) => ({
     ...provided,
@@ -40,6 +31,7 @@ const dropdownStyles = {
     ...provided,
     backgroundColor: state.isFocused ? "#60A5FA" : "white",
     color: state.isFocused ? "white" : "#4B5563",
+    
   }),
 };
 
@@ -269,11 +261,11 @@ function AllCourses() {
         <div className="flex mt-2">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="bg-transparent border h-14 me-8  items-center p-1 md:p-4  md:mt-2 shadow-lg rounded-lg flex  justify-center"
+            className="bg-transparent border h-14 mx-2  items-center p-1 md:p-4  md:mt-2 shadow-lg rounded-lg flex  justify-center"
           >
             <Hamburger size={20} direction="right" />
           </button>
-          <div className="bg-[#e4f7f1] border h-14 me-8 w-full md:p-4 p-2 mb-2 md:mt-2 shadow-lg rounded-lg flex justify-between sm:me-10 m-0">
+          <div className="bg-[#e4f7f1] border h-14 me-2 w-full md:p-4 p-2 mb-2 md:mt-2 shadow-lg rounded-lg flex justify-between sm:me-10 m-0">
             <input
               className="bg-[#e4f7f1] placeholder-gray-400 w-full text-sm outline-none focus:outline-none"
               type="text"
@@ -289,14 +281,26 @@ function AllCourses() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="w-full lg:hidden bg-gray-100  animate-fade-down animate-once animate-duration-[2000ms] overflow-hidden max-h-screen">
+        <div className="relative z-50 w-full lg:hidden  bg-gray-100  animate-fade-down animate-once animate-duration-[2000ms] overflow-hidden max-h-screen">
           <div className="bg-[#e4f7f1] border w-full p-4 shadow-lg rounded-lg">
+            <div className="input p-5">
+              <TextField
+                className="w-44"
+                id="outlined-basic"
+                label="Min price..."
+                variant="outlined"
+                value={filter.minPrice}
+                type="number"
+                onChange={(e) => handleFilterChange("minPrice", e.target.value)}
+              />
+            </div>
             <div className="input p-5">
               <TextField
                 className="w-44"
                 id="outlined-basic"
                 label="Max price..."
                 variant="outlined"
+                value={filter.maxPrice}
                 type="number"
                 onChange={(e) =>
                   handleFilterChange(
@@ -306,38 +310,42 @@ function AllCourses() {
                 }
               />
             </div>
-            <div className="input p-5">
-              <TextField
-                className="w-44"
-                id="outlined-basic"
-                label="Min price..."
-                variant="outlined"
-                type="number"
-                onChange={(e) => handleFilterChange("minPrice", e.target.value)}
-              />
-            </div>
             <div className="p-5">
-              <Select
-                options={chefs.map((chef) => ({ value: chef, label: chef }))}
-                onChange={(e) => handleFilterChange("chef", e.value)}
-                placeholder="Select a chef"
-                isSearchable={false}
-                styles={dropdownStyles}
-              />
+            <Select
+            options={chefs.map((chef) => ({
+              value: chef._id,
+              label: chef.username,
+            }))}
+            onChange={(e) => handleFilterChange("chef", e.value)}
+            placeholder="Select a chef"
+            isSearchable={false}
+            styles={dropdownStyles}
+            defaultValue={
+              filter.chef
+                ? { value: filter.chef, label: location?.state?.chef?.username }
+                : ""
+            }
+          />
             </div>
+        
             <div className="p-5">
-              <Select
-                options={categories.map((category) => ({
-                  value: category,
-                  label: category,
-                }))}
-                onChange={(e) => handleFilterChange("category", e.value)}
-                placeholder="Select a category"
-                className=""
-                isSearchable={false}
-                styles={dropdownStyles}
-              />
-            </div>
+          <Select
+            options={categories?.map((category) => ({
+              value: category.title,
+              label: category.title,
+            }))}
+            onChange={(e) => handleFilterChange("category", e.value)}
+            placeholder="Select a category"
+            // className="relative z-50"
+            isSearchable={false}
+            styles={dropdownStyles}
+            defaultValue={
+              filter.category
+                ? { value: filter.category, label: filter.category }
+                : ""
+            } // Set the default value here
+          />
+        </div>
           </div>
         </div>
       )}

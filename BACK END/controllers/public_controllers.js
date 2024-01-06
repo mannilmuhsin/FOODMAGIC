@@ -26,10 +26,8 @@ const uploadimage = async (onefile) => {
         {
           width: 300,
           height: 420,
-          // crop: "fill_pad",
           gravity: "auto",
           crop: "fill", 
-          // gravity: "face",
           quality: 100,
         },
       ],
