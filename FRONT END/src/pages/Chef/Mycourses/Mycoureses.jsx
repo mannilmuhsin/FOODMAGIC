@@ -152,7 +152,7 @@ const paginate = (pageNumber) => setCurrentPage(pageNumber);
             className="video-card w-72 bg-gray-200 mx-2 rounded-md my-4 overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105 "
           > */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-3 sm:p-8 ">
-             {videos.map((video, i) => (
+             {currentCourses.map((video, i) => (
             <div
               key={i}
               className="bg-gray-200 rounded-md overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105"
