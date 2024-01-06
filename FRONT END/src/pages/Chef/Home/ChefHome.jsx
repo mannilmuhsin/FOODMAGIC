@@ -16,6 +16,7 @@ import "./Chef.css";
 import { useNavigate } from "react-router-dom";
 import { useChefsCoursMutation } from "../../../api/chefApiSlice";
 import { useGetAllPaymentsMutation } from "../../../api/adminApiSlice";
+import Footer from "../../../components/Footer/Footer";
 
 function ChefHome() {
   const usenavigate = useNavigate();
@@ -71,7 +72,7 @@ function ChefHome() {
     <div>
       <ChefNavbar />
 
-      <div className=" p-8 bg-gray-100">
+      <div className=" pt-3 sm:p-8 bg-gray-100">
         {/* Top Level Welcome */}
         <div className="text-center rounded bg-gradient-to-r from-blue-950 to-gray-950 text-white p-8">
           <h1 className="sm:text-5xl text-4xl font-bold mb-4 text-yellow-500">
@@ -86,7 +87,7 @@ function ChefHome() {
         </div>
 
         {/* Cards - Total Students, Total Courses, Total Revenue */}
-        <div className="flex flex-col md:flex-row justify-around my-8">
+        <div className="flex flex-col md:flex-row justify-around m-8">
           {/* Total Students Card */}
           <div className="hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-110 text-center bg-blue-600 text-white p-6 rounded-md shadow-lg mb-4 md:mb-0 hover:shadow-red-500">
             <FontAwesomeIcon icon={faUsers} size="3x" className="mt-4" />
@@ -129,11 +130,17 @@ function ChefHome() {
         </div>
 
         {/* Video Cards */}
-        <div className="flex justify-center     flex-wrap mt-8">
+        {/* <div className="flex justify-center     flex-wrap mt-8">
           {videos.map((video, index) => (
             <div
               key={video._id}
               className="video-card w-72 shadow-md bg-gray-200 mx-3 rounded-md my-4 overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105 "
+            > */}
+             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
+             {videos.map((video, i) => (
+            <div
+              key={i}
+              className="bg-gray-200 rounded-md overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105"
             >
               <img
                 src={video.coverImage?.url}
@@ -146,7 +153,7 @@ function ChefHome() {
                   onClick={() =>
                     usenavigate("/chef/videos", { state: { id: video._id } })
                   }
-                  className="btn hvr-shutter-in-horizontal justify-center border-y rounded-md border-black text-black bg-indigo-500 px-4 py-2 hover:bg-indigo-700 transition duration-300 ease-in-out"
+                  className="btn hvr-shutter-in-horizontal justify-center border-y rounded-md border-black !text-black bg-indigo-500 px-4 py-2 hover:bg-indigo-700 transition duration-300 ease-in-out"
                 >
                   Continue
                   <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
@@ -173,6 +180,7 @@ function ChefHome() {
           </button>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }
