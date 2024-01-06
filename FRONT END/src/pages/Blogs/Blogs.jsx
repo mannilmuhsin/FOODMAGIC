@@ -73,7 +73,7 @@ function Blogs() {
           {blogs.map((blog, i) => (
            <div key={i} className="bg-white p-4 shadow-md rounded-md">
            <img
-             className="w-full h-32 object-cover mb-4 rounded-md"
+             className="w-full h-56 object-cover mb-4 rounded-md"
              src={blog.image.url}
              alt={`Blog ${blog.id}`}
            />
