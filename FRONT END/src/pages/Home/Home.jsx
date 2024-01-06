@@ -56,18 +56,7 @@ function Home() {
 
     fetchCatogery();
   }, []);
-  // const list=[1,2]
-
-  const list = [
-    "src/assets/tacos.png",
-    // "src/assets/dinner.png",
-    // "src/assets/salad.png",
-    "src/assets/pasta.png",
-    "src/assets/pasta.png",
-    "src/assets/tacos.png",
-    // "src/assets/dinner.png",
-    // "src/assets/salad.png",
-  ];
+ 
   return (
     <div className="min-h-screen  bg-gray-100">
       {/* <Navbar /> */}
@@ -113,10 +102,10 @@ function Home() {
       </p>
     </div> */}
           <div className="text-center py-8">
-            <p className="md:text-2xl md:py-2 text-[#20B486] font-medium text-sm sm:mt-5 mt-0 animate__animated  animate__bounceInDown">
+            <p className="md:text-2xl l md:py-2 text-[#20B486] font-medium text-xl sm:mt-5 mt-0 animate__animated  animate__bounceInDown">
               Savor success in the kitchen!
             </p>
-            <h1 className="md:text-7xl text-xl md:py-2 font-semibold mb-5 animate__animated animate__bounceInLeft animate__delay-1s ">
+            <h1 className="md:text-7xl text-2xl md:py-2 font-semibold mb-5 animate__animated animate__bounceInLeft animate__delay-1s ">
               Access to <span className="text-[#20B486]">500+ </span> cooking
               courses <br />
               from
@@ -152,12 +141,12 @@ function Home() {
           </div>
         ))}
       </div> */}
-      <div className="grid  grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-6 z-10 relative">
+      <div className="grid p-4 grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-6 z-10 relative">
   {categories.map((category, index) => (
     <motion.div
       key={index}
       whileHover={{ scale: 1.05 }}
-      className="feature text-center p-6 bg-gray-100 rounded-lg border-b"
+      className="feature text-center p-b-6 bg-gray-200 rounded-lg border-b"
       onClick={() => navigate('/allcourses', { state: { category: category.title } })}
     >
       <img
