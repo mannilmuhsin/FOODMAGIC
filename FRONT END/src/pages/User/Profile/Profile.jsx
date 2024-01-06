@@ -84,7 +84,7 @@ function Profile() {
       }
     };
     fetchUserProfile();
-  }, [user]);
+  }, [user,proimage]);
 
   return (
     <>
