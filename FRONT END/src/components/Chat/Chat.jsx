@@ -240,15 +240,15 @@ const Chat = () => {
       }
       <div className="flex h-full w-full">
       {/* Sidebar (fixed for md and lg screens) */}
-      <div className="hidden md:block lg:block w-1/4 p-4 mt-2 bg-gray-200">
+      <div className="hidden md:block lg:block w-1/4 p-4 mt-2 bg-gray-600 overflow-y-scroll">
         <h2 className="text-xl font-bold mb-4">Groups</h2>
         {groups.map((group) => (
           <div
             key={group.id}
             onClick={() => setCurruntCommunity(group)}
             className={`flex cursor-pointer ${
-              group.id == currentCommunity.id ? "bg-blue-400" : "bg-gray-300"
-            } rounded-md p-2 items-center mb-3`}
+              group.id == currentCommunity.id ? "bg-blue-300" : "bg-gray-300"
+            } rounded-sm p-2 items-center mb-3`}
           >
             <img
               src={group.profilePicture}
@@ -267,7 +267,7 @@ const Chat = () => {
       <div className="flex-1 flex flex-col pt-12">
 
         <button
-          className="p-2 bg-gray-300 md:hidden lg:hidden"
+          className="p-2 pt-4 bg-red-400 md:hidden lg:hidden"
           onClick={() => setShowSidebar(!showSidebar)}
         >
           {showSidebar ? "Hide" : "Show"} Sidebar
@@ -282,7 +282,11 @@ const Chat = () => {
               {groups.map((group) => (
                 <div
                   key={group.id}
-                  onClick={() => setCurruntCommunity(group)}
+                  onClick={() =>{
+                    setCurruntCommunity(group)
+                    setShowSidebar(!showSidebar)
+                  }
+                  } 
                   className={`flex cursor-pointer ${
                     group.id == currentCommunity.id
                       ? "bg-blue-400"
