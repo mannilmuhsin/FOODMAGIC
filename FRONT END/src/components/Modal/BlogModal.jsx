@@ -9,11 +9,11 @@ const Modal = ({ isOpen, onClose, blog }) => {
         backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black background
         backdropFilter: 'blur(5px)' // Blurs the background
       }}>
-      <div className="bg-white p-6 rounded-md shadow-md w-3/4 max-h-screen overflow-y-auto">
+      <div className="bg-white p-6 rounded-md shadow-md w-full sm:w-3/4 max-h-screen overflow-y-auto">
         <h2 className="text-xl font-bold mb-2">{blog.title}</h2>
         <div className='flex justify-center  '>
         <img
-          className="w-3/4 h-96 object-cover mb-4 rounded-md"
+          className="w-full sm:w-3/4 h-64 sm:h-96 object-cover mb-4 rounded-md"
           src={blog.image.url}
           alt={`Blog ${blog.id}`}
         />
@@ -26,7 +26,7 @@ const Modal = ({ isOpen, onClose, blog }) => {
         
         <p className="text-gray-500">{`By ${blog.user} on ${blog.date.slice(0, 10)}`}</p>
         <button 
-          className="mt-4 bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded"
+          className="my-4 bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded"
           onClick={onClose}
         >
           Close

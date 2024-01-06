@@ -270,7 +270,7 @@ const Chat = () => {
           className="p-2 pt-4 bg-red-400 md:hidden lg:hidden"
           onClick={() => setShowSidebar(!showSidebar)}
         >
-          {showSidebar ? "Hide" : "Show"} Sidebar
+          {showSidebar ? "Hide" : "Show"} Groups
         </button>
         <div className="md:hidden lg:hidden">
           {/* Toggle Button (visible on smaller screens) */}
