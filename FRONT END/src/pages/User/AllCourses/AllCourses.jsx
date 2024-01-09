@@ -358,7 +358,7 @@ function AllCourses() {
           <h2 className="text-3xl font-bold text-black-600">ALL COURSES</h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 sm:p-8  gap-6 mt-8">
           {currentCourses.map((course, i) => (
             <div
               key={i}
@@ -398,7 +398,7 @@ function AllCourses() {
                     </button>
                   ) : (
                     <button
-                      onClick={() => usenavigate("/user/mylearnigs", {})}
+                      onClick={() => usenavigate("/user/mylearnings", {})}
                       className="btn  justify-center !border-y rounded-md !border-black !text-black  px-5 py-3 hover:bg-indigo-800 transition duration-300 ease-in-out hvr-shutter-in-horizontal"
                     >
                       Watch now

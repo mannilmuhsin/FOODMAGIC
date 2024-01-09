@@ -55,11 +55,11 @@ function MyLearnigs() {
     <div>
       <Navbar />
       <div className=" p-4 font-serif bg-gray-100">
-        <div className="text-center mt-8 mb-8">
+        <div className="text-center mt-8 ">
           <h2 className="text-3xl font-bold text-black-600">MY LEARNINGS</h2>
         </div>
 
-             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
+             <div className="grid p-2 sm:p-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {currentCourses.map((course, i) => (
             <div
               key={i}

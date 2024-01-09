@@ -307,7 +307,7 @@ const handleSuccessPayment = async (req, res) => {
     });
 
     await payment.save();
-    res.redirect("https://foodmagic.vercel.app/user/mylearnigs");
+    res.redirect("https://foodmagic.vercel.app/user/mylearnings");
   } catch (error) {
     console.log(error.message);
   }

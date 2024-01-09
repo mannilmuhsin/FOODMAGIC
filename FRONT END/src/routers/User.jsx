@@ -11,7 +11,7 @@ function User() {
     <Routes>
       <Route element={<RequerAuth allows={[Role]} />}>
         {/* <Route exact path="/profile" element={<Profile />} /> */}
-        <Route path="/mylearnigs" element={<MyLearnigs />} />
+        <Route path="/mylearnings" element={<MyLearnigs />} />
         <Route path="/coursefullvideos" element={<CourseFullChapters />} />
       </Route>
     </Routes>

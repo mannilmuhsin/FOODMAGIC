@@ -10,6 +10,7 @@ import { useMakePaymentMutation } from "../../../api/userApiSlice";
 import Navbar from "../../../components/Navbar/Navbar";
 import { auth } from "../../../context/authReducer";
 import { Rating } from "@mui/material";
+import Footer from "../../../components/Footer/Footer";
 
 const CourseDetails = () => {
   const [getcourse] = useGetCourseByIdMutation();
@@ -95,9 +96,9 @@ const CourseDetails = () => {
       <Navbar />
       <animated.div
         style={fadeIn}
-        className="  flex flex-col lg:flex-row justify-between items-center h-full p-8 "
+        className="  flex flex-col lg:flex-row justify-between items-center h-full p-2 sm:p-8 "
       >
-        <div className="lg:w-2/3 w-full mb-8 lg:pe-16 lg:mb-0">
+        <div className="lg:w-2/3  w-full mb-8 lg:pe-16 lg:mb-0">
           <h1 className="text-3xl font-bold mb-8">{video.title}</h1>
           <div className="mb-8 lg:w-5/6  shadow-md rounded-md p-8">
             <h2 className="lg:text-2xl text-xl mb-4 uppercase font-bold">
@@ -111,6 +112,35 @@ const CourseDetails = () => {
             </h2>
             <p>{video.description}</p>
           </div>
+
+          <div className="lg:w-1/3 flex md:hidden  justify-center w-full right-0 bottom-12  lg:fixed ">
+          <animated.div
+            style={fadeIn}
+            className=" w-full p-4 bg-blue-50 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"
+          >
+            <video
+              src={video.demoVideo?.url}
+              poster={video.coverImage?.url}
+              className="w-full h-72 object-cover mb-4 rounded-md"
+              controls
+            />
+
+            <h2 className="text-2xl font-bold mb-2">{video.title}(DEMO)</h2>
+            <p>{`Lectures : ${video?.chapters?.length}`}</p>
+            {/* <p>Life Long Validity</p> */}
+            <div className="flex items-center px-8  mt-8 justify-between">
+              <p>{`Price: ${video.price}`}</p>
+              <button
+                onClick={makePayment}
+                className="btn me-8 hvr-shutter-in-horizontal justify-center border-y rounded-md border-black !text-black  px-4 py-2 hover:bg-indigo-800 transition duration-300 ease-in-out"
+              >
+                BUY NOW
+                <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+              </button>
+            </div>
+          </animated.div>
+        </div>
+
 
           <div className="max-w-xl  p-6 bg-white rounded-md shadow-md text-center">
             <h2 className="text-xl mb-4">Total Rating</h2>
@@ -157,10 +187,15 @@ const CourseDetails = () => {
             {/* Add more review cards as needed... */}
           </div>
         </div>
-        <div className="lg:w-1/3 flex  justify-center w-full right-0 bottom-12  lg:fixed ">
+        {/* <div className="lg:w-1/3 hidden sm:flex justify-center w-full right-0 bottom-12  lg:fixed ">
           <animated.div
             style={fadeIn}
             className=" w-full p-4 bg-blue-50 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"
+          > */}
+            <div className="sticky top-0 w-full lg:w-1/3 hidden md:flex justify-center right-0 bottom-12">
+          <animated.div
+            style={fadeIn}
+            className="w-full p-4 bg-blue-50 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"
           >
             <video
               src={video.demoVideo?.url}
@@ -185,6 +220,7 @@ const CourseDetails = () => {
           </animated.div>
         </div>
       </animated.div>
+      <Footer/>
     </div>
   );
 };

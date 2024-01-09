@@ -151,7 +151,7 @@ const paginate = (pageNumber) => setCurrentPage(pageNumber);
             key={video.id}
             className="video-card w-72 bg-gray-200 mx-2 rounded-md my-4 overflow-hidden hover:bg-gray-300 transition duration-300 ease-in-out transform hover:scale-105 "
           > */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-3 sm:p-8 ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-3 sm:p-8  ">
              {currentCourses.map((video, i) => (
             <div
               key={i}
@@ -160,7 +160,7 @@ const paginate = (pageNumber) => setCurrentPage(pageNumber);
             <img
               src={video.coverImage?.url}
               alt={video.title}
-              className="w-full h-48 object-cover"
+              className="w-full h-56 object-cover"
             />
             <div className="p-4">
               <h3 className="text-xl font-bold mb-2">{video.title}</h3>
