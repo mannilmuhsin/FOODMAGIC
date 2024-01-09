@@ -31,7 +31,7 @@ function AdminHome() {
       const students = new Set();
       const response = await getAllPayments();
       setRecentPayments(response.data.payments.slice(0, 10));
-      console.log(response.data.payments);
+      // console.log(response.data.payments);
       const Revenue = response?.data?.payments.reduce(
         (a, b) => b.amount + a,
         0
@@ -71,7 +71,7 @@ function AdminHome() {
   return (
     <div className=" ">
       <AdminNavbar />
-      <div className=" p-8">
+      <div className=" sm:p-8">
         {/* Top Level Welcome */}
         <div className="text-center rounded bg-gradient-to-r from-blue-950 to-gray-950 text-white p-8">
           <h1 className="sm:text-5xl text-4xl font-bold mb-4 text-yellow-500">
@@ -86,7 +86,7 @@ function AdminHome() {
         </div>
 
         {/* Cards - Total Students, Total Courses, Total Revenue */}
-        <div className="flex flex-col md:flex-row justify-around my-8">
+        <div className="flex flex-col md:flex-row justify-around my-8 p-8">
           {/* Total Students Card */}
           <div
             onClick={() => usenavigate("/admin/userlist")}

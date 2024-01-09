@@ -6,8 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { Spin as Hamburger } from "hamburger-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import logo from "../../assets/logo.png";
 
-function ChefNavbar({className}) {
+function ChefNavbar({ className }) {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const user = useSelector(auth);
   const usenavigate = useNavigate();
@@ -25,95 +26,117 @@ function ChefNavbar({className}) {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
   return (
-    <nav className={className ? className : "navbar w-screen"}>
-      <div className="container mx-auto flex justify-between items-center py-4">
-        {/* <div className="logo  w-16 md:w-20 ">
-        <img src="src/assets/logo.png" alt="" />
-      </div> */}
-        <div className="hidden md:flex space-x-4">
-          <a href="/chef" className="nav-link">
-            DASHBORD
-          </a>
-          <a href="#" className="nav-link">
-            STUDENTS
-          </a>
-          <a href="/chef/mycourses" className="nav-link">
-            MY CLASS
-          </a>
-          <a href="/chef/payments" className="nav-link">
-            PAYMENT
-          </a>
-          <a href="/chat" className="nav-link">
-            COMMUNITY
-          </a>
-          <a href="/blog" className="nav-link">
-            BLOG
-          </a>
+    <nav className={`bg-gray-800 text-white ${className ? className : ""}  `}>
+      <div className=" flex justify-center items-center  px-4 md:px-0">
+        {/* Logo */}
+        <div className="logo ms-2 sm:ms-8 w-16 md:w-20">
+          <img src={logo} alt="Logo" />
         </div>
-        <div className="md:hidden" onClick={toggleMobileMenu}>
-          <Hamburger />
-        </div>
-        {isMobileMenuOpen && (
-          <div className="mobile-menu md:hidden">
-            <a href="#" className="nav-link">
-              Home
-            </a>
-            <a href="#" className="nav-link">
-              Course
-            </a>
-            <a href="#" className="nav-link">
-              Community
-            </a>
-            <a href="#" className="nav-link">
-              Blog
-            </a>
-            {!user?.user ? (
-              <a href="#" className="nav-link">
-                Login
-              </a>
-            ) : (
-              <a href="#" className="nav-link">
-                Profile
-              </a>
-            )}
-          </div>
-        )}
-        {!user?.user ? (
-          <div
-            className="hidden signinandsignup md:flex space-x-4"
-            onClick={handlelogin}
-          >
-            <a href="#" className="logbutton">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              LOGIN
-            </a>
-          </div>
-        ) : (
-          <>
-            <div
-              className="hidden cursor-pointer signinandsignup md:flex items-end"
-              onClick={() => {
-                usenavigate("/profile");
-              }}
-            >
-              {user?.pro ? (
-                user.pro
-              ) : (
-                <FontAwesomeIcon className="me-3" icon={faUser} size="2x" />
-              )}{" "}
-              {user?.user}
-            </div>
+        <div className="hidden md:flex me-96 space-x-4">
+          {[
+            { path: "/chef", label: "DASHBOARD" },
+            { path: "#", label: "STUDENTS" },
+            { path: "/chef/mycourses", label: "MY CLASS" },
+            { path: "/chef/payments", label: "PAYMENT" },
+            { path: "/chat", label: "COMMUNITY" },
+            { path: "/blog", label: "BLOG" },
+          ].map((item) => (
             <button
-              className="ms-3 mt-2 border rounded p-1"
-              onClick={HandlelogOut}
+              key={item.path}
+              className="nav-button p-2 hvr-underline-from-center"
+              onClick={() => usenavigate(item.path)}
             >
-              logout
+              {item.label}
             </button>
-          </>
-        )}
+          ))}
+        </div>
+
+        {/* User Section */}
+        <div className="flex items-center space-x-4">
+          {!user?.user ? (
+            <div
+              className=" signinandsignup md:flex me-2 sm:me-10 space-x-4"
+              onClick={() => navigate("/login")}
+            >
+              <a href="#" className="logbutton">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                LOGIN
+              </a>
+            </div>
+          ) : (
+            <div className="hidden md:flex me-4">
+              <div
+                className="flex items-center me-4 cursor-pointer"
+                onClick={() => navigate("/profile")}
+              >
+                {user?.pro ? (
+                  user.pro
+                ) : (
+                  <FontAwesomeIcon icon={faUser} size="2x" />
+                )}
+                <span className="uppercase ms-1"> {user?.user}</span>
+              </div>
+              <button
+                className="nav-button  hvr-bounce-to-bottom   md:flex border p-2 "
+                onClick={HandlelogOut}
+              >
+                LOGOUT
+              </button>
+            </div>
+          )}
+        </div>
+        {/* Mobile Menu */}
+        <div className="md:hidden">
+          <Hamburger toggled={isMobileMenuOpen} toggle={toggleMobileMenu} />
+          {isMobileMenuOpen && (
+            <div className="absolute z-50 top-16 left-0 right-0 bg-gray-800">
+              {[
+                { path: "/chef", label: "DASHBOARD" },
+                { path: "#", label: "STUDENTS" },
+                { path: "/chef/mycourses", label: "MY CLASS" },
+                { path: "/chef/payments", label: "PAYMENT" },
+                { path: "/chat", label: "COMMUNITY" },
+                { path: "/blog", label: "BLOG" },
+              ].map((item) => (
+                <button
+                  key={item.path}
+                  className="block w-full py-2 px-4 text-left hover:bg-gray-700"
+                  onClick={() => {
+                    usenavigate(item.path);
+                    toggleMobileMenu();
+                  }}
+                >
+                  {item.label}
+                </button>
+              ))}
+              {user?.user && (
+                <>
+                  <button
+                    className="block w-full py-2 px-4 text-left hover:bg-gray-700"
+                    onClick={() => {
+                      usenavigate("/profile");
+                      toggleMobileMenu();
+                    }}
+                  >
+                    PROFILE
+                  </button>
+                  <button
+                    className="block w-full py-2 px-4 text-left hover:bg-gray-700"
+                    onClick={(e) => {
+                      HandlelogOut(e);
+                      toggleMobileMenu();
+                    }}
+                  >
+                    LOGOUT
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   );
