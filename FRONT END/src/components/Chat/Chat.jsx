@@ -124,7 +124,6 @@ const Chat = () => {
       navigate("/login", { state: { from: location } });
     }
     if (Object.keys(currentCommunity).length !== 0) {
-
       if (!socket) {
         return;
       }
@@ -273,13 +272,14 @@ const Chat = () => {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 flex flex-col pt-12">
+          <div className="flex-1 flex flex-col pt-24 sm:pt-12">
             <button
-              className="p-2 pt-5 bg-red-400 md:hidden lg:hidden"
+              className="p-2 w-full  bg-red-400 md:hidden lg:hidden fixed top-16 z-10"
               onClick={() => setShowSidebar(!showSidebar)}
             >
               {showSidebar ? "Hide" : "Show"} Groups
             </button>
+
             <div className="md:hidden lg:hidden">
               {/* Toggle Button (visible on smaller screens) */}
 
@@ -320,10 +320,7 @@ const Chat = () => {
             <div className="p-4 sm:mt-8 bg-gray-300 flex-1 overflow-y-auto">
               {Object.keys(currentCommunity)?.length === 0 && (
                 <div className="w-full h-full flex items-center justify-center ">
-                  <h1 className="font-bold text-4xl">
-
-                  seclect a group
-                  </h1>
+                  <h1 className="font-bold text-4xl">seclect a group</h1>
                 </div>
               )}
               {messages?.map((message, index) => (
