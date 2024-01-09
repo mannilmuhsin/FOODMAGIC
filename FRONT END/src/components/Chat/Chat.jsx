@@ -275,7 +275,7 @@ const Chat = () => {
           {/* Main Content */}
           <div className="flex-1 flex flex-col pt-12">
             <button
-              className="p-2 pt-4 bg-red-400 md:hidden lg:hidden"
+              className="p-2 pt-5 bg-red-400 md:hidden lg:hidden"
               onClick={() => setShowSidebar(!showSidebar)}
             >
               {showSidebar ? "Hide" : "Show"} Groups
