@@ -88,7 +88,7 @@ const Chat = () => {
         const filterdGroups = res.data.communitys.filter((community) =>
           community.users.includes(id)
         );
-        console.log(filterdGroups);
+        // console.log(filterdGroups);
         const groups = filterdGroups?.map((community) => ({
           id: community?._id,
           title: community?.title,
@@ -120,10 +120,10 @@ const Chat = () => {
   }, [currentCommunity]);
 
   useEffect(() => {
+    if (!user) {
+      navigate("/login", { state: { from: location } });
+    }
     if (Object.keys(currentCommunity).length !== 0) {
-      if (!user) {
-        navigate("/login", { state: { from: location } });
-      }
 
       if (!socket) {
         return;
