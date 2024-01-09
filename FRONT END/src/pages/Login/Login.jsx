@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { useLoginMutation } from "../../api/authApiSlice";
 import { setCredentials } from "../../context/authReducer";
 import { Dna } from "react-loader-spinner";
+import logo from "../../assets/logo.png"
 // import GoogleLogin from "react-google-login";
 
 const Login = () => {
@@ -108,7 +109,7 @@ const Login = () => {
       <Toaster />
       {!loading && (
         <div className="max-w-6xl flex flex-col md:flex-row">
-          <div className="w-full md:w-1/2 p-8 md:p-16 md:block flex items-center justify-center mt-28">
+          <div className="w-full hidden md:w-1/2 p-8 md:p-16 md:block sm:flex items-center justify-center mt-28">
             <img
               className="rounded-3xl"
               src="https://img.freepik.com/free-photo/portrait-young-boy-chef-costume_23-2150773056.jpg"
@@ -121,7 +122,7 @@ const Login = () => {
               LOGIN
             </h2>
             <img
-              src="src/assets/logo.png"
+              src={logo}
               alt="Your Logo"
               className="w-28 h-28 mt-4 cursor-pointer"
               onClick={() => usenavigate("/")}

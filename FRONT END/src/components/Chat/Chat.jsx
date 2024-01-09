@@ -124,6 +124,7 @@ const Chat = () => {
       navigate("/login", { state: { from: location } });
     }
     if (Object.keys(currentCommunity).length !== 0) {
+
       if (!socket) {
         return;
       }
@@ -272,14 +273,13 @@ const Chat = () => {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 flex flex-col pt-24 sm:pt-12">
+          <div className="flex-1 flex flex-col pt-12">
             <button
-              className="p-2 w-full  bg-red-400 md:hidden lg:hidden fixed top-16 z-10"
+              className="p-2 pt-5 bg-red-400 md:hidden lg:hidden"
               onClick={() => setShowSidebar(!showSidebar)}
             >
               {showSidebar ? "Hide" : "Show"} Groups
             </button>
-
             <div className="md:hidden lg:hidden">
               {/* Toggle Button (visible on smaller screens) */}
 
@@ -320,7 +320,10 @@ const Chat = () => {
             <div className="p-4 sm:mt-8 bg-gray-300 flex-1 overflow-y-auto">
               {Object.keys(currentCommunity)?.length === 0 && (
                 <div className="w-full h-full flex items-center justify-center ">
-                  <h1 className="font-bold text-4xl">seclect a group</h1>
+                  <h1 className="font-bold text-4xl">
+
+                  seclect a group
+                  </h1>
                 </div>
               )}
               {messages?.map((message, index) => (
@@ -364,7 +367,7 @@ const Chat = () => {
               <div className="p-4">
                 <div
                   className={`${
-                    isRecording ? " flex justify-between h-16 " : "hidden"
+                    isRecording ? " flex justify-between h-16  " : "hidden"
                   }`}
                 >
                   <ReactMic
@@ -373,7 +376,7 @@ const Chat = () => {
                       handleAudioData(recordedData?.blob)
                     }
                     className={`${
-                      isRecording ? "block sound-wave " : "hidden"
+                      isRecording ? "block sound-wave sm:max-w-full max-w-64 " : "hidden"
                     }`}
                     strokeColor="#000000"
                     backgroundColor="#FF4081"
@@ -381,7 +384,7 @@ const Chat = () => {
                   <button
                     className={`bg-${
                       isRecording ? "red" : "green"
-                    }-500 text-white px-4 py-3 rounded mr-2 ${
+                    }-500 text-white px-3 py-3 rounded ms-2 ${
                       isRecording ? "block sound-wave" : "hidden"
                     }`}
                     onClick={() => setIsRecording(!isRecording)}
@@ -425,9 +428,9 @@ const Chat = () => {
                       </div>
                     )}
                     {audioData && !isRecording && (
-                      <div className="flex justify-between">
-                        <audio controls src={audioData} />
-                        <div>
+                      <div className="sm:flex justify-between ">
+                        <audio className="ms-7" controls src={audioData} />
+                        <div className="flex justify-center mt-3">
                           <button
                             className={`bg-${
                               isRecording ? "red" : "green"
@@ -436,7 +439,7 @@ const Chat = () => {
                           >
                             {isRecording
                               ? "Stop Recording"
-                              : "Start New Recording"}
+                              : "Start New"}
                           </button>
                           <button
                             className="bg-red-500 text-white px-4 py-3 rounded ml-2"
@@ -448,7 +451,7 @@ const Chat = () => {
                             onClick={sendVoice}
                             className="bg-blue-500 text-white px-4 py-3 rounded ml-2"
                           >
-                            Send Audio
+                            Send 
                           </button>
                         </div>
                       </div>
