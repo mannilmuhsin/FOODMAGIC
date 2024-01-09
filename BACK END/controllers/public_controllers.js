@@ -24,7 +24,7 @@ const uploadimage = async (onefile) => {
       folder: "FOODMAGIC",
       transformation: [
         {
-          width: 300,
+          width: 400,
           height: 420,
           gravity: "auto",
           crop: "fill", 

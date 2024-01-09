@@ -9,6 +9,7 @@ import {
 import Rating from "@mui/material/Rating";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../context/authReducer";
+import Footer from "../../../components/Footer/Footer";
 
 const CourseFullChapters = () => {
   const user = useSelector(selectCurrentUser);
@@ -102,7 +103,7 @@ const CourseFullChapters = () => {
         height='450px'
         /> */}
 
-            <div className="mt-2">
+            <div className="mt-2 overflow-y-hidden ">
               <h2 className="text-lg font-semibold">{currentVideo?.title}</h2>
               <p className="text-md">
                 {showFullDescription
@@ -130,8 +131,9 @@ const CourseFullChapters = () => {
               </p>
             </div>
           </div>
+          <div className="hidden md:block">
           {!isReviewAdded && (
-            <div className="my-8 max-w-lg mx-auto p-6 bg-white rounded-md shadow-md">
+            <div className="my-8 max-w-lg  p-6 bg-white rounded-md shadow-md">
               <h2 className="text-xl mb-4 text-center">Rate & Review</h2>
 
               {/* Rating Stars */}
@@ -196,6 +198,7 @@ const CourseFullChapters = () => {
             {/* Add more review cards as needed... */}
           </div>
         </div>
+        </div>
 
         <div className="md:w-1/4 w-full md:p-4 md:ps-0">
           <h2 className="text-2xl mt-8 md:mt-0 font-bold mb-4">
@@ -233,6 +236,74 @@ const CourseFullChapters = () => {
           ))}
         </div>
       </div>
+      <div className="block md:hidden">
+          {!isReviewAdded && (
+            <div className="my-8 max-w-lg  p-6 bg-white rounded-md shadow-md">
+              <h2 className="text-xl mb-4 text-center">Rate & Review</h2>
+
+              {/* Rating Stars */}
+              <div className="mb-6 text-center">
+                <p className="text-lg mb-2">Rate this product:</p>
+                <Rating
+                  name="product-rating"
+                  value={value.rating}
+                  onChange={(event, newValue) => {
+                    setValue({ ...value, rating: newValue });
+                  }}
+                />
+              </div>
+
+              {/* Review Textarea */}
+              <textarea
+                className="w-full p-2 mb-4 border rounded-md"
+                placeholder="Write your review here..."
+                rows={4}
+                onChange={(event) => {
+                  // setReviewText(event.target.value);
+                  setValue({ ...value, review: event.target.value });
+                }}
+              ></textarea>
+
+              {/* Submit Button */}
+              <button
+                className="block w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+                onClick={submitReview}
+              >
+                Submit Review
+              </button>
+            </div>
+          )}
+          <div className="max-w-xl my-8 p-6 bg-white rounded-md shadow-md">
+            <h2 className="text-2xl mb-6 text-center">Product Reviews</h2>
+
+            {/* Single Review Card (Sample) */}
+            {reviews.map((review) => (
+              <div className="border-b pb-4 mb-4">
+                {/* Username and Date */}
+                <div className="flex justify-between mb-2">
+                  <span className="font-bold">{review.user}</span>
+                  <span className="text-sm text-gray-500">
+                    {review.date?.slice(0, 10)}
+                  </span>
+                </div>
+
+                {/* Rating Stars */}
+                <div className="mb-2">
+                  <Rating name="read-only" value={review.rating} readOnly />
+                  <span className="ml-2 text-md text-gray-500">
+                    {review.rating}.0
+                  </span>
+                </div>
+
+                {/* Review Text */}
+                <p className="text-gray-700 mb-4">{review.review}</p>
+              </div>
+            ))}
+
+            {/* Add more review cards as needed... */}
+          </div>
+        </div>
+        <Footer/>
     </div>
   );
 };

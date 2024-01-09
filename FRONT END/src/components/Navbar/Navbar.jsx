@@ -120,16 +120,6 @@ const Navbar = ({ className }) => {
               {user?.user && (
                 <>
                 <button
-                  className="block w-full py-2 px-4 text-left hover:bg-gray-700"
-                  key={"/logout"}
-                  onClick={(e) => {
-                    handleLogOut(e);
-                    toggleMobileMenu();
-                  }}
-                >
-                  LOGOUT
-                </button>
-                <button
                 className="block w-full py-2 px-4 text-left hover:bg-gray-700"
                 key={"/PROFILE"}
                 onClick={() => {
@@ -138,6 +128,16 @@ const Navbar = ({ className }) => {
                 }}
                 >
                     PROFILE
+                </button>
+                <button
+                  className="block w-full py-2 px-4 text-left hover:bg-gray-700"
+                  key={"/logout"}
+                  onClick={(e) => {
+                    handleLogOut(e);
+                    toggleMobileMenu();
+                  }}
+                >
+                  LOGOUT
                 </button>
                 </>
 

@@ -8,6 +8,7 @@ import { useGetAllBlogsMutation } from "../../api/userApiSlice";
 import TruncatedText from "../../components/TruncatedText";
 import ChefNavbar from "../../components/Navbar/ChefNavbar";
 import Modal from "../../components/Modal/BlogModal";
+import Footer from "../../components/Footer/Footer";
 
 function Blogs() {
   const {role} = useSelector(auth)
@@ -100,6 +101,7 @@ function Blogs() {
         blog={selectedBlog} 
       />
       </div>
+      <Footer/>
     </div>
   );
 }
