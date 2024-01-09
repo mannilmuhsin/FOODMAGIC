@@ -12,6 +12,7 @@ import ChangePasswordModal from "../../../components/Modal/ChangePasswordModal";
 import UpdateProfileModal from "../../../components/Modal/UpdateProfileModal";
 import ChefNavbar from "../../../components/Navbar/ChefNavbar";
 import AdminNavbar from "../../../components/Navbar/AdminNavbar";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Profile() {
   const [openModal, setOpenModal] = useState(false);
@@ -21,6 +22,8 @@ function Profile() {
   const [profile] = useProfileMutation();
   const [updateproimage] = useUpdateProimageMutation();
   const user = useSelector(auth);
+  const navigate = useNavigate()
+  const location = useLocation();
 
   const handleProimageChange = (e) => {
     setProimage(e.target.files[0]);
@@ -74,6 +77,9 @@ function Profile() {
   };
 
   useEffect(() => {
+    if (!user.user) {
+      navigate("/login", { state: { from: location } });
+    }
     const fetchUserProfile = async () => {
       try {
         const response = await profile(user);

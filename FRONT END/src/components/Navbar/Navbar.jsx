@@ -100,7 +100,7 @@ const Navbar = ({ className }) => {
                 "/user/mylearnings",
                 "/chat",
                 "/blog",
-                "/profile",
+                ,
               ].map((path) => (
                 <button
                   key={path}
@@ -118,6 +118,7 @@ const Navbar = ({ className }) => {
                 </button>
               ))}
               {user?.user && (
+                <>
                 <button
                   className="block w-full py-2 px-4 text-left hover:bg-gray-700"
                   key={"/logout"}
@@ -128,6 +129,18 @@ const Navbar = ({ className }) => {
                 >
                   LOGOUT
                 </button>
+                <button
+                className="block w-full py-2 px-4 text-left hover:bg-gray-700"
+                key={"/PROFILE"}
+                onClick={() => {
+                  navigate("/profile");
+                  toggleMobileMenu();
+                }}
+                >
+                    PROFILE
+                </button>
+                </>
+
               )}
             </div>
           )}
