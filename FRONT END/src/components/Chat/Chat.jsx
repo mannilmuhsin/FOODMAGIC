@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import { auth, selectCurrentId, selectCurrentToken, selectCurrentUser } from "../../context/authReducer";
+import {
+  auth,
+  selectCurrentId,
+  selectCurrentToken,
+  selectCurrentUser,
+} from "../../context/authReducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { socket } from "../../features/Socket";
 import { ReactMic } from "react-mic";
@@ -26,8 +31,8 @@ const Chat = () => {
   const [currentCommunity, setCurruntCommunity] = useState({});
   const [groups, setGroups] = useState([]);
   const user = useSelector(selectCurrentUser);
-  const id = useSelector(selectCurrentId)
-  const {role} = useSelector(auth)
+  const id = useSelector(selectCurrentId);
+  const { role } = useSelector(auth);
   const location = useLocation();
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
@@ -66,8 +71,6 @@ const Chat = () => {
   //     console.log(socket);
   //   });
 
-   
-
   //   // const handleDisconnect = () => {
   //   //   console.log("Socket disconnected");
   //   // };
@@ -82,7 +85,9 @@ const Chat = () => {
     const fetchCommunity = async () => {
       try {
         const res = await getCommunitys();
-        const filterdGroups = res.data.communitys.filter((community)=>community.users.includes(id))
+        const filterdGroups = res.data.communitys.filter((community) =>
+          community.users.includes(id)
+        );
         console.log(filterdGroups);
         const groups = filterdGroups?.map((community) => ({
           id: community?._id,
@@ -119,7 +124,7 @@ const Chat = () => {
       if (!user) {
         navigate("/login", { state: { from: location } });
       }
-  
+
       if (!socket) {
         return;
       }
@@ -232,253 +237,268 @@ const Chat = () => {
 
   return (
     <>
-    <div className="h-screen">
-      {role[0] === 3000 ?
-      <ChefNavbar className="navbar fixed w-screen z-50"/>
-      :
-      <Navbar className="navbar fixed w-screen z-50"/>
-      }
-      <div className="flex h-full w-full">
-      {/* Sidebar (fixed for md and lg screens) */}
-      <div className="hidden md:block lg:block w-1/4 p-4 mt-2 bg-gray-600 overflow-y-scroll">
-        <h2 className="text-xl font-bold mb-4">Groups</h2>
-        {groups.map((group) => (
-          <div
-            key={group.id}
-            onClick={() => setCurruntCommunity(group)}
-            className={`flex cursor-pointer ${
-              group.id == currentCommunity.id ? "bg-blue-300" : "bg-gray-300"
-            } rounded-sm p-2 items-center mb-3`}
-          >
-            <img
-              src={group.profilePicture}
-              alt="Group Profile"
-              className="w-8 h-8 rounded-full mr-2"
-            />
-            <div>
-              <div className="font-semibold">{group.title}</div>
-              <div className="text-sm text-gray-500">{group.lastMessage}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col pt-12">
-
-        <button
-          className="p-2 pt-4 bg-red-400 md:hidden lg:hidden"
-          onClick={() => setShowSidebar(!showSidebar)}
-        >
-          {showSidebar ? "Hide" : "Show"} Groups
-        </button>
-        <div className="md:hidden lg:hidden">
-          {/* Toggle Button (visible on smaller screens) */}
-
-          {/* Toggleable Sidebar (visible on smaller screens) */}
-          <div className={showSidebar ? "block" : "hidden"}>
-            <div className="w-full p-4 bg-gray-200">
-              <h2 className="text-xl font-bold mb-4">Groups</h2>
-              {groups.map((group) => (
-                <div
-                  key={group.id}
-                  onClick={() =>{
-                    setCurruntCommunity(group)
-                    setShowSidebar(!showSidebar)
-                  }
-                  } 
-                  className={`flex cursor-pointer ${
-                    group.id == currentCommunity.id
-                      ? "bg-blue-400"
-                      : "bg-gray-300"
-                  } rounded-md p-2 items-center mb-3`}
-                >
-                  <img
-                    src={group.profilePicture}
-                    alt="Group Profile"
-                    className="w-8 h-8 rounded-full mr-2"
-                  />
-                  <div>
-                    <div className="font-semibold">{group.title}</div>
-                    <div className="text-sm text-gray-500">
-                      {group.lastMessage}
-                    </div>
+      <div className="h-screen">
+        {role[0] === 3000 ? (
+          <ChefNavbar className=" fixed w-screen z-50" />
+        ) : (
+          <Navbar className=" fixed w-screen z-50" />
+        )}
+        <div className="flex h-full w-full">
+          {/* Sidebar (fixed for md and lg screens) */}
+          <div className="hidden md:block lg:block w-1/4 p-4 mt-20 bg-gray-600 overflow-y-scroll">
+            <h2 className="text-xl font-bold mb-4">Groups</h2>
+            {groups.map((group) => (
+              <div
+                key={group.id}
+                onClick={() => setCurruntCommunity(group)}
+                className={`flex cursor-pointer ${
+                  group.id == currentCommunity.id
+                    ? "bg-blue-300"
+                    : "bg-gray-300"
+                } rounded-sm p-2 items-center mb-3`}
+              >
+                <img
+                  src={group.profilePicture}
+                  alt="Group Profile"
+                  className="w-8 h-8 rounded-full mr-2"
+                />
+                <div>
+                  <div className="font-semibold">{group.title}</div>
+                  <div className="text-sm text-gray-500">
+                    {group.lastMessage}
                   </div>
                 </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Main Content */}
+          <div className="flex-1 flex flex-col pt-12">
+            <button
+              className="p-2 pt-4 bg-red-400 md:hidden lg:hidden"
+              onClick={() => setShowSidebar(!showSidebar)}
+            >
+              {showSidebar ? "Hide" : "Show"} Groups
+            </button>
+            <div className="md:hidden lg:hidden">
+              {/* Toggle Button (visible on smaller screens) */}
+
+              {/* Toggleable Sidebar (visible on smaller screens) */}
+              <div className={showSidebar ? "block" : "hidden"}>
+                <div className="w-full p-4 bg-gray-200">
+                  <h2 className="text-xl font-bold mb-4">Groups</h2>
+                  {groups.map((group) => (
+                    <div
+                      key={group.id}
+                      onClick={() => {
+                        setCurruntCommunity(group);
+                        setShowSidebar(!showSidebar);
+                      }}
+                      className={`flex cursor-pointer ${
+                        group.id == currentCommunity.id
+                          ? "bg-blue-400"
+                          : "bg-gray-300"
+                      } rounded-md p-2 items-center mb-3`}
+                    >
+                      <img
+                        src={group.profilePicture}
+                        alt="Group Profile"
+                        className="w-8 h-8 rounded-full mr-2"
+                      />
+                      <div>
+                        <div className="font-semibold">{group.title}</div>
+                        <div className="text-sm text-gray-500">
+                          {group.lastMessage}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 sm:mt-8 bg-gray-300 flex-1 overflow-y-auto">
+              {Object.keys(currentCommunity)?.length === 0 && (
+                <div className="w-full h-full flex items-center justify-center ">
+                  <h1 className="font-bold text-4xl">
+
+                  seclect a group
+                  </h1>
+                </div>
+              )}
+              {messages?.map((message, index) => (
+                <MessageBox
+                  key={index}
+                  position={message?.user == user ? "right" : "left"}
+                  type={message?.type}
+                  text={message?.type === "text" ? message?.text : undefined}
+                  date={message?.time}
+                  title={message?.user}
+                  data={
+                    message?.data
+                      ? message?.type === "video"
+                        ? {
+                            videoURL: message?.data,
+                            width: 300,
+                            height: 300,
+                            status: {
+                              click: true,
+                              loading: 0.5,
+                              download: true,
+                            },
+                          }
+                        : message?.type === "photo"
+                        ? {
+                            uri: message?.data,
+                            width: 300,
+                            height: 300,
+                          }
+                        : {
+                            audioURL: message.data,
+                          }
+                      : null
+                  }
+                />
               ))}
             </div>
-          </div>
-        </div>
 
-        <div className="p-4 bg-gray-300 flex-1 overflow-y-auto">
-          {Object.keys(currentCommunity)?.length === 0 && <>seclect a group</>}
-          {messages?.map((message, index) => (
-            <MessageBox
-              key={index}
-              position={message?.user == user ? "right" : "left"}
-              type={message?.type}
-              text={message?.type === "text" ? message?.text : undefined}
-              date={message?.time}
-              title={message?.user}
-              data={
-                message?.data
-                  ? message?.type === "video"
-                    ? {
-                        videoURL: message?.data,
-                        width: 300,
-                        height: 300,
-                        status: {
-                          click: true,
-                          loading: 0.5,
-                          download: true,
-                        },
-                      }
-                    : message?.type === "photo"
-                    ? {
-                        uri: message?.data,
-                        width: 300,
-                        height: 300,
-                      }
-                    : {
-                        audioURL: message.data,
-                      }
-                  : null
-              }
-            />
-          ))}
-        </div>
-
-        {/* Input Box */}
-        {Object.keys(currentCommunity)?.length !== 0 && (
-          <div className="p-4">
-            <div
-              className={`${
-                isRecording ? " flex justify-between h-16 " : "hidden"
-              }`}
-            >
-              <ReactMic
-                record={isRecording}
-                onStop={(recordedData) => handleAudioData(recordedData?.blob)}
-                className={`${isRecording ? "block sound-wave " : "hidden"}`}
-                strokeColor="#000000"
-                backgroundColor="#FF4081"
-              />
-              <button
-                className={`bg-${
-                  isRecording ? "red" : "green"
-                }-500 text-white px-4 py-3 rounded mr-2 ${
-                  isRecording ? "block sound-wave" : "hidden"
-                }`}
-                onClick={() => setIsRecording(!isRecording)}
-              >
-                {isRecording ? "Stop Recording" : "Start Recording"}
-              </button>
-            </div>
-            {isRecording || audioData || filePreview ? (
-              <>
-                {filePreview && (
-                  <div className="flex justify-between items-center">
-                    {filePreview?.type.startsWith("video/") ? (
-                      <video controls className="max-h-40 mr-2">
-                        <source
-                          src={filePreview?.dataURL}
-                          type={filePreview?.type}
-                        />
-                        Your browser does not support the video tag.
-                      </video>
-                    ) : (
-                      <img
-                        src={filePreview?.dataURL}
-                        alt="Preview"
-                        className="max-h-40 mr-2"
-                      />
+            {/* Input Box */}
+            {Object.keys(currentCommunity)?.length !== 0 && (
+              <div className="p-4">
+                <div
+                  className={`${
+                    isRecording ? " flex justify-between h-16 " : "hidden"
+                  }`}
+                >
+                  <ReactMic
+                    record={isRecording}
+                    onStop={(recordedData) =>
+                      handleAudioData(recordedData?.blob)
+                    }
+                    className={`${
+                      isRecording ? "block sound-wave " : "hidden"
+                    }`}
+                    strokeColor="#000000"
+                    backgroundColor="#FF4081"
+                  />
+                  <button
+                    className={`bg-${
+                      isRecording ? "red" : "green"
+                    }-500 text-white px-4 py-3 rounded mr-2 ${
+                      isRecording ? "block sound-wave" : "hidden"
+                    }`}
+                    onClick={() => setIsRecording(!isRecording)}
+                  >
+                    {isRecording ? "Stop Recording" : "Start Recording"}
+                  </button>
+                </div>
+                {isRecording || audioData || filePreview ? (
+                  <>
+                    {filePreview && (
+                      <div className="flex justify-between items-center">
+                        {filePreview?.type.startsWith("video/") ? (
+                          <video controls className="max-h-40 mr-2">
+                            <source
+                              src={filePreview?.dataURL}
+                              type={filePreview?.type}
+                            />
+                            Your browser does not support the video tag.
+                          </video>
+                        ) : (
+                          <img
+                            src={filePreview?.dataURL}
+                            alt="Preview"
+                            className="max-h-40 mr-2"
+                          />
+                        )}
+                        <div>
+                          <button
+                            className="bg-red-500 text-white px-4 py-3 rounded ml-2"
+                            onClick={() => setFilePreview(null)}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            className="bg-blue-500 text-white px-4 py-3 rounded ml-2"
+                            onClick={sendFile}
+                          >
+                            Send File
+                          </button>
+                        </div>
+                      </div>
                     )}
-                    <div>
+                    {audioData && !isRecording && (
+                      <div className="flex justify-between">
+                        <audio controls src={audioData} />
+                        <div>
+                          <button
+                            className={`bg-${
+                              isRecording ? "red" : "green"
+                            }-500 text-white px-4 py-3 rounded mr-2`}
+                            onClick={() => setIsRecording(!isRecording)}
+                          >
+                            {isRecording
+                              ? "Stop Recording"
+                              : "Start New Recording"}
+                          </button>
+                          <button
+                            className="bg-red-500 text-white px-4 py-3 rounded ml-2"
+                            onClick={() => setAudioData(null)}
+                          >
+                            cancel
+                          </button>
+                          <button
+                            onClick={sendVoice}
+                            className="bg-blue-500 text-white px-4 py-3 rounded ml-2"
+                          >
+                            Send Audio
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Input
+                    placeholder="Type here..."
+                    onChange={handleInputMessage}
+                    referance={inputRef}
+                    onKeyPress={handleKeyPress}
+                    multiline={true}
+                    rightButtons={[
+                      <label className="bg-red-500 text-white px-4 py-3 rounded mr-2">
+                        <input
+                          type="file"
+                          accept="image/*,video/*"
+                          onChange={handleFileInputChange}
+                          key={1}
+                          className="hidden"
+                        />
+                        <FontAwesomeIcon icon={faFileVideo} />
+                      </label>,
                       <button
-                        className="bg-red-500 text-white px-4 py-3 rounded ml-2"
-                        onClick={() => setFilePreview(null)}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        className="bg-blue-500 text-white px-4 py-3 rounded ml-2"
-                        onClick={sendFile}
-                      >
-                        Send File
-                      </button>
-                    </div>
-                  </div>
-                )}
-                {audioData && !isRecording && (
-                  <div className="flex justify-between">
-                    <audio controls src={audioData} />
-                    <div>
-                      <button
+                        key={2}
                         className={`bg-${
                           isRecording ? "red" : "green"
                         }-500 text-white px-4 py-3 rounded mr-2`}
                         onClick={() => setIsRecording(!isRecording)}
                       >
-                        {isRecording ? "Stop Recording" : "Start New Recording"}
-                      </button>
+                        <FontAwesomeIcon icon={faMicrophone} />
+                      </button>,
                       <button
-                        className="bg-red-500 text-white px-4 py-3 rounded ml-2"
-                        onClick={() => setAudioData(null)}
+                        onClick={sendMessage}
+                        className="bg-blue-500 text-white px-4 py-3 rounded"
+                        key={3}
                       >
-                        cancel
-                      </button>
-                      <button
-                        onClick={sendVoice}
-                        className="bg-blue-500 text-white px-4 py-3 rounded ml-2"
-                      >
-                        Send Audio
-                      </button>
-                    </div>
-                  </div>
+                        <FontAwesomeIcon icon={faPaperPlane} />
+                      </button>,
+                    ]}
+                  />
                 )}
-              </>
-            ) : (
-              <Input
-                placeholder="Type here..."
-                onChange={handleInputMessage}
-                referance={inputRef}
-                onKeyPress={handleKeyPress}
-                multiline={true}
-                rightButtons={[
-                  <label className="bg-red-500 text-white px-4 py-3 rounded mr-2">
-                    <input
-                      type="file"
-                      accept="image/*,video/*"
-                      onChange={handleFileInputChange}
-                      key={1}
-                      className="hidden"
-                    />
-                    <FontAwesomeIcon icon={faFileVideo} />
-                  </label>,
-                  <button
-                    key={2}
-                    className={`bg-${
-                      isRecording ? "red" : "green"
-                    }-500 text-white px-4 py-3 rounded mr-2`}
-                    onClick={() => setIsRecording(!isRecording)}
-                  >
-                    <FontAwesomeIcon icon={faMicrophone} />
-                  </button>,
-                  <button
-                    onClick={sendMessage}
-                    className="bg-blue-500 text-white px-4 py-3 rounded"
-                    key={3}
-                  >
-                    <FontAwesomeIcon icon={faPaperPlane} />
-                  </button>,
-                ]}
-              />
+              </div>
             )}
           </div>
-        )}
+        </div>
       </div>
-      </div>
-    </div>
     </>
   );
 };
