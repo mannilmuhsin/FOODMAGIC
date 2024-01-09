@@ -5,6 +5,7 @@ import { Spin as Hamburger } from "hamburger-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { auth, logOut } from "../../context/authReducer";
+import logo from "../../assets/logo.png"
 
 const Navbar = ({ className }) => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -26,7 +27,8 @@ const Navbar = ({ className }) => {
       <div className=" flex justify-center items-center  px-4 md:px-0">
         {/* Logo */}
         <div className="logo ms-2 sm:ms-8 w-16 md:w-20">
-          <img src="/src/assets/logo.png" alt="Logo" />
+          <img src={logo} alt="Logo" />
+          {/* <img src="/src/assets/logo.png" alt="Logo" /> */}
         </div>
 
         {/* Desktop Menu */}
