@@ -123,7 +123,8 @@ function Home() {
           >
             <img
               src={category.image.url}
-              className="w-full h-60  object-contain mb-4"
+              className="w-full h-60  object-cover mb-4"
+              style={{ objectPosition: 'bottom' }} 
             />
             <h3 className="text-xl font-semibold mb-2">{category.title}</h3>
           </motion.div>

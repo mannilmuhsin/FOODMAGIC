@@ -17,6 +17,7 @@ const Login = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const from = location.state?.from?.pathname;
+  const course_id = location.state?.id
 
   // const { loginWithRedirect } = useAuth0();
   const usenavigate = useNavigate();
@@ -50,7 +51,11 @@ const Login = () => {
           );
           setloading(false);
           if (response.data.role === 2000) {
-            navigat(from || "/", { replace: true });
+            from === '/coursedetails' ? 
+            navigat("/coursedetails", {
+              state: { id: course_id },
+            })
+            : navigat(from || "/", { replace: true });
           } else if (response.data.role === 1000) {
             navigat(from || "/admin", { replace: true });
           } else if (response.data.role === 3000) {

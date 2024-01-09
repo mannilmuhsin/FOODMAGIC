@@ -69,7 +69,7 @@ const CourseDetails = () => {
 
   const makePayment = async () => {
     if (!user.user) {
-      return navigate("/login", { state: { from: location } });
+      return navigate("/login", { state: { from: location, id:course_id } });
     }
     const stripe = await loadStripe(
       "pk_test_51OISQWSBQLVhDmRfAhLKSBBKcyKeeIUvfUe1urrofu6ZeWJqqY5N6pVwJ7ItTIVpPSm1kAAWuuR5WJmQMfFUCn6800Wi7hSBjG"
