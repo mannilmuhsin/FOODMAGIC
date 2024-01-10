@@ -52,6 +52,7 @@ io.on("connection", (socket) => {
       // console.log('shkkkkkoooooooooooooooooooooooooooo');
       // console.log(data);
 
+      io.to(room).emit("chat", data);
       try {
         const community = await community_schema.findByIdAndUpdate(
           data.groupId,
@@ -61,7 +62,6 @@ io.on("connection", (socket) => {
           { new: true }
         );
 
-        io.to(room).emit("chat", data);
       } catch (error) {
         console.error("Error updating community schema:", error);
       }
