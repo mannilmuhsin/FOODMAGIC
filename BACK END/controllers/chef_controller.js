@@ -45,7 +45,7 @@ const addcourse = async (req, res) => {
         demoVideo: req.files.demoVideo,
         coverImage: req.files.coverImage,
       },
-      priority:Math.ceil(req.files.demoVideo.size/3) 
+      priority:Math.ceil(req.files.demoVideo.size/500 +1) 
     });
 
     // console.log("dslfasldjf");
@@ -206,7 +206,7 @@ const addchapter = async (req, res) => {
           coverImage,
           id
         },
-        priority:Math.ceil(demoVideo.size / 3)
+        priority:Math.ceil(demoVideo.size / 500 + 1)
       });
 
       // const uploadVideoResult = await public_controller.uploadVideo(
