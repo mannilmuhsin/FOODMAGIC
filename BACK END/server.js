@@ -48,12 +48,12 @@ io.on("connection", (socket) => {
     }
 
     
-    socket.on("chat", async function (data) {
+    socket.on("chat",  function (data) {
       // console.log('shkkkkkoooooooooooooooooooooooooooo');
       // console.log(data);
 
       try {
-        const community = await community_schema.findByIdAndUpdate(
+        const community =  community_schema.findByIdAndUpdate(
           data.groupId,
           {
             $push: { messages: data },
