@@ -46,14 +46,14 @@ io.on("connection", (socket) => {
     } catch (error) {
       console.error("Error joining room:", error);
     }
+
     
     socket.on("chat", async function (data) {
       // console.log('shkkkkkoooooooooooooooooooooooooooo');
       // console.log(data);
 
-      io.to(room).emit("chat", data);
       try {
-        const community = await  community_schema.findByIdAndUpdate(
+        const community = await community_schema.findByIdAndUpdate(
           data.groupId,
           {
             $push: { messages: data },
@@ -61,6 +61,7 @@ io.on("connection", (socket) => {
           { new: true }
         );
 
+        io.to(room).emit("chat", data);
       } catch (error) {
         console.error("Error updating community schema:", error);
       }
