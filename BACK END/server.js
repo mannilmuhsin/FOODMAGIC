@@ -47,13 +47,21 @@ io.on("connection", (socket) => {
       console.error("Error joining room:", error);
     }
 
+
+    // socket.on("chat", (data) => {
+    //   console.log(data);
+    //   socket.broadcast.to(data.conversationId).emit("receiveMessage", data);
+    //   sendMessage(data);
+    // });
+
     
-    socket.on("chat",  function (data) {
+    socket.on("chat", async function (data) {
       // console.log('shkkkkkoooooooooooooooooooooooooooo');
       // console.log(data);
-
+      
+      io.to(room).emit("chat", data);
       try {
-        const community =  community_schema.findByIdAndUpdate(
+        const community = await  community_schema.findByIdAndUpdate(
           data.groupId,
           {
             $push: { messages: data },
@@ -61,7 +69,6 @@ io.on("connection", (socket) => {
           { new: true }
         );
 
-        io.to(room).emit("chat", data);
       } catch (error) {
         console.error("Error updating community schema:", error);
       }
