@@ -48,31 +48,42 @@ io.on("connection", (socket) => {
     }
 
 
-    // socket.on("chat", (data) => {
-    //   console.log(data);
-    //   socket.broadcast.to(data.conversationId).emit("receiveMessage", data);
-    //   sendMessage(data);
-    // });
+    socket.on("chat", async (data) => {
+      console.log(data);
+      socket.broadcast.to(room).emit("chat", data);
+    try {
+      const community = await  community_schema.findByIdAndUpdate(
+        data.groupId,
+        {
+          $push: { messages: data },
+        },
+        { new: true }
+      );
+
+    } catch (error) {
+      console.error("Error updating community schema:", error);
+    }
+    });
 
     
-    socket.on("chat",  function (data) {
-      // console.log('shkkkkkoooooooooooooooooooooooooooo');
-      // console.log(data);
+    // socket.on("chat", async function (data) {
+    //   // console.log('shkkkkkoooooooooooooooooooooooooooo');
+    //   // console.log(data);
       
-      io.to(room).emit("chat", data);
-      try {
-        community_schema.findByIdAndUpdate(
-          data.groupId,
-          {
-            $push: { messages: data },
-          },
-          { new: true }
-        );
+    //   io.to(room).emit("chat", data);
+    //   try {
+    //     const community = await  community_schema.findByIdAndUpdate(
+    //       data.groupId,
+    //       {
+    //         $push: { messages: data },
+    //       },
+    //       { new: true }
+    //     );
 
-      } catch (error) {
-        console.error("Error updating community schema:", error);
-      }
-    });
+    //   } catch (error) {
+    //     console.error("Error updating community schema:", error);
+    //   }
+    // });
 
     // socket.on("disconnect", async () => {
     //  await socket.leaveAll();
