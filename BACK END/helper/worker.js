@@ -71,7 +71,7 @@ const workerHandler = async (job) => {
 
         await newGroup.save();
 
-        console.log("succeess VideoUpload");
+        console.log("succeess VideoUpload",title);
         return;
       } catch (error) {
         console.log(error);
