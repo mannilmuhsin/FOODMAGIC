@@ -5,6 +5,7 @@ const { exec } = require("child_process");
 const util = require("util");
 const execPromise = util.promisify(exec);
 const fs = require("fs");
+const mongoose = require('mongoose');
 const course_schema = require("../schemas/course_schema");
 const community_schema = require("../schemas/community_schema");
 
