@@ -165,9 +165,11 @@ const getFullCommunitys = async (req, res) => {
     const userId = req.params.id; 
     console.log(userId);
     const communitys = await community_schema.find({ users: { $elemMatch: { $eq: userId } } });
-    if (communitys) {
+    console.log(communitys);
+    
+    // if (communitys) {
       res.status(201).json({ communitys });
-    }
+    // }
   } catch (error) {
     console.log(error.message);
   }
