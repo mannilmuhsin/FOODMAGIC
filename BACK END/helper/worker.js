@@ -6,7 +6,7 @@ const course_schema = require("../schemas/course_schema");
 const public_controller = require("../controllers/public_controllers");
 const community_schema = require("../schemas/community_schema");
 
-console.log(process.env.DATABASE_URL);
+// console.log(process.env.DATABASE_URL);
 
 mongoose
   .connect(process.env.DATABASE_URL)

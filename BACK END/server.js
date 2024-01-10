@@ -36,13 +36,13 @@ io.on("connect_error", (err) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("A user connected");
+  // console.log("A user connected");
 
   socket.on("setup", async function ({ room }) {
     console.log(`User attempting to join room: ${room}`);
     try {
       await socket.join(room);
-      console.log(`User joined room ${room}`);
+      // console.log(`User joined room ${room}`);
     } catch (error) {
       console.error("Error joining room:", error);
     }
