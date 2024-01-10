@@ -51,50 +51,17 @@ const Chat = () => {
       user,
       time: Date.now(),
       type: "text",
-      groupId: currentCommunity?.id,
+      groupId: currentCommunity?._id,
     });
   };
 
-  // useEffect(() => {
-  //   console.log(role);
-  //   if (!user) {
-  //     navigate("/login", { state: { from: location } });
-  //   }
-
-  //   if (!socket) {
-  //     return;
-  //   }
-  //   socket.connect();
-
-  //   socket.on("connect", () => {
-  //     console.log("Socket connected successfully");
-  //     console.log(socket);
-  //   });
-
-  //   // const handleDisconnect = () => {
-  //   //   console.log("Socket disconnected");
-  //   // };
-  //   // socket.on("disconnect", handleDisconnect);
-  //   return () => {
-  //     // socket.off("disconnect", handleDisconnect);
-  //     socket.disconnect();
-  //   };
-  // }, [socket, currentCommunity]);
+ 
 
   useEffect(() => {
     const fetchCommunity = async () => {
       try {
         const res = await getCommunitys(id);
-        // const filterdGroups = res.data.communitys.filter((community) =>
-        //   community.users.includes(id)
-        // );
-        // // console.log(filterdGroups);
-        // const groups = filterdGroups?.map((community) => ({
-        //   id: community?._id,
-        //   title: community?.title,
-        //   lastMessage: `Welcome to ${community?.title} community`,
-        //   profilePicture: community?.proImage,
-        // }));
+       
         setGroups(res.data.communitys);
       } catch (error) {
         console.error("Error fetching community data:", error);
@@ -103,21 +70,6 @@ const Chat = () => {
 
     fetchCommunity();
   }, []);
-
-  // useEffect(() => {
-  //   const fetchCommunityById = async () => {
-  //     try {
-  //       if (currentCommunity._id) {
-  //         const res = await getCommunityById(currentCommunity?._id);
-  //         setMessages(res.data?.community?.messages);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching community data:", error);
-  //     }
-  //   };
-
-  //   fetchCommunityById();
-  // }, [currentCommunity]);
 
   useEffect(() => {
     if (!user) {
@@ -178,7 +130,7 @@ const Chat = () => {
           user,
           time: Date.now(),
           type: filePreview.type.startsWith("video/") ? "video" : "photo",
-          groupId: currentCommunity?.id,
+          groupId: currentCommunity?._id,
         };
         socket.emit("chat", { ...data });
       }
@@ -212,7 +164,7 @@ const Chat = () => {
           user,
           time: Date.now(),
           type: "audio",
-          groupId: currentCommunity?.id,
+          groupId: currentCommunity?._id,
         };
         socket.emit("chat", { ...data });
       }
