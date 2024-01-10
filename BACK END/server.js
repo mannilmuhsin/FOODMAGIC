@@ -55,13 +55,13 @@ io.on("connection", (socket) => {
     // });
 
     
-    socket.on("chat", async function (data) {
+    socket.on("chat",  function (data) {
       // console.log('shkkkkkoooooooooooooooooooooooooooo');
       // console.log(data);
       
       io.to(room).emit("chat", data);
       try {
-        const community = await  community_schema.findByIdAndUpdate(
+        community_schema.findByIdAndUpdate(
           data.groupId,
           {
             $push: { messages: data },
