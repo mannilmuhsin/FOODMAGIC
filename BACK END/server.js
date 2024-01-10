@@ -46,44 +46,25 @@ io.on("connection", (socket) => {
     } catch (error) {
       console.error("Error joining room:", error);
     }
-
-
-    socket.on("chat", async (data) => {
-      console.log(data);
-      socket.broadcast.to(room).emit("chat", data);
-    try {
-      const community = await  community_schema.findByIdAndUpdate(
-        data.groupId,
-        {
-          $push: { messages: data },
-        },
-        { new: true }
-      );
-
-    } catch (error) {
-      console.error("Error updating community schema:", error);
-    }
-    });
-
     
-    // socket.on("chat", async function (data) {
-    //   // console.log('shkkkkkoooooooooooooooooooooooooooo');
-    //   // console.log(data);
-      
-    //   io.to(room).emit("chat", data);
-    //   try {
-    //     const community = await  community_schema.findByIdAndUpdate(
-    //       data.groupId,
-    //       {
-    //         $push: { messages: data },
-    //       },
-    //       { new: true }
-    //     );
+    socket.on("chat", async function (data) {
+      // console.log('shkkkkkoooooooooooooooooooooooooooo');
+      // console.log(data);
 
-    //   } catch (error) {
-    //     console.error("Error updating community schema:", error);
-    //   }
-    // });
+      io.to(room).emit("chat", data);
+      try {
+        const community = await  community_schema.findByIdAndUpdate(
+          data.groupId,
+          {
+            $push: { messages: data },
+          },
+          { new: true }
+        );
+
+      } catch (error) {
+        console.error("Error updating community schema:", error);
+      }
+    });
 
     // socket.on("disconnect", async () => {
     //  await socket.leaveAll();
