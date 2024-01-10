@@ -10,7 +10,7 @@ export const publicApiSlice = apiSlice.injectEndpoints({
     }),
     getFullCommunitys: bulder.mutation({
       query: (Credentials) => ({
-        url: `/communitys/{Credentials}`,
+        url: `/communitys/${Credentials}`,
         method: "get",
       }),
     }),
