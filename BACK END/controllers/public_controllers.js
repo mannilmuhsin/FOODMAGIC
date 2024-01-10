@@ -162,7 +162,8 @@ const getFullCourses = async (req, res) => {
 
 const getFullCommunitys = async (req, res) => {
   try {
-    const communitys = await community_schema.find();
+    const userId = req.params.id; 
+    const communitys = await community_schema.find({ users: { $elemMatch: { $eq: userId } } });
     if (communitys) {
       res.status(201).json({ communitys });
     }

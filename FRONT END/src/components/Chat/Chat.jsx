@@ -84,7 +84,7 @@ const Chat = () => {
   useEffect(() => {
     const fetchCommunity = async () => {
       try {
-        const res = await getCommunitys();
+        const res = await getCommunitys(id);
         const filterdGroups = res.data.communitys.filter((community) =>
           community.users.includes(id)
         );
