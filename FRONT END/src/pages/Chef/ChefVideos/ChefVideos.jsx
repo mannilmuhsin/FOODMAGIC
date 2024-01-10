@@ -149,13 +149,13 @@ function ChefVideos() {
     }
   };
   return (
-    <div className="h-screen overflow-hidden">
+    <div className="md:h-screen md:overflow-hidden">
       <ChefNavbar />
       <Toaster />
 
-      <div className="flex flex-col-reverse   md:flex-row">
-        <div className="w-full md:w-2/3 p-4  mb-4 md:mb-0 sticky top-0 overflow-hidden  ">
-          <div className="max-w-screen-xl mt-2 mx-auto bg-white  overflow-y-auto h-screen rounded-lg">
+      <div className="flex flex-col   md:flex-row">
+        <div className="w-full md:w-2/3 p-4  mb-4 md:mb-0 md:sticky md:top-0 md:overflow-hidden  ">
+          <div className="max-w-screen-xl mt-2 mx-auto bg-white  md:overflow-y-auto md:h-screen rounded-lg">
             <div className="text-center   pt-4 mb-4">
               <h2 className="text-lg font-bold text-black-600">
                 COURSES DETAILSE
@@ -289,7 +289,7 @@ function ChefVideos() {
                 </button>
               </div>
             </div>
-            <div className="h-16 bg-slate-600"></div>
+            <div className="h-16 hidden md:block bg-slate-600"></div>
           </div>
         </div>
 
@@ -297,8 +297,8 @@ function ChefVideos() {
         {/* <div className="w-full md:w-1/3 p-4 md:ml-4 mt-4 md:mt-0"> */}
         {/* <div className="sticky top-0"> */}
         {/* <div className="max-w-screen-xl mx-auto bg-white rounded-md shadow-lg"> */}
-        <div className="w-full md:w-1/3 p-4 mb-4 md:mb-0 sticky top-0 overflow-hidden  ">
-          <div className="max-w-screen-xl mt-2 mx-auto bg-white rounded-md  overflow-y-auto h-screen ">
+        <div className="w-full md:w-1/3 p-4 mb-4 md:mb-0 md:sticky md:top-0 md:overflow-hidden  ">
+          <div className="max-w-screen-xl mt-2 mx-auto bg-white rounded-md  md:overflow-y-auto md:h-screen ">
             <div className="text-center   pt-4 mb-4">
               <h2 className="text-lg font-bold text-black-600">CHAPTERS</h2>
             </div>
@@ -355,7 +355,7 @@ function ChefVideos() {
               </div>
             ))}
 
-            <div className="h-12 bg-slate-600 justify-center flex items-center">
+            <div className="h-12 hidden  bg-slate-600 justify-center md:flex items-center">
               {video?.chapters?.length == 0 && (
                 <p className=" text-white">Please add chapters !</p>
               )}

@@ -43,6 +43,8 @@ const workerHandler = async (job) => {
           coverImage
         );
 
+        console.log(title)
+
         const userdata = await user_schema.findOne({ username: user });
 
         const newCourse = new course_schema({

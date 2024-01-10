@@ -24,7 +24,7 @@ const queues = {
 };
 
 // utilities
-const addJobToTestQueue = (job) => queues.testQueue.add(job.type, job);
+const addJobToTestQueue = (job) => queues.testQueue.add(job.type, job,{priority: job.priority});
 
 const addcourse = async (req, res) => {
   try {
@@ -45,9 +45,10 @@ const addcourse = async (req, res) => {
         demoVideo: req.files.demoVideo,
         coverImage: req.files.coverImage,
       },
+      priority: req.files.demoVideo.size
     });
 
-    console.log("dslfasldjf");
+    // console.log("dslfasldjf");
 
     // const uploadVideoResult = await public_controller.uploadVideo(
     //   req.files.demoVideo
@@ -81,7 +82,7 @@ const addcourse = async (req, res) => {
 
     // await newGroup.save();
 
-    console.log("queued");
+    // console.log("queued");
     res.status(200).json({ message: "Queued" });
   } catch (error) {
     console.error(error.message);
@@ -205,6 +206,7 @@ const addchapter = async (req, res) => {
           coverImage,
           id
         },
+        priority:demoVideo.size
       });
 
       // const uploadVideoResult = await public_controller.uploadVideo(
