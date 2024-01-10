@@ -165,7 +165,7 @@ const getFullCommunitys = async (req, res) => {
   try {
     // const userId = req.params.id; 
     // const userId = mongoose.Types.ObjectId(req.params.id);
-    console.log(userId);
+    // console.log(userId);
     const communitys = await community_schema.find({ users: req.params.id });
 
     console.log(communitys);
