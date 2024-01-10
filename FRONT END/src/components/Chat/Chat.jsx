@@ -85,17 +85,17 @@ const Chat = () => {
     const fetchCommunity = async () => {
       try {
         const res = await getCommunitys(id);
-        const filterdGroups = res.data.communitys.filter((community) =>
-          community.users.includes(id)
-        );
-        // console.log(filterdGroups);
-        const groups = filterdGroups?.map((community) => ({
-          id: community?._id,
-          title: community?.title,
-          lastMessage: `Welcome to ${community?.title} community`,
-          profilePicture: community?.proImage,
-        }));
-        setGroups(groups);
+        // const filterdGroups = res.data.communitys.filter((community) =>
+        //   community.users.includes(id)
+        // );
+        // // console.log(filterdGroups);
+        // const groups = filterdGroups?.map((community) => ({
+        //   id: community?._id,
+        //   title: community?.title,
+        //   lastMessage: `Welcome to ${community?.title} community`,
+        //   profilePicture: community?.proImage,
+        // }));
+        setGroups(res.data.communitys);
       } catch (error) {
         console.error("Error fetching community data:", error);
       }
@@ -104,20 +104,20 @@ const Chat = () => {
     fetchCommunity();
   }, []);
 
-  useEffect(() => {
-    const fetchCommunityById = async () => {
-      try {
-        if (currentCommunity.id) {
-          const res = await getCommunityById(currentCommunity?.id);
-          setMessages(res.data?.community?.messages);
-        }
-      } catch (error) {
-        console.error("Error fetching community data:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCommunityById = async () => {
+  //     try {
+  //       if (currentCommunity._id) {
+  //         const res = await getCommunityById(currentCommunity?._id);
+  //         setMessages(res.data?.community?.messages);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching community data:", error);
+  //     }
+  //   };
 
-    fetchCommunityById();
-  }, [currentCommunity]);
+  //   fetchCommunityById();
+  // }, [currentCommunity]);
 
   useEffect(() => {
     if (!user) {
@@ -249,23 +249,28 @@ const Chat = () => {
             <h2 className="text-xl font-bold mb-4">Groups</h2>
             {groups.map((group) => (
               <div
-                key={group.id}
-                onClick={() => setCurruntCommunity(group)}
+                key={group._id}
+                 onClick={() => {
+                        setCurruntCommunity(group);
+                        setMessages(group?.messages)
+                        // setShowSidebar(!showSidebar);
+                      }}
+                // onClick={() => setCurruntCommunity(group)}
                 className={`flex cursor-pointer ${
-                  group.id == currentCommunity.id
+                  group._id == currentCommunity._id
                     ? "bg-blue-300"
                     : "bg-gray-300"
                 } rounded-sm p-2 items-center mb-3`}
               >
                 <img
-                  src={group.profilePicture}
+                  src={group.proImage}
                   alt="Group Profile"
                   className="w-8 h-8 rounded-full mr-2"
                 />
                 <div>
                   <div className="font-semibold">{group.title}</div>
                   <div className="text-sm text-gray-500">
-                    {group.lastMessage}
+                  Welcome to {group?.title} community
                   </div>
                 </div>
               </div>
@@ -289,26 +294,27 @@ const Chat = () => {
                   <h2 className="text-xl font-bold mb-4">Groups</h2>
                   {groups.map((group) => (
                     <div
-                      key={group.id}
+                      key={group._id}
                       onClick={() => {
                         setCurruntCommunity(group);
+                        setMessages(group?.messages)
                         setShowSidebar(!showSidebar);
                       }}
                       className={`flex cursor-pointer ${
-                        group.id == currentCommunity.id
+                        group._id == currentCommunity._id
                           ? "bg-blue-400"
                           : "bg-gray-300"
                       } rounded-md p-2 items-center mb-3`}
                     >
                       <img
-                        src={group.profilePicture}
+                        src={group.proImage}
                         alt="Group Profile"
                         className="w-8 h-8 rounded-full mr-2"
                       />
                       <div>
                         <div className="font-semibold">{group.title}</div>
                         <div className="text-sm text-gray-500">
-                          {group.lastMessage}
+                        Welcome to {group?.title} community
                         </div>
                       </div>
                     </div>

@@ -163,16 +163,9 @@ const getFullCourses = async (req, res) => {
 
 const getFullCommunitys = async (req, res) => {
   try {
-    // const userId = req.params.id; 
     const userId =new mongoose.Types.ObjectId(req.params.id);
-    console.log(userId);
     const communitys = await community_schema.find({ users: userId});
-
-    console.log(communitys);
-    
-    // if (communitys) {
       res.status(201).json({ communitys });
-    // }
   } catch (error) {
     console.log(error.message);
   }
