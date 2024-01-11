@@ -87,8 +87,8 @@ function Addcourses() {
 
   const handleaddcourseSubmit = (values) => {
     // e.preventDefault();
-    console.log("hello");
-    console.log("hello", values);
+    // console.log("hello");
+    // console.log("hello", values);
 
     try {
       // setOpenlottie(true);

@@ -11,6 +11,15 @@ export const chefApiSlice = apiSlice.injectEndpoints({
         credentials: "include",
       }),
     }),
+    editcourse: bulder.mutation({
+      query: (Credentials) => ({
+        url: "/chef/editcourse",
+        method: "post",
+        formData: true,
+        body: {...Credentials},
+        credentials: "include",
+      }),
+    }),
     addchapter: bulder.mutation({
       query: (formData) => ({
         url: "/chef/addchapter",
@@ -80,4 +89,5 @@ export const {
   useDeleteChapterMutation,
   useGetPaymentsMutation,
   useAddblogMutation,
+  useEditcourseMutation
 } = chefApiSlice;

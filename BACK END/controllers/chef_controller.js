@@ -48,45 +48,44 @@ const addcourse = async (req, res) => {
       priority:Math.ceil(req.files.demoVideo.size/500 +1) 
     });
 
-    // console.log("dslfasldjf");
-
-    // const uploadVideoResult = await public_controller.uploadVideo(
-    //   req.files.demoVideo
-    // );
-    // const uploadImageResult = await public_controller.uploadimage(
-    //   req.files.coverImage
-    // );
-
-    // const userdata = await user_schema.findOne({ username: user });
-
-    // const newCourse = new course_schema({
-    //   title,
-    //   category,
-    //   description,
-    //   coverImage: uploadImageResult,
-    //   demoVideo: uploadVideoResult,
-    //   price,
-    //   blurb,
-    //   aboutChef,
-    //   chef: userdata._id,
-    //   chapters: [],
-    // });
-
-    // const savedCourse = await newCourse.save();
-
-    // const newGroup = new community_schema({
-    //   title: title,
-    //   proImage: uploadImageResult.url,
-    //   users: [userdata._id],
-    // });
-
-    // await newGroup.save();
-
-    // console.log("queued");
     res.status(200).json({ message: "Queued" });
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Internal Server Error");
+  }
+};
+
+const editcourse = async (req, res) => {
+  try {
+    const { title, category, description, price, aboutChef, blurb, id } = req.body;
+
+    // Create an object containing the fields you want to update
+    const updatedCourse = {
+      title,
+      category,
+      description,
+      price,
+      aboutChef,
+      blurb
+      // Add other fields as needed
+    };
+
+    // Find the course by ID and update its details
+    const updatedCourseResult = await course_schema.findByIdAndUpdate(
+      id, // ID of the course to update
+      updatedCourse, // Updated course data
+      { new: true } // Return the updated course data
+    );
+
+    if (!updatedCourseResult) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
+
+    res.status(200).json({ message: 'Course updated successfully', data: updatedCourseResult });
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Internal Server Error');
   }
 };
 
@@ -188,14 +187,14 @@ const addchapter = async (req, res) => {
 
     const { id } = req.body;
 
-    const duplicate = await course_schema.findOne({
-      _id: id,
-      chapters: { $elemMatch: { id: chapterNo } },
-    });
+    // const duplicate = await course_schema.findOne({
+    //   _id: id,
+    //   chapters: { $elemMatch: { id: chapterNo } },
+    // });
 
-    if (duplicate) {
-      res.status(500).json({ message: "Chapter is allredy existed !" });
-    } else {
+    // if (duplicate) {
+    //   res.status(500).json({ message: "Chapter is allredy existed !" });
+    // } else {
       addJobToTestQueue({
         type: "uploadChapter",
         data: {
@@ -231,7 +230,7 @@ const addchapter = async (req, res) => {
       // );
 
       res.status(201).json({ message: "Chapter uploaded successfully !" });
-    }
+    // }
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Internal Server Error");
@@ -291,4 +290,5 @@ module.exports = {
   deleteChapter,
   getChefPayments,
   addBlog,
+  editcourse
 };
