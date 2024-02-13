@@ -6,7 +6,7 @@ import { useGetAllCategorysMutation } from "../../api/publicApiSlice";
 import { useEditcourseMutation } from "../../api/chefApiSlice";
 import { useNavigate } from "react-router-dom";
 
-function EditCourse({video}) {
+function EditCourse({video,closeModal}) {
   const [categories, setCategories] = useState([]);
   const [prevToastId, setPrevToastId] = useState(null);
   const [getCatogerys] = useGetAllCategorysMutation();
@@ -66,7 +66,8 @@ function EditCourse({video}) {
         .then((response) => {
           toast.success(response.data.message);
           // setOpenlottie(true);
-          usenavigate("/chef/videos", { state: { id:response.data?.data?._id } });
+        //   usenavigate("/chef/videos", { state: { id:response.data?.data?._id } });
+          closeModal()
         })
         .catch((err) => {
           console.log(err);
@@ -279,7 +280,7 @@ function EditCourse({video}) {
             </button>
             <button
               type="button"
-              onClick={() => setIsEditorOpen(false)}
+              onClick={() => closeModal()}
               className="bg-red-500 ms-10 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200"
             >
               Cancel

@@ -32,7 +32,7 @@ function ChefNavbar({ className }) {
         <div className="logo ms-2 sm:ms-8 w-16 md:w-20">
           <img src={logo} alt="Logo" />
         </div>
-        <div className="hidden md:flex me-96 space-x-4">
+        <div className="hidden md:flex me-auto space-x-4">
           {[
             { path: "/chef", label: "DASHBOARD" },
             { path: "#", label: "STUDENTS" },

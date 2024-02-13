@@ -21,26 +21,17 @@ import ChefNavbar from "../../../components/Navbar/ChefNavbar";
 import EditCourse from "../../../components/EditCourse/EditCourse";
 
 function ChefVideos() {
-
   const [video, setVodeo] = useState({});
-  
-
-
-
-
-
-
 
   const usenavigate = useNavigate();
   const [getcourse] = useGetCoursMutation();
   const [handleShowCourses] = useHandleShowCourseMutation();
   const [deleteCourse] = useDeleteCoursMutation();
   const [deletechapter] = useDeleteChapterMutation();
-  const [isEditorOpen,setIsEditorOpen] = useState(false)
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
 
   const location = useLocation();
   const course_id = location.state?.id;
-
 
   useEffect(() => {
     const fetchChefCourse = async () => {
@@ -54,8 +45,7 @@ function ChefVideos() {
     };
 
     fetchChefCourse();
-  }, []);
-
+  }, [isEditorOpen]);
 
   const handleshowcourses = async (id) => {
     try {
@@ -93,7 +83,6 @@ function ChefVideos() {
       console.log(error.message);
     }
   };
-
 
   return (
     <div className="md:h-screen md:overflow-hidden">
@@ -217,7 +206,10 @@ function ChefVideos() {
                 </button>
 
                 {/* More Button (Ellipsis) */}
-                <button className="text-blue-500 hover:text-blue-700" onClick={()=>setIsEditorOpen(true)}>
+                <button
+                  className="text-blue-500 hover:text-blue-700"
+                  onClick={() => setIsEditorOpen(true)}
+                >
                   <FontAwesomeIcon icon={faEdit} className="mr-2" />
                   Edit
                 </button>
@@ -236,7 +228,7 @@ function ChefVideos() {
                 </button>
               </div>
             </div>
-            <div className="h-16 hidden md:block bg-slate-600"></div>
+            <div className="md:h-24 hidden md:flex bg-slate-600"></div>
           </div>
         </div>
 
@@ -312,10 +304,10 @@ function ChefVideos() {
       </div>
       {/* </div> */}
       {isEditorOpen && (
-          <>
-           <EditCourse video={video}/>
-          </>
-         )}
+        <>
+          <EditCourse video={video} closeModal={()=>setIsEditorOpen(false)} />
+        </>
+      )}
     </div>
   );
 }
